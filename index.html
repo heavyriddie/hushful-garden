@@ -73,6 +73,55 @@
             );
             z-index: 50;
         }
+
+        /* Plant tooltip */
+        #plant-tooltip {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(255, 252, 247, 0.96);
+            backdrop-filter: blur(16px);
+            padding: 20px 28px;
+            border-radius: 20px;
+            box-shadow:
+                0 8px 32px rgba(107, 91, 74, 0.2),
+                0 2px 8px rgba(107, 91, 74, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            text-align: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            max-width: 280px;
+            border: 1px solid rgba(107, 91, 74, 0.1);
+        }
+
+        #plant-tooltip.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #tooltip-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        #tooltip-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a3a2a;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        #tooltip-message {
+            font-size: 13px;
+            color: #6a5a4a;
+            line-height: 1.5;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -82,6 +131,13 @@
     <div id="info-panel">
         <div id="garden-name">Your Garden</div>
         <div id="garden-status">Growing peacefully...</div>
+    </div>
+
+    <!-- Tooltip for plant stories -->
+    <div id="plant-tooltip">
+        <div id="tooltip-icon"></div>
+        <div id="tooltip-title"></div>
+        <div id="tooltip-message"></div>
     </div>
 
     <script>
@@ -1008,6 +1064,128 @@
         }
 
         // ═══════════════════════════════════════════════════════════
+        // PLANT STORIES - What each plant represents
+        // ═══════════════════════════════════════════════════════════
+
+        const plantStories = {
+            tree: {
+                icon: '🌳',
+                title: 'Steady Oak',
+                messages: [
+                    'Rooted in your glucose stability.',
+                    'Each steady day helps me grow stronger.',
+                    'I thrive when your energy stays balanced.'
+                ]
+            },
+            bush: {
+                icon: '🌿',
+                title: 'Engagement Shrub',
+                messages: [
+                    'I grow fuller with each visit.',
+                    'Your presence nurtures me.',
+                    'Every check-in helps me flourish.'
+                ]
+            },
+            lavender: {
+                icon: '💜',
+                title: 'Ketone Lavender',
+                messages: [
+                    'I bloom with your metabolic ketones.',
+                    'Your fat-burning fuels my fragrance.',
+                    'In ketosis, I flourish beautifully.'
+                ]
+            },
+            tulip: {
+                icon: '🌷',
+                title: 'Food Log Tulip',
+                messages: [
+                    'Each meal you log helps me bloom.',
+                    'I open wider with your food photos.',
+                    'Your mindful eating makes me vibrant.'
+                ]
+            },
+            wildflower: {
+                icon: '🌸',
+                title: 'Wellness Wildflower',
+                messages: [
+                    'I dance with your metabolic health.',
+                    'When you thrive, I blossom freely.',
+                    'Your journey makes me beautiful.'
+                ]
+            },
+            fern: {
+                icon: '🌿',
+                title: 'Background Fern',
+                messages: [
+                    'I provide quiet support always.',
+                    'Steady and patient, I watch you grow.',
+                    'Even small steps help me unfurl.'
+                ]
+            },
+            grass: {
+                icon: '🌱',
+                title: 'Foundation Grass',
+                messages: [
+                    'The foundation of your garden.',
+                    'I\'m always here, rooting for you.',
+                    'Simple and steady, day by day.'
+                ]
+            }
+        };
+
+        // Tooltip element
+        const tooltip = document.getElementById('plant-tooltip');
+        const tooltipIcon = document.getElementById('tooltip-icon');
+        const tooltipTitle = document.getElementById('tooltip-title');
+        const tooltipMessage = document.getElementById('tooltip-message');
+        let tooltipTimeout = null;
+
+        function showPlantTooltip(plant) {
+            const story = plantStories[plant.type] || plantStories.grass;
+            const randomMessage = story.messages[Math.floor(Math.random() * story.messages.length)];
+
+            tooltipIcon.textContent = story.icon;
+            tooltipTitle.textContent = story.title;
+            tooltipMessage.textContent = randomMessage;
+
+            tooltip.classList.add('visible');
+
+            // Haptic feedback if available
+            if (tg?.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+
+            // Auto-hide after 3 seconds
+            clearTimeout(tooltipTimeout);
+            tooltipTimeout = setTimeout(hideTooltip, 3000);
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('visible');
+        }
+
+        function findPlantAtPosition(x, y) {
+            // Check plants in reverse order (foreground first)
+            for (let i = plants.length - 1; i >= 0; i--) {
+                const plant = plants[i];
+                const scale = plant.getLayerScale();
+                const hitRadius = 40 * scale; // Tap radius
+
+                // Calculate approximate plant center
+                const plantCenterY = plant.groundY - 30 * scale;
+
+                const dx = x - plant.x;
+                const dy = y - plantCenterY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < hitRadius) {
+                    return plant;
+                }
+            }
+            return null;
+        }
+
+        // ═══════════════════════════════════════════════════════════
         // EVENT HANDLERS
         // ═══════════════════════════════════════════════════════════
 
@@ -1015,6 +1193,37 @@
             resizeCanvas();
             initGarden();
         });
+
+        // Tap/click handling for plant interaction
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const plant = findPlantAtPosition(x, y);
+            if (plant) {
+                showPlantTooltip(plant);
+            } else {
+                hideTooltip();
+            }
+        });
+
+        // Touch handling
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            const plant = findPlantAtPosition(x, y);
+            if (plant) {
+                showPlantTooltip(plant);
+            }
+        }, { passive: false });
+
+        // Hide tooltip when tapping elsewhere
+        tooltip.addEventListener('click', hideTooltip);
 
         // Initialize and start
         initGarden();
