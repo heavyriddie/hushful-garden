@@ -113,8 +113,8 @@
 
     <script>
         // ═══════════════════════════════════════════════════════════════════
-        // HUSHFUL GARDEN - Kawase Hasui Woodblock Print Edition
-        // Bold colors, flat shapes, dramatic atmosphere
+        // HUSHFUL SECRET GARDEN - Enclosed Walled Garden
+        // Intimate, cozy space with walls, arch gate, and focused composition
         // ═══════════════════════════════════════════════════════════════════
 
         // Initialize Telegram WebApp
@@ -153,13 +153,11 @@
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // KAWASE HASUI COLOR PALETTES
-        // Bold, saturated, woodblock-print inspired
+        // COLOR PALETTES - Kawase-inspired with warm garden tones
         // ═══════════════════════════════════════════════════════════════════
 
         const palettes = {
             dawn: {
-                // Hot pink and coral sunrise
                 skyTop: '#4a5580',
                 skyMid: '#8060a0',
                 skyLow: '#e080a0',
@@ -168,23 +166,29 @@
                 cloudShadow: '#c060a0',
                 sun: '#ffcc88',
                 sunGlow: '#ff9060',
-                // Deep forest greens
-                hillFar: '#406858',
-                hillMid: '#305848',
-                hillNear: '#204838',
-                groundFar: '#386048',
-                groundMid: '#285038',
-                groundNear: '#1a4030',
-                // Vibrant accents
+                // Wall colors - warm stone
+                wallMain: '#a08870',
+                wallShadow: '#786858',
+                wallHighlight: '#c0a890',
+                wallMoss: '#607850',
+                // Gate/arch
+                gateWood: '#5a4838',
+                gateIron: '#3a3030',
+                // Ground inside garden
+                groundFar: '#507848',
+                groundMid: '#406838',
+                groundNear: '#306028',
+                pathStone: '#b8a080',
+                pathShadow: '#988868',
+                // Plants
                 flower1: '#ff7090',
                 flower2: '#ffaa60',
                 flower3: '#90d0ff',
                 tree: '#1a3828',
                 treeFoliage: '#2a5838',
-                path: '#c8a878'
+                vine: '#3a6840'
             },
             day: {
-                // Bright teal and green
                 skyTop: '#3080a0',
                 skyMid: '#50a8c0',
                 skyLow: '#80c8d8',
@@ -193,21 +197,25 @@
                 cloudShadow: '#a0c8d8',
                 sun: '#fff8e0',
                 sunGlow: '#ffe8b0',
-                hillFar: '#508868',
-                hillMid: '#407858',
-                hillNear: '#306848',
-                groundFar: '#488858',
-                groundMid: '#387848',
-                groundNear: '#286838',
+                wallMain: '#c8b098',
+                wallShadow: '#a08870',
+                wallHighlight: '#e0d0b8',
+                wallMoss: '#708858',
+                gateWood: '#6a5848',
+                gateIron: '#484040',
+                groundFar: '#608858',
+                groundMid: '#507848',
+                groundNear: '#406838',
+                pathStone: '#d0c0a0',
+                pathShadow: '#b0a080',
                 flower1: '#ff6080',
                 flower2: '#ffa050',
                 flower3: '#80c0ff',
                 tree: '#1a3020',
                 treeFoliage: '#285028',
-                path: '#d8b888'
+                vine: '#4a7850'
             },
             golden: {
-                // Warm amber afternoon
                 skyTop: '#5070a0',
                 skyMid: '#a08850',
                 skyLow: '#e0a050',
@@ -216,21 +224,25 @@
                 cloudShadow: '#c89040',
                 sun: '#fff0a0',
                 sunGlow: '#ffc040',
-                hillFar: '#607048',
-                hillMid: '#506038',
-                hillNear: '#405028',
-                groundFar: '#587040',
-                groundMid: '#486030',
-                groundNear: '#385020',
+                wallMain: '#d0a878',
+                wallShadow: '#a88058',
+                wallHighlight: '#e8c8a0',
+                wallMoss: '#687048',
+                gateWood: '#584030',
+                gateIron: '#403028',
+                groundFar: '#687040',
+                groundMid: '#586030',
+                groundNear: '#485020',
+                pathStone: '#e0c090',
+                pathShadow: '#c0a070',
                 flower1: '#ff8060',
                 flower2: '#ffc040',
                 flower3: '#a0d080',
                 tree: '#283018',
                 treeFoliage: '#384820',
-                path: '#e0c090'
+                vine: '#587040'
             },
             dusk: {
-                // Purple and magenta twilight - like the wave image
                 skyTop: '#3048a0',
                 skyMid: '#6050a0',
                 skyLow: '#c060a0',
@@ -239,21 +251,25 @@
                 cloudShadow: '#9050a0',
                 sun: '#ffa080',
                 sunGlow: '#ff7060',
-                hillFar: '#484870',
-                hillMid: '#383860',
-                hillNear: '#282850',
-                groundFar: '#404068',
-                groundMid: '#303058',
-                groundNear: '#202048',
+                wallMain: '#8a7878',
+                wallShadow: '#6a5858',
+                wallHighlight: '#a89898',
+                wallMoss: '#506858',
+                gateWood: '#4a3838',
+                gateIron: '#302828',
+                groundFar: '#505868',
+                groundMid: '#404858',
+                groundNear: '#303848',
+                pathStone: '#9080a0',
+                pathShadow: '#706080',
                 flower1: '#ff70c0',
                 flower2: '#ffa080',
                 flower3: '#80a0ff',
                 tree: '#181830',
                 treeFoliage: '#282848',
-                path: '#9080a0'
+                vine: '#405060'
             },
             night: {
-                // Deep blue and purple
                 skyTop: '#101830',
                 skyMid: '#182040',
                 skyLow: '#203050',
@@ -262,18 +278,23 @@
                 cloudShadow: '#202840',
                 moon: '#e0e8ff',
                 moonGlow: '#8090c0',
-                hillFar: '#1a2838',
-                hillMid: '#142030',
-                hillNear: '#101828',
-                groundFar: '#182030',
-                groundMid: '#101828',
-                groundNear: '#0a1020',
+                wallMain: '#384048',
+                wallShadow: '#282830',
+                wallHighlight: '#4a5058',
+                wallMoss: '#304038',
+                gateWood: '#282020',
+                gateIron: '#181818',
+                groundFar: '#203028',
+                groundMid: '#182820',
+                groundNear: '#102018',
+                pathStone: '#404858',
+                pathShadow: '#303040',
                 flower1: '#6080a0',
                 flower2: '#7090a0',
                 flower3: '#5070a0',
                 tree: '#0a1018',
                 treeFoliage: '#101820',
-                path: '#384050'
+                vine: '#283830'
             }
         };
 
@@ -320,238 +341,414 @@
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // DRAWING FUNCTIONS - Bold, flat woodblock style
+        // DRAWING - SECRET GARDEN COMPOSITION
         // ═══════════════════════════════════════════════════════════════════
 
         function drawSky(ctx, p) {
-            // Bold gradient bands like woodblock prints
-            const gradient = ctx.createLinearGradient(0, 0, 0, height * 0.7);
+            // Sky visible above the walls - just a strip at top
+            const gradient = ctx.createLinearGradient(0, 0, 0, height * 0.4);
             gradient.addColorStop(0, p.skyTop);
-            gradient.addColorStop(0.35, p.skyMid);
-            gradient.addColorStop(0.7, p.skyLow);
-            gradient.addColorStop(1, p.skyHorizon);
+            gradient.addColorStop(0.5, p.skyMid);
+            gradient.addColorStop(1, p.skyLow);
             ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, width, height);
-        }
-
-        function drawClouds(ctx, p, time) {
-            const isNight = !p.clouds || p.clouds === p.cloudShadow;
-            if (isNight) return;
-
-            // Bold, flat cloud shapes
-            const cloudData = [
-                { x: 0.15, y: 0.12, scale: 1.2, seed: 1 },
-                { x: 0.5, y: 0.08, scale: 1.5, seed: 2 },
-                { x: 0.8, y: 0.15, scale: 1.0, seed: 3 },
-                { x: 0.3, y: 0.22, scale: 0.8, seed: 4 },
-            ];
-
-            cloudData.forEach(cloud => {
-                const cx = (cloud.x + time * 0.01 * (0.5 + cloud.seed * 0.2)) % 1.3 - 0.15;
-                const cy = cloud.y;
-                const scale = cloud.scale * 60;
-
-                ctx.save();
-                ctx.translate(cx * width, cy * height);
-
-                // Shadow first
-                ctx.fillStyle = p.cloudShadow;
-                drawCloudShape(ctx, 3, 6, scale);
-
-                // Main cloud
-                ctx.fillStyle = p.clouds;
-                drawCloudShape(ctx, 0, 0, scale);
-
-                ctx.restore();
-            });
-        }
-
-        function drawCloudShape(ctx, ox, oy, scale) {
-            ctx.beginPath();
-            // Flat, blocky cloud shape
-            ctx.ellipse(ox, oy, scale * 1.2, scale * 0.5, 0, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.ellipse(ox - scale * 0.6, oy + scale * 0.1, scale * 0.7, scale * 0.4, 0, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.ellipse(ox + scale * 0.5, oy + scale * 0.05, scale * 0.8, scale * 0.45, 0, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.fillRect(0, 0, width, height * 0.45);
         }
 
         function drawSun(ctx, p, timeOfDay) {
             const isNight = timeOfDay < 0.22 || timeOfDay > 0.85;
-            const dayProgress = isNight ? 0.5 : (timeOfDay - 0.22) / 0.63;
-            const sunX = width * (0.2 + dayProgress * 0.6);
-            const sunY = height * (0.35 - Math.sin(dayProgress * Math.PI) * 0.25);
 
             if (isNight) {
-                // Moon
+                // Moon peeking over the wall
                 ctx.fillStyle = p.moonGlow || '#8090c0';
                 ctx.beginPath();
-                ctx.arc(width * 0.75, height * 0.15, 35, 0, Math.PI * 2);
+                ctx.arc(width * 0.7, height * 0.12, 28, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.fillStyle = p.moon || '#e0e8ff';
                 ctx.beginPath();
-                ctx.arc(width * 0.75, height * 0.15, 22, 0, Math.PI * 2);
+                ctx.arc(width * 0.7, height * 0.12, 18, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Stars
-                for (let i = 0; i < 40; i++) {
+                for (let i = 0; i < 25; i++) {
                     const sx = seededRandom(i * 7) * width;
-                    const sy = seededRandom(i * 11) * height * 0.5;
-                    const size = 1 + seededRandom(i * 3) * 2;
+                    const sy = seededRandom(i * 11) * height * 0.35;
+                    const size = 1 + seededRandom(i * 3) * 1.5;
                     ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + seededRandom(i * 5) * 0.5})`;
                     ctx.beginPath();
                     ctx.arc(sx, sy, size, 0, Math.PI * 2);
                     ctx.fill();
                 }
             } else {
-                // Sun glow - bold and bright
+                // Sun position - arcs above wall
+                const dayProgress = (timeOfDay - 0.22) / 0.63;
+                const sunX = width * (0.3 + dayProgress * 0.4);
+                const sunY = height * (0.2 - Math.sin(dayProgress * Math.PI) * 0.12);
+
                 ctx.fillStyle = p.sunGlow;
                 ctx.beginPath();
-                ctx.arc(sunX, sunY, 45, 0, Math.PI * 2);
+                ctx.arc(sunX, sunY, 35, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.fillStyle = p.sun;
                 ctx.beginPath();
-                ctx.arc(sunX, sunY, 28, 0, Math.PI * 2);
+                ctx.arc(sunX, sunY, 22, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        function drawDistantHills(ctx, p) {
-            // Far hills - simple bold shapes
-            ctx.fillStyle = p.hillFar;
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.55);
-            for (let x = 0; x <= width; x += 20) {
-                const y = height * 0.55 + Math.sin(x * 0.008) * 30 + Math.sin(x * 0.003) * 50;
-                ctx.lineTo(x, y);
-            }
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
+        function drawClouds(ctx, p, time) {
+            if (!p.clouds || p.clouds === p.cloudShadow) return;
 
-            // Mid hills
-            ctx.fillStyle = p.hillMid;
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.62);
-            for (let x = 0; x <= width; x += 15) {
-                const y = height * 0.62 + Math.sin(x * 0.01 + 1) * 25 + Math.sin(x * 0.004) * 40;
-                ctx.lineTo(x, y);
-            }
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
+            // Small clouds above the walls
+            const cloudData = [
+                { x: 0.2, y: 0.08, scale: 0.7 },
+                { x: 0.6, y: 0.05, scale: 0.9 },
+                { x: 0.85, y: 0.1, scale: 0.6 },
+            ];
 
-            // Near hills
-            ctx.fillStyle = p.hillNear;
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.68);
-            for (let x = 0; x <= width; x += 10) {
-                const y = height * 0.68 + Math.sin(x * 0.012 + 2) * 20 + Math.sin(x * 0.005) * 30;
-                ctx.lineTo(x, y);
-            }
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
+            cloudData.forEach((cloud, i) => {
+                const cx = (cloud.x + time * 0.008 * (0.5 + i * 0.2)) % 1.2 - 0.1;
+                const cy = cloud.y;
+                const scale = cloud.scale * 40;
+
+                ctx.save();
+                ctx.translate(cx * width, cy * height);
+
+                ctx.fillStyle = p.cloudShadow;
+                ctx.beginPath();
+                ctx.ellipse(2, 3, scale * 1.1, scale * 0.45, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = p.clouds;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, scale * 1.1, scale * 0.45, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            });
         }
 
-        function drawGround(ctx, p) {
-            // Ground layers - flat color bands
-            ctx.fillStyle = p.groundFar;
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.75);
-            for (let x = 0; x <= width; x += 8) {
-                const y = height * 0.75 + Math.sin(x * 0.015 + 3) * 12;
-                ctx.lineTo(x, y);
-            }
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
+        // ═══════════════════════════════════════════════════════════════════
+        // GARDEN WALLS - The enclosure
+        // ═══════════════════════════════════════════════════════════════════
 
-            ctx.fillStyle = p.groundMid;
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.82);
-            for (let x = 0; x <= width; x += 6) {
-                const y = height * 0.82 + Math.sin(x * 0.02 + 4) * 8;
-                ctx.lineTo(x, y);
-            }
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
+        function drawWalls(ctx, p) {
+            const wallTop = height * 0.35;
+            const wallHeight = height * 0.3;
 
-            ctx.fillStyle = p.groundNear;
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.88);
-            for (let x = 0; x <= width; x += 4) {
-                const y = height * 0.88 + Math.sin(x * 0.025 + 5) * 5;
-                ctx.lineTo(x, y);
+            // Back wall (behind arch)
+            ctx.fillStyle = p.wallShadow;
+            ctx.fillRect(0, wallTop, width, wallHeight);
+
+            // Wall texture - stone blocks
+            drawWallTexture(ctx, p, 0, wallTop, width, wallHeight);
+
+            // Wall cap/coping
+            ctx.fillStyle = p.wallHighlight;
+            ctx.fillRect(0, wallTop - 8, width, 12);
+
+            // Moss on wall top
+            for (let x = 0; x < width; x += 15 + seededRandom(x) * 10) {
+                if (seededRandom(x * 3) > 0.4) {
+                    ctx.fillStyle = p.wallMoss;
+                    const mossWidth = 8 + seededRandom(x * 7) * 15;
+                    const mossHeight = 5 + seededRandom(x * 11) * 8;
+                    ctx.beginPath();
+                    ctx.ellipse(x, wallTop - 2, mossWidth, mossHeight, 0, Math.PI, Math.PI * 2);
+                    ctx.fill();
+                }
             }
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
         }
 
-        function drawPath(ctx, p) {
-            // Winding path through the garden
-            ctx.fillStyle = p.path;
+        function drawWallTexture(ctx, p, x, y, w, h) {
+            // Stone block pattern
+            const blockH = 25;
+            const blockW = 45;
+
+            for (let row = 0; row < h / blockH; row++) {
+                const offset = (row % 2) * blockW * 0.5;
+                for (let col = -1; col < w / blockW + 1; col++) {
+                    const bx = x + col * blockW + offset;
+                    const by = y + row * blockH;
+
+                    // Slight color variation
+                    const shade = 0.9 + seededRandom(bx * by) * 0.2;
+                    ctx.fillStyle = lerpColor(p.wallShadow, p.wallMain, shade);
+                    ctx.fillRect(bx + 1, by + 1, blockW - 2, blockH - 2);
+
+                    // Mortar lines (just leave gaps)
+                }
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // ARCHED GATE - The entrance
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawArchGate(ctx, p) {
+            const gateX = width * 0.5;
+            const gateW = width * 0.28;
+            const gateTop = height * 0.22;
+            const gateBottom = height * 0.65;
+            const archHeight = height * 0.18;
+
+            // Dark interior (through the gate)
+            ctx.fillStyle = '#1a2820';
             ctx.beginPath();
-            ctx.moveTo(width * 0.45, height);
-            ctx.bezierCurveTo(
-                width * 0.42, height * 0.92,
-                width * 0.48, height * 0.85,
-                width * 0.44, height * 0.78
-            );
-            ctx.bezierCurveTo(
-                width * 0.40, height * 0.72,
-                width * 0.46, height * 0.68,
-                width * 0.43, height * 0.65
-            );
-            // Path width
-            ctx.lineTo(width * 0.47, height * 0.65);
-            ctx.bezierCurveTo(
-                width * 0.50, height * 0.68,
-                width * 0.44, height * 0.72,
-                width * 0.48, height * 0.78
-            );
-            ctx.bezierCurveTo(
-                width * 0.52, height * 0.85,
-                width * 0.46, height * 0.92,
-                width * 0.52, height
-            );
+            ctx.moveTo(gateX - gateW/2, gateBottom);
+            ctx.lineTo(gateX - gateW/2, gateTop + archHeight);
+            ctx.quadraticCurveTo(gateX - gateW/2, gateTop, gateX, gateTop);
+            ctx.quadraticCurveTo(gateX + gateW/2, gateTop, gateX + gateW/2, gateTop + archHeight);
+            ctx.lineTo(gateX + gateW/2, gateBottom);
+            ctx.closePath();
+            ctx.fill();
+
+            // Hint of path beyond
+            ctx.fillStyle = '#283830';
+            ctx.beginPath();
+            ctx.moveTo(gateX - 20, gateBottom);
+            ctx.lineTo(gateX - 15, gateTop + archHeight + 20);
+            ctx.lineTo(gateX + 15, gateTop + archHeight + 20);
+            ctx.lineTo(gateX + 20, gateBottom);
+            ctx.closePath();
+            ctx.fill();
+
+            // Stone arch frame - thick border
+            const archThickness = 18;
+
+            // Left pillar
+            ctx.fillStyle = p.wallMain;
+            ctx.fillRect(gateX - gateW/2 - archThickness, gateTop, archThickness, gateBottom - gateTop);
+
+            // Right pillar
+            ctx.fillRect(gateX + gateW/2, gateTop, archThickness, gateBottom - gateTop);
+
+            // Arch top
+            ctx.beginPath();
+            ctx.moveTo(gateX - gateW/2 - archThickness, gateTop + archHeight);
+            ctx.lineTo(gateX - gateW/2 - archThickness, gateTop);
+            ctx.quadraticCurveTo(gateX - gateW/2 - archThickness, gateTop - archThickness, gateX, gateTop - archThickness);
+            ctx.quadraticCurveTo(gateX + gateW/2 + archThickness, gateTop - archThickness, gateX + gateW/2 + archThickness, gateTop);
+            ctx.lineTo(gateX + gateW/2 + archThickness, gateTop + archHeight);
+            ctx.lineTo(gateX + gateW/2, gateTop + archHeight);
+            ctx.quadraticCurveTo(gateX + gateW/2, gateTop, gateX, gateTop);
+            ctx.quadraticCurveTo(gateX - gateW/2, gateTop, gateX - gateW/2, gateTop + archHeight);
+            ctx.closePath();
+            ctx.fill();
+
+            // Keystone
+            ctx.fillStyle = p.wallHighlight;
+            ctx.beginPath();
+            ctx.moveTo(gateX - 12, gateTop - archThickness);
+            ctx.lineTo(gateX - 15, gateTop + 5);
+            ctx.lineTo(gateX + 15, gateTop + 5);
+            ctx.lineTo(gateX + 12, gateTop - archThickness);
+            ctx.closePath();
+            ctx.fill();
+
+            // Iron gate (slightly open)
+            ctx.strokeStyle = p.gateIron;
+            ctx.lineWidth = 3;
+
+            // Left gate door (closed)
+            for (let i = 0; i < 4; i++) {
+                const barX = gateX - gateW/2 + 8 + i * 12;
+                ctx.beginPath();
+                ctx.moveTo(barX, gateTop + 15);
+                ctx.lineTo(barX, gateBottom);
+                ctx.stroke();
+            }
+
+            // Right gate door (slightly open/angled)
+            ctx.save();
+            ctx.translate(gateX + gateW/2 - 5, gateTop + 15);
+            ctx.rotate(-0.15);
+            for (let i = 0; i < 4; i++) {
+                ctx.beginPath();
+                ctx.moveTo(-8 - i * 12, 0);
+                ctx.lineTo(-8 - i * 12, gateBottom - gateTop - 15);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+            // Decorative horizontal bars
+            ctx.beginPath();
+            ctx.moveTo(gateX - gateW/2 + 5, gateTop + 40);
+            ctx.lineTo(gateX - 5, gateTop + 40);
+            ctx.stroke();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SIDE WALLS - Creating the enclosed feeling
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawSideWalls(ctx, p) {
+            // Left wall receding into perspective
+            ctx.fillStyle = p.wallShadow;
+            ctx.beginPath();
+            ctx.moveTo(0, height * 0.35);
+            ctx.lineTo(width * 0.15, height * 0.45);
+            ctx.lineTo(width * 0.15, height);
+            ctx.lineTo(0, height);
+            ctx.closePath();
+            ctx.fill();
+
+            // Wall texture on left
+            ctx.fillStyle = p.wallMain;
+            ctx.beginPath();
+            ctx.moveTo(0, height * 0.35);
+            ctx.lineTo(width * 0.12, height * 0.44);
+            ctx.lineTo(width * 0.12, height);
+            ctx.lineTo(0, height);
+            ctx.closePath();
+            ctx.fill();
+
+            // Right wall
+            ctx.fillStyle = p.wallShadow;
+            ctx.beginPath();
+            ctx.moveTo(width, height * 0.35);
+            ctx.lineTo(width * 0.85, height * 0.45);
+            ctx.lineTo(width * 0.85, height);
+            ctx.lineTo(width, height);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.fillStyle = p.wallMain;
+            ctx.beginPath();
+            ctx.moveTo(width, height * 0.35);
+            ctx.lineTo(width * 0.88, height * 0.44);
+            ctx.lineTo(width * 0.88, height);
+            ctx.lineTo(width, height);
             ctx.closePath();
             ctx.fill();
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // GARDENER CHARACTER - Small figure tending the garden
+        // GARDEN GROUND - The enclosed space
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawGardenGround(ctx, p) {
+            // Main garden floor
+            const gradient = ctx.createLinearGradient(0, height * 0.65, 0, height);
+            gradient.addColorStop(0, p.groundFar);
+            gradient.addColorStop(0.4, p.groundMid);
+            gradient.addColorStop(1, p.groundNear);
+
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.moveTo(width * 0.12, height * 0.65);
+            ctx.lineTo(width * 0.88, height * 0.65);
+            ctx.lineTo(width * 0.85, height);
+            ctx.lineTo(width * 0.15, height);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawGardenPath(ctx, p) {
+            // Stone path from gate into garden
+            const pathPoints = [
+                { x: 0.5, y: 0.65 },
+                { x: 0.48, y: 0.72 },
+                { x: 0.5, y: 0.80 },
+                { x: 0.47, y: 0.88 },
+                { x: 0.5, y: 0.95 },
+            ];
+
+            // Path stones
+            ctx.fillStyle = p.pathStone;
+
+            pathPoints.forEach((pt, i) => {
+                const cx = pt.x * width;
+                const cy = pt.y * height;
+                const stoneW = 35 + i * 8;
+                const stoneH = 18 + i * 3;
+
+                // Main stone
+                ctx.fillStyle = p.pathStone;
+                ctx.beginPath();
+                ctx.ellipse(cx, cy, stoneW, stoneH, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Side stones
+                if (i > 0) {
+                    ctx.fillStyle = p.pathShadow;
+                    ctx.beginPath();
+                    ctx.ellipse(cx - stoneW * 0.8, cy + 5, stoneW * 0.5, stoneH * 0.6, 0.2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.ellipse(cx + stoneW * 0.7, cy - 3, stoneW * 0.4, stoneH * 0.5, -0.1, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // VINES ON WALLS
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawVines(ctx, p, time) {
+            // Vines climbing left wall
+            drawVineCluster(ctx, p, width * 0.08, height * 0.5, 8, time, 1);
+            drawVineCluster(ctx, p, width * 0.05, height * 0.65, 5, time, 2);
+
+            // Vines on right wall
+            drawVineCluster(ctx, p, width * 0.92, height * 0.48, 7, time, 3);
+            drawVineCluster(ctx, p, width * 0.9, height * 0.62, 6, time, 4);
+
+            // Vines around arch
+            drawVineCluster(ctx, p, width * 0.35, height * 0.28, 6, time, 5);
+            drawVineCluster(ctx, p, width * 0.65, height * 0.30, 5, time, 6);
+        }
+
+        function drawVineCluster(ctx, p, x, y, count, time, seed) {
+            for (let i = 0; i < count; i++) {
+                const vx = x + (seededRandom(seed + i) - 0.5) * 30;
+                const vy = y + (seededRandom(seed + i + 50) - 0.5) * 40;
+                const len = 30 + seededRandom(seed + i + 100) * 50;
+                const sway = Math.sin(time * 0.5 + seed + i) * 3;
+
+                // Vine stem
+                ctx.strokeStyle = p.vine;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(vx, vy);
+                ctx.quadraticCurveTo(vx + sway, vy + len * 0.5, vx + sway * 0.5, vy + len);
+                ctx.stroke();
+
+                // Leaves
+                for (let j = 0; j < 4; j++) {
+                    const ly = vy + len * (j + 1) / 5;
+                    const lx = vx + sway * (j / 4);
+                    const side = (j % 2 === 0) ? 1 : -1;
+
+                    ctx.fillStyle = p.vine;
+                    ctx.beginPath();
+                    ctx.ellipse(lx + side * 6, ly, 8, 5, side * 0.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // GARDENER
         // ═══════════════════════════════════════════════════════════════════
 
         class Gardener {
             constructor() {
-                this.x = width * 0.46;
-                this.y = height * 0.76;
-                this.facing = 1; // 1 = right, -1 = left
-                this.action = 'standing'; // standing, walking, tending
+                this.x = width * 0.55;
+                this.y = height * 0.82;
+                this.facing = -1;
                 this.bobOffset = 0;
             }
 
             update(time) {
-                this.bobOffset = Math.sin(time * 2) * 2;
+                this.bobOffset = Math.sin(time * 2) * 1.5;
             }
 
             draw(ctx, p) {
-                const scale = 0.7;
-                const h = 45 * scale; // Height
+                const scale = 0.65;
+                const h = 45 * scale;
                 const x = this.x;
                 const y = this.y + this.bobOffset * 0.3;
 
@@ -560,17 +757,17 @@
                 ctx.scale(this.facing, 1);
 
                 // Shadow
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
                 ctx.beginPath();
                 ctx.ellipse(0, 2, 12 * scale, 4 * scale, 0, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Legs - simple shapes
+                // Legs
                 ctx.fillStyle = '#3a4858';
                 ctx.fillRect(-5 * scale, -h * 0.35, 4 * scale, h * 0.35);
                 ctx.fillRect(1 * scale, -h * 0.35, 4 * scale, h * 0.35);
 
-                // Body/dress - earthy tone
+                // Body - earthy green tunic
                 ctx.fillStyle = '#6a8860';
                 ctx.beginPath();
                 ctx.moveTo(-8 * scale, -h * 0.35);
@@ -597,7 +794,7 @@
                 ctx.arc(0, -h * 0.88, 9 * scale, Math.PI, Math.PI * 2);
                 ctx.fill();
 
-                // Hat - straw gardening hat
+                // Straw hat
                 ctx.fillStyle = '#d8c090';
                 ctx.beginPath();
                 ctx.ellipse(0, -h * 0.95, 14 * scale, 4 * scale, 0, 0, Math.PI * 2);
@@ -607,7 +804,7 @@
                 ctx.ellipse(0, -h, 8 * scale, 6 * scale, 0, Math.PI, Math.PI * 2);
                 ctx.fill();
 
-                // Watering can or tool
+                // Watering can
                 ctx.fillStyle = '#708898';
                 ctx.fillRect(10 * scale, -h * 0.5, 8 * scale, 12 * scale);
                 ctx.fillRect(15 * scale, -h * 0.6, 6 * scale, 4 * scale);
@@ -617,117 +814,102 @@
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // TREES - Bold, blocky like Hasui prints
+        // PLANTS INSIDE THE GARDEN
         // ═══════════════════════════════════════════════════════════════════
 
-        function drawTree(ctx, x, y, scale, p, seed) {
-            const h = 120 * scale;
-            const sway = Math.sin(seed * 100) * 0.02;
-
+        function drawPottedPlant(ctx, x, y, scale, p, seed) {
             ctx.save();
             ctx.translate(x, y);
-            ctx.rotate(sway);
 
-            // Trunk - dark and solid
-            ctx.fillStyle = p.tree;
+            // Terracotta pot
+            ctx.fillStyle = '#b07050';
             ctx.beginPath();
-            ctx.moveTo(-8 * scale, 0);
-            ctx.lineTo(-6 * scale, -h * 0.4);
-            ctx.lineTo(6 * scale, -h * 0.4);
-            ctx.lineTo(8 * scale, 0);
+            ctx.moveTo(-15 * scale, 0);
+            ctx.lineTo(-12 * scale, -25 * scale);
+            ctx.lineTo(12 * scale, -25 * scale);
+            ctx.lineTo(15 * scale, 0);
             ctx.closePath();
             ctx.fill();
 
-            // Foliage - bold layered shapes
-            const foliageColor = p.treeFoliage;
-            const layers = [
-                { cy: -h * 0.5, rx: 35, ry: 25 },
-                { cy: -h * 0.65, rx: 40, ry: 28 },
-                { cy: -h * 0.8, rx: 32, ry: 22 },
-                { cy: -h * 0.92, rx: 22, ry: 16 },
-            ];
+            // Pot rim
+            ctx.fillStyle = '#c08060';
+            ctx.fillRect(-14 * scale, -28 * scale, 28 * scale, 6 * scale);
 
-            layers.forEach((layer, i) => {
-                ctx.fillStyle = lerpColor(foliageColor, p.tree, i * 0.15);
-                ctx.beginPath();
-                ctx.ellipse(0, layer.cy, layer.rx * scale, layer.ry * scale, 0, 0, Math.PI * 2);
-                ctx.fill();
-            });
-
-            ctx.restore();
-        }
-
-        // ═══════════════════════════════════════════════════════════════════
-        // FLOWERS - Bright pops of color
-        // ═══════════════════════════════════════════════════════════════════
-
-        function drawFlower(ctx, x, y, color, scale, seed) {
-            const h = 25 * scale;
-            const petalSize = 6 * scale;
-
-            ctx.save();
-            ctx.translate(x, y);
-
-            // Stem
-            ctx.strokeStyle = '#2a5030';
-            ctx.lineWidth = 2 * scale;
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(Math.sin(seed) * 3, -h);
-            ctx.stroke();
-
-            // Flower head - bold simple shape
-            ctx.fillStyle = color;
-            const petals = 5 + Math.floor(seededRandom(seed) * 3);
-            for (let i = 0; i < petals; i++) {
-                const angle = (i / petals) * Math.PI * 2;
-                const px = Math.cos(angle) * petalSize * 0.8;
-                const py = -h + Math.sin(angle) * petalSize * 0.8;
-                ctx.beginPath();
-                ctx.arc(px, py, petalSize * 0.6, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            // Center
-            ctx.fillStyle = '#ffc040';
-            ctx.beginPath();
-            ctx.arc(0, -h, petalSize * 0.4, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.restore();
-        }
-
-        function drawFlowerCluster(ctx, x, y, p, count, seed) {
+            // Plant in pot
             const colors = [p.flower1, p.flower2, p.flower3];
-            for (let i = 0; i < count; i++) {
-                const fx = x + (seededRandom(seed + i) - 0.5) * 40;
-                const fy = y + (seededRandom(seed + i + 100) - 0.5) * 15;
-                const color = colors[Math.floor(seededRandom(seed + i + 50) * 3)];
-                const scale = 0.6 + seededRandom(seed + i + 200) * 0.5;
-                drawFlower(ctx, fx, fy, color, scale, seed + i);
+            for (let i = 0; i < 5; i++) {
+                const stemX = (seededRandom(seed + i) - 0.5) * 15 * scale;
+                const stemH = (25 + seededRandom(seed + i + 10) * 20) * scale;
+
+                // Stem
+                ctx.strokeStyle = p.vine || '#4a7850';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(stemX, -28 * scale);
+                ctx.lineTo(stemX + (seededRandom(seed + i + 20) - 0.5) * 10, -28 * scale - stemH);
+                ctx.stroke();
+
+                // Flower
+                ctx.fillStyle = colors[i % 3];
+                ctx.beginPath();
+                ctx.arc(stemX, -28 * scale - stemH, 6 * scale, 0, Math.PI * 2);
+                ctx.fill();
             }
+
+            ctx.restore();
         }
 
-        // ═══════════════════════════════════════════════════════════════════
-        // BUSHES - Round, bold shapes
-        // ═══════════════════════════════════════════════════════════════════
+        function drawFlowerBed(ctx, x, y, w, p, seed) {
+            const colors = [p.flower1, p.flower2, p.flower3];
+
+            for (let i = 0; i < 8; i++) {
+                const fx = x + (seededRandom(seed + i) - 0.5) * w;
+                const fy = y + (seededRandom(seed + i + 50) - 0.5) * 20;
+                const h = 20 + seededRandom(seed + i + 100) * 25;
+
+                // Stem
+                ctx.strokeStyle = p.vine || '#4a7850';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(fx, fy);
+                ctx.lineTo(fx + (seededRandom(seed + i + 150) - 0.5) * 8, fy - h);
+                ctx.stroke();
+
+                // Flower head
+                ctx.fillStyle = colors[Math.floor(seededRandom(seed + i + 200) * 3)];
+                const petals = 5 + Math.floor(seededRandom(seed + i + 250) * 3);
+                const petalSize = 4 + seededRandom(seed + i + 300) * 4;
+
+                for (let j = 0; j < petals; j++) {
+                    const angle = (j / petals) * Math.PI * 2;
+                    const px = fx + Math.cos(angle) * petalSize;
+                    const py = fy - h + Math.sin(angle) * petalSize;
+                    ctx.beginPath();
+                    ctx.arc(px, py, petalSize * 0.7, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Center
+                ctx.fillStyle = '#ffd040';
+                ctx.beginPath();
+                ctx.arc(fx, fy - h, petalSize * 0.4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
 
         function drawBush(ctx, x, y, scale, p, seed) {
-            const colors = [p.groundNear, p.groundMid, p.hillNear];
-
             ctx.save();
             ctx.translate(x, y);
 
-            // Multiple overlapping circles
             const blobs = [
-                { ox: -15, oy: -10, r: 22 },
-                { ox: 10, oy: -15, r: 25 },
-                { ox: -5, oy: -25, r: 20 },
-                { ox: 15, oy: -8, r: 18 },
+                { ox: -12, oy: -8, r: 18 },
+                { ox: 8, oy: -12, r: 20 },
+                { ox: -3, oy: -20, r: 16 },
+                { ox: 12, oy: -6, r: 14 },
             ];
 
             blobs.forEach((blob, i) => {
-                ctx.fillStyle = colors[i % 3];
+                ctx.fillStyle = lerpColor(p.groundNear, p.groundMid, 0.3 + i * 0.15);
                 ctx.beginPath();
                 ctx.arc(blob.ox * scale, blob.oy * scale, blob.r * scale, 0, Math.PI * 2);
                 ctx.fill();
@@ -736,8 +918,30 @@
             ctx.restore();
         }
 
+        function drawSmallTree(ctx, x, y, scale, p) {
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Trunk
+            ctx.fillStyle = p.tree || '#2a3828';
+            ctx.fillRect(-5 * scale, -30 * scale, 10 * scale, 30 * scale);
+
+            // Foliage layers
+            ctx.fillStyle = p.treeFoliage || '#3a5838';
+            ctx.beginPath();
+            ctx.arc(0, -45 * scale, 25 * scale, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = p.tree || '#2a3828';
+            ctx.beginPath();
+            ctx.arc(0, -55 * scale, 18 * scale, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
         // ═══════════════════════════════════════════════════════════════════
-        // GARDEN STATE & PLANT MANAGEMENT
+        // GARDEN STATE
         // ═══════════════════════════════════════════════════════════════════
 
         const API_BASE = 'https://hushful-telegram-bot.onrender.com';
@@ -747,13 +951,12 @@
             health: 0.5,
             status: null,
             plants: [
-                { x: 0.15, type: 'tree', growth: 0.8, layer: 0 },
-                { x: 0.85, type: 'tree', growth: 0.6, layer: 0 },
-                { x: 0.3, type: 'bush', growth: 0.7, layer: 1 },
-                { x: 0.7, type: 'bush', growth: 0.6, layer: 1 },
-                { x: 0.2, type: 'flowers', growth: 0.8, layer: 2 },
-                { x: 0.5, type: 'flowers', growth: 0.7, layer: 2 },
-                { x: 0.75, type: 'flowers', growth: 0.9, layer: 2 },
+                { x: 0.25, type: 'bush', growth: 0.7, layer: 1 },
+                { x: 0.75, type: 'bush', growth: 0.6, layer: 1 },
+                { x: 0.3, type: 'flowers', growth: 0.8, layer: 2 },
+                { x: 0.6, type: 'flowers', growth: 0.7, layer: 2 },
+                { x: 0.2, type: 'pot', growth: 0.8, layer: 2 },
+                { x: 0.8, type: 'pot', growth: 0.6, layer: 2 },
             ]
         };
 
@@ -781,8 +984,8 @@
 
         function initGarden() {
             gardener = new Gardener();
-            gardener.x = width * 0.46;
-            gardener.y = height * 0.76;
+            gardener.x = width * 0.55;
+            gardener.y = height * 0.82;
 
             plantObjects = gardenState.plants.map((p, i) => ({
                 ...p,
@@ -800,12 +1003,12 @@
             }
             const hour = new Date().getHours();
             const messages = {
-                5: 'Dawn breaks over the garden...',
-                9: 'A peaceful morning...',
-                12: 'Basking in warm sunlight...',
-                17: 'Golden afternoon glow...',
-                20: 'Evening calm settles in...',
-                23: 'Resting under the stars...'
+                5: 'Dawn light through the arch...',
+                9: 'A peaceful secret morning...',
+                12: 'Sunlight warms the stones...',
+                17: 'Golden light on ancient walls...',
+                20: 'Evening settles in the garden...',
+                23: 'Moonlight through the gate...'
             };
             let msg = messages[23];
             for (const [h, m] of Object.entries(messages)) {
@@ -815,35 +1018,44 @@
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // PLANT INTERACTIONS
+        // INTERACTIONS
         // ═══════════════════════════════════════════════════════════════════
 
         const plantStories = {
-            tree: {
-                icon: '🌳',
-                title: 'Ancient Oak',
-                messages: [
-                    'Steady glucose brings steady growth...',
-                    'Your consistency shows in every ring.',
-                    'Deep roots come from daily care.'
-                ]
-            },
             bush: {
                 icon: '🌿',
                 title: 'Garden Shrub',
                 messages: [
-                    'Thriving from your engagement!',
-                    'Each check-in helps me grow.',
-                    'Your attention makes me flourish.'
+                    'Thriving in this sheltered space.',
+                    'Your care helps me flourish.',
+                    'Growing strong within these walls.'
                 ]
             },
             flowers: {
                 icon: '🌸',
                 title: 'Wildflowers',
                 messages: [
-                    'Blooming from your ketone balance!',
-                    'Good food choices made these petals.',
-                    'Your metabolic health is beautiful.'
+                    'Blooming in your secret garden!',
+                    'Each petal reflects your care.',
+                    'Color from your healthy choices.'
+                ]
+            },
+            pot: {
+                icon: '🪴',
+                title: 'Potted Plant',
+                messages: [
+                    'Carefully tended and loved.',
+                    'A little treasure in your garden.',
+                    'Growing happily in its home.'
+                ]
+            },
+            tree: {
+                icon: '🌳',
+                title: 'Garden Tree',
+                messages: [
+                    'Reaching toward the sky.',
+                    'Deep roots from your consistency.',
+                    'Steady growth through steady care.'
                 ]
             }
         };
@@ -860,11 +1072,12 @@
         }
 
         function findPlantAt(clickX, clickY) {
-            // Check each plant area
+            // Map plant positions in the enclosed garden space
             for (const plant of plantObjects) {
-                const px = plant.x * width;
-                const py = height * (0.78 - plant.layer * 0.08);
-                const hitRadius = 50;
+                // Plants are positioned within the garden bounds
+                const px = width * 0.15 + plant.x * width * 0.7;
+                const py = height * (0.70 + plant.layer * 0.08);
+                const hitRadius = 45;
 
                 const dx = clickX - px;
                 const dy = clickY - py;
@@ -884,7 +1097,7 @@
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // MAIN RENDER LOOP
+        // RENDER
         // ═══════════════════════════════════════════════════════════════════
 
         function render(timestamp) {
@@ -892,34 +1105,52 @@
             const timeOfDay = getTimeOfDay();
             const p = getPalette(timeOfDay);
 
-            // Clear
             ctx.clearRect(0, 0, width, height);
 
-            // Background layers
+            // Sky (visible above walls)
             drawSky(ctx, p);
             drawSun(ctx, p, timeOfDay);
             drawClouds(ctx, p, time);
-            drawDistantHills(ctx, p);
-            drawGround(ctx, p);
-            drawPath(ctx, p);
 
-            // Trees in back
-            plantObjects.filter(pl => pl.type === 'tree').forEach(pl => {
-                drawTree(ctx, pl.x * width, height * 0.72, pl.growth * 0.8, p, pl.seed);
+            // Back wall with arch
+            drawWalls(ctx, p);
+            drawArchGate(ctx, p);
+
+            // Side walls
+            drawSideWalls(ctx, p);
+
+            // Garden floor
+            drawGardenGround(ctx, p);
+            drawGardenPath(ctx, p);
+
+            // Vines on walls
+            drawVines(ctx, p, time);
+
+            // Plants - bushes along walls
+            plantObjects.filter(pl => pl.type === 'bush').forEach(pl => {
+                const px = width * 0.15 + pl.x * width * 0.7;
+                drawBush(ctx, px, height * 0.72, pl.growth * 0.7, p, pl.seed);
             });
 
-            // Bushes
-            plantObjects.filter(pl => pl.type === 'bush').forEach(pl => {
-                drawBush(ctx, pl.x * width, height * 0.80, pl.growth * 0.8, p, pl.seed);
+            // Small tree if health is good
+            if (gardenState.health > 0.6) {
+                drawSmallTree(ctx, width * 0.22, height * 0.68, 0.6, p);
+            }
+
+            // Potted plants
+            plantObjects.filter(pl => pl.type === 'pot').forEach(pl => {
+                const px = width * 0.15 + pl.x * width * 0.7;
+                drawPottedPlant(ctx, px, height * 0.88, pl.growth * 0.8, p, pl.seed);
             });
 
             // Gardener
             gardener.update(time);
             gardener.draw(ctx, p);
 
-            // Flowers in front
+            // Flower beds
             plantObjects.filter(pl => pl.type === 'flowers').forEach(pl => {
-                drawFlowerCluster(ctx, pl.x * width, height * 0.86, p, 5 + Math.floor(pl.growth * 5), pl.seed);
+                const px = width * 0.15 + pl.x * width * 0.7;
+                drawFlowerBed(ctx, px, height * 0.85, 60 * pl.growth, p, pl.seed);
             });
 
             requestAnimationFrame(render);
@@ -945,7 +1176,7 @@
                         if (plant.type === 'gardener') {
                             document.getElementById('tooltip-icon').textContent = '👨‍🌾';
                             document.getElementById('tooltip-title').textContent = 'Your Gardener';
-                            document.getElementById('tooltip-message').textContent = 'Tending your garden with care. Every healthy choice you make helps the garden grow!';
+                            document.getElementById('tooltip-message').textContent = 'Tending your secret garden with care. This peaceful space grows with every healthy choice.';
                             tooltip.classList.add('visible');
                         } else {
                             showPlantTooltip(plant);
@@ -964,7 +1195,7 @@
                         if (plant.type === 'gardener') {
                             document.getElementById('tooltip-icon').textContent = '👨‍🌾';
                             document.getElementById('tooltip-title').textContent = 'Your Gardener';
-                            document.getElementById('tooltip-message').textContent = 'Tending your garden with care. Every healthy choice you make helps the garden grow!';
+                            document.getElementById('tooltip-message').textContent = 'Tending your secret garden with care. This peaceful space grows with every healthy choice.';
                             tooltip.classList.add('visible');
                         } else {
                             showPlantTooltip(plant);
@@ -981,7 +1212,7 @@
                 fetchGardenState();
                 setInterval(fetchGardenState, 5 * 60 * 1000);
 
-                console.log('Garden initialized successfully');
+                console.log('Secret garden initialized');
             } catch (error) {
                 console.error('Error starting garden app:', error);
             }
