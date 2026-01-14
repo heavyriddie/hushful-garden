@@ -545,16 +545,91 @@
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // SCENE DRAWING
+        // INITIALIZATION
         // ═══════════════════════════════════════════════════════════════════
 
-        function drawScene(canvas, stage, time) {
-            const ctx = canvas.getContext('2d');
-            const width = canvas.width;
-            const height = canvas.height;
+        const canvases = [];
+        const CANVAS_HEIGHT = 280;
+
+        function initStages() {
+            const container = document.getElementById('stages');
+            container.innerHTML = '';
+            canvases.length = 0; // Clear existing
+
+            stages.forEach((stage, index) => {
+                const div = document.createElement('div');
+                div.className = 'stage';
+                div.innerHTML = `
+                    <div class="stage-header">
+                        <div>
+                            <span class="stage-number">Stage ${index + 1}</span>
+                            <span class="stage-title">${stage.title.split(' - ')[1]}</span>
+                        </div>
+                        <div class="stage-metrics">
+                            <div class="metric">Health: <span>${Math.round(stage.health * 100)}%</span></div>
+                            <div class="metric">Engagement: <span>${Math.round(stage.metrics.engagement * 100)}%</span></div>
+                            <div class="metric">Food Logging: <span>${Math.round(stage.metrics.food * 100)}%</span></div>
+                            <div class="metric">Ketones: <span>${Math.round(stage.metrics.ketone * 100)}%</span></div>
+                            <div class="metric">Glucose: <span>${Math.round(stage.metrics.glucose * 100)}%</span></div>
+                        </div>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="canvas-${index}"></canvas>
+                    </div>
+                    <div class="stage-description">${stage.description}</div>
+                `;
+                container.appendChild(div);
+            });
+
+            // Wait for DOM to settle, then initialize canvases
+            requestAnimationFrame(() => {
+                stages.forEach((stage, index) => {
+                    const canvas = document.getElementById(`canvas-${index}`);
+                    const container = canvas.parentElement;
+                    const displayWidth = container.clientWidth || 800;
+                    const displayHeight = CANVAS_HEIGHT;
+                    const dpr = window.devicePixelRatio || 1;
+
+                    // Set actual canvas size for high DPI
+                    canvas.width = displayWidth * dpr;
+                    canvas.height = displayHeight * dpr;
+
+                    // Set display size
+                    canvas.style.width = displayWidth + 'px';
+                    canvas.style.height = displayHeight + 'px';
+
+                    // Store display dimensions for drawing
+                    canvases.push({
+                        canvas,
+                        stage,
+                        displayWidth,
+                        displayHeight,
+                        dpr
+                    });
+                });
+            });
+        }
+
+        function render(timestamp) {
+            const time = timestamp * 0.001;
+            canvases.forEach(({ canvas, stage, displayWidth, displayHeight, dpr }) => {
+                const ctx = canvas.getContext('2d');
+                ctx.save();
+                ctx.scale(dpr, dpr);
+                drawSceneFixed(ctx, stage, displayWidth, displayHeight, time);
+                ctx.restore();
+            });
+            requestAnimationFrame(render);
+        }
+
+        // Fixed version that takes explicit dimensions
+        function drawSceneFixed(ctx, stage, width, height, time) {
             const palette = getPalette(currentTimeOfDay);
             const warmth = palette.warmth || 0;
             const isNight = currentTimeOfDay < 0.22 || currentTimeOfDay > 0.88;
+
+            // Clear
+            ctx.clearRect(0, 0, width, height);
 
             // Sky
             const skyGradient = ctx.createLinearGradient(0, 0, 0, height);
@@ -596,18 +671,18 @@
             }
 
             // Hills
-            drawHillLayer(ctx, width, height, height * 0.67, applyWarmth(palette.groundFar, warmth), 0.006, 32, time * 0.045);
-            drawHillLayer(ctx, width, height, height * 0.72, applyWarmth(lerpColor(palette.groundFar, palette.groundMid, 0.5), warmth), 0.009, 24, time * 0.07);
-            drawHillLayer(ctx, width, height, height * 0.77, applyWarmth(palette.groundMid, warmth), 0.012, 19, time * 0.1);
-            drawHillLayer(ctx, width, height, height * 0.82, applyWarmth(lerpColor(palette.groundMid, palette.groundNear, 0.5), warmth), 0.015, 15, time * 0.14);
-            drawHillLayer(ctx, width, height, height * 0.87, applyWarmth(palette.groundNear, warmth), 0.019, 11, time * 0.18);
+            drawHillLayerFixed(ctx, width, height, height * 0.67, applyWarmth(palette.groundFar, warmth), 0.006, 32, time * 0.045);
+            drawHillLayerFixed(ctx, width, height, height * 0.72, applyWarmth(lerpColor(palette.groundFar, palette.groundMid, 0.5), warmth), 0.009, 24, time * 0.07);
+            drawHillLayerFixed(ctx, width, height, height * 0.77, applyWarmth(palette.groundMid, warmth), 0.012, 19, time * 0.1);
+            drawHillLayerFixed(ctx, width, height, height * 0.82, applyWarmth(lerpColor(palette.groundMid, palette.groundNear, 0.5), warmth), 0.015, 15, time * 0.14);
+            drawHillLayerFixed(ctx, width, height, height * 0.87, applyWarmth(palette.groundNear, warmth), 0.019, 11, time * 0.18);
 
             // Plants sorted by layer
             const sortedPlants = [...stage.plants].sort((a, b) => a.layer - b.layer);
-            sortedPlants.forEach(plant => drawPlant(ctx, plant, width, height, time, palette));
+            sortedPlants.forEach(plant => drawPlantFixed(ctx, plant, width, height, time, palette));
         }
 
-        function drawHillLayer(ctx, width, height, baseY, color, freq, amplitude, offset) {
+        function drawHillLayerFixed(ctx, width, height, baseY, color, freq, amplitude, offset) {
             ctx.fillStyle = color;
             ctx.beginPath();
             ctx.moveTo(0, height);
@@ -623,61 +698,31 @@
             ctx.fill();
         }
 
-        // ═══════════════════════════════════════════════════════════════════
-        // INITIALIZATION
-        // ═══════════════════════════════════════════════════════════════════
+        function drawPlantFixed(ctx, plant, width, height, time, palette) {
+            const layerGroundY = [height * 0.73, height * 0.79, height * 0.87][plant.layer];
+            const x = plant.x * width;
+            const growth = plant.growth;
+            const scale = [0.5, 0.75, 1][plant.layer];
+            const sway = Math.sin(time * 0.5 + plant.x * 10) * 0.01;
+            const warmth = palette.warmth || 0;
+            const seed = plant.x * 1000;
 
-        const canvases = [];
+            ctx.save();
+            ctx.globalAlpha = [0.65, 0.82, 1][plant.layer];
+            ctx.translate(x, layerGroundY);
+            ctx.scale(scale, scale);
 
-        function initStages() {
-            const container = document.getElementById('stages');
-            container.innerHTML = '';
+            switch (plant.type) {
+                case 'grass': drawGrass(ctx, sway, growth, warmth, seed); break;
+                case 'fern': drawFern(ctx, sway, growth, warmth, seed); break;
+                case 'wildflower': drawWildflower(ctx, sway, growth, warmth, seed, time); break;
+                case 'tulip': drawTulip(ctx, sway, growth, warmth, seed); break;
+                case 'lavender': drawLavender(ctx, sway, growth, warmth, seed); break;
+                case 'bush': drawBush(ctx, sway, growth, warmth, seed); break;
+                case 'tree': drawTree(ctx, sway, growth, warmth, seed); break;
+            }
 
-            stages.forEach((stage, index) => {
-                const div = document.createElement('div');
-                div.className = 'stage';
-                div.innerHTML = `
-                    <div class="stage-header">
-                        <div>
-                            <span class="stage-number">Stage ${index + 1}</span>
-                            <span class="stage-title">${stage.title.split(' - ')[1]}</span>
-                        </div>
-                        <div class="stage-metrics">
-                            <div class="metric">Health: <span>${Math.round(stage.health * 100)}%</span></div>
-                            <div class="metric">Engagement: <span>${Math.round(stage.metrics.engagement * 100)}%</span></div>
-                            <div class="metric">Food Logging: <span>${Math.round(stage.metrics.food * 100)}%</span></div>
-                            <div class="metric">Ketones: <span>${Math.round(stage.metrics.ketone * 100)}%</span></div>
-                            <div class="metric">Glucose: <span>${Math.round(stage.metrics.glucose * 100)}%</span></div>
-                        </div>
-                    </div>
-                    <div class="canvas-container">
-                        <canvas id="canvas-${index}"></canvas>
-                    </div>
-                    <div class="stage-description">${stage.description}</div>
-                `;
-                container.appendChild(div);
-
-                const canvas = document.getElementById(`canvas-${index}`);
-                const rect = canvas.parentElement.getBoundingClientRect();
-                canvas.width = rect.width * 2;
-                canvas.height = 280 * 2;
-                canvas.style.width = '100%';
-                canvas.style.height = '280px';
-                canvas.getContext('2d').scale(2, 2);
-                canvases.push({ canvas, stage });
-            });
-        }
-
-        function render(timestamp) {
-            const time = timestamp * 0.001;
-            canvases.forEach(({ canvas, stage }) => {
-                const ctx = canvas.getContext('2d');
-                ctx.save();
-                ctx.setTransform(2, 0, 0, 2, 0, 0);
-                drawScene(canvas, stage, time);
-                ctx.restore();
-            });
-            requestAnimationFrame(render);
+            ctx.restore();
         }
 
         function setTimeOfDay(t) {
@@ -689,7 +734,9 @@
         // Start
         initStages();
         requestAnimationFrame(render);
-        window.addEventListener('resize', initStages);
+        window.addEventListener('resize', () => {
+            initStages();
+        });
     </script>
 </body>
 </html>
