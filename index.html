@@ -163,18 +163,38 @@
         // Soft watercolor washes, atmospheric depth, dreamy tranquility
         // ═══════════════════════════════════════════════════════════════════
 
-        const tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.ready();
-            tg.expand();
-            document.body.style.background = tg.backgroundColor || '#2a3040';
+        // Initialize Telegram WebApp (if available)
+        let tg = null;
+        try {
+            tg = window.Telegram?.WebApp;
+            if (tg) {
+                tg.ready();
+                tg.expand();
+                document.body.style.background = tg.backgroundColor || '#2a3040';
+            }
+        } catch (e) {
+            console.log('Telegram WebApp init error:', e);
         }
 
-        const canvas = document.getElementById('garden-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height, dpr;
+        // Wait for DOM to be ready
+        let canvas, ctx, width, height, dpr;
+
+        function initCanvas() {
+            canvas = document.getElementById('garden-canvas');
+            if (!canvas) {
+                console.error('Canvas not found');
+                return false;
+            }
+            ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Could not get 2d context');
+                return false;
+            }
+            return true;
+        }
 
         function resizeCanvas() {
+            if (!canvas || !ctx) return;
             dpr = Math.min(window.devicePixelRatio || 1, 2);
             width = window.innerWidth;
             height = window.innerHeight;
@@ -184,7 +204,6 @@
             canvas.style.height = height + 'px';
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
-        resizeCanvas();
 
         // ═══════════════════════════════════════════════════════════════════
         // GHIBLI/HASUI COLOR PALETTES
@@ -1259,30 +1278,59 @@
             return null;
         }
 
-        window.addEventListener('resize', () => { resizeCanvas(); initGarden(); });
+        // ═══════════════════════════════════════════════════════════════════
+        // STARTUP - Initialize everything with error handling
+        // ═══════════════════════════════════════════════════════════════════
 
-        canvas.addEventListener('click', e => {
-            const rect = canvas.getBoundingClientRect();
-            const pl = findPlantAt(e.clientX - rect.left, e.clientY - rect.top);
-            if (pl) showPlantTooltip(pl);
-            else tooltip.classList.remove('visible');
-        });
+        function startApp() {
+            try {
+                // Initialize canvas first
+                if (!initCanvas()) {
+                    console.error('Failed to initialize canvas');
+                    return;
+                }
 
-        canvas.addEventListener('touchstart', e => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            const pl = findPlantAt(touch.clientX - rect.left, touch.clientY - rect.top);
-            if (pl) showPlantTooltip(pl);
-        }, { passive: false });
+                // Setup resize and interaction handlers
+                window.addEventListener('resize', () => { resizeCanvas(); initGarden(); });
 
-        tooltip.addEventListener('click', () => tooltip.classList.remove('visible'));
+                canvas.addEventListener('click', e => {
+                    const rect = canvas.getBoundingClientRect();
+                    const pl = findPlantAt(e.clientX - rect.left, e.clientY - rect.top);
+                    if (pl) showPlantTooltip(pl);
+                    else tooltip.classList.remove('visible');
+                });
 
-        // Start
-        initGarden();
-        requestAnimationFrame(render);
-        fetchGardenState();
-        setInterval(fetchGardenState, 5 * 60 * 1000);
+                canvas.addEventListener('touchstart', e => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const rect = canvas.getBoundingClientRect();
+                    const pl = findPlantAt(touch.clientX - rect.left, touch.clientY - rect.top);
+                    if (pl) showPlantTooltip(pl);
+                }, { passive: false });
+
+                tooltip.addEventListener('click', () => tooltip.classList.remove('visible'));
+
+                // Initialize canvas size and start rendering
+                resizeCanvas();
+                initGarden();
+                requestAnimationFrame(render);
+
+                // Fetch real data from API (non-blocking)
+                fetchGardenState();
+                setInterval(fetchGardenState, 5 * 60 * 1000);
+
+                console.log('Garden initialized successfully');
+            } catch (error) {
+                console.error('Error starting garden app:', error);
+            }
+        }
+
+        // Start when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startApp);
+        } else {
+            startApp();
+        }
     </script>
 </body>
 </html>
