@@ -16,7 +16,7 @@
             overflow: hidden;
             touch-action: none;
             font-family: 'Georgia', serif;
-            background: #1a2030;
+            background: #1a3020;
         }
 
         #garden-canvas {
@@ -25,7 +25,7 @@
             height: 100vh;
         }
 
-        /* Woodblock print texture - slight grain */
+        /* Subtle texture overlay */
         #print-texture {
             position: fixed;
             top: 0;
@@ -33,7 +33,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.06;
+            opacity: 0.04;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
             z-index: 60;
             mix-blend-mode: multiply;
@@ -113,18 +113,18 @@
 
     <script>
         // ═══════════════════════════════════════════════════════════════════
-        // HUSHFUL SECRET GARDEN - Enclosed Walled Garden
-        // Intimate, cozy space with walls, arch gate, and focused composition
+        // HUSHFUL SECRET GARDEN - Intimate, lush, immersive
+        // Low viewpoint, dense plantings, grass path through
+        // Kawase bold colors with secret garden proportions
         // ═══════════════════════════════════════════════════════════════════
 
-        // Initialize Telegram WebApp
         let tg = null;
         try {
             tg = window.Telegram?.WebApp;
             if (tg) {
                 tg.ready();
                 tg.expand();
-                document.body.style.background = tg.backgroundColor || '#1a2030';
+                document.body.style.background = tg.backgroundColor || '#1a3020';
             }
         } catch (e) {
             console.log('Telegram WebApp init error:', e);
@@ -153,148 +153,129 @@
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // COLOR PALETTES - Kawase-inspired with warm garden tones
+        // KAWASE-STYLE COLOR PALETTES - Bold, saturated
         // ═══════════════════════════════════════════════════════════════════
 
         const palettes = {
             dawn: {
-                skyTop: '#4a5580',
-                skyMid: '#8060a0',
-                skyLow: '#e080a0',
-                skyHorizon: '#f8a088',
-                clouds: '#ff90b0',
-                cloudShadow: '#c060a0',
-                sun: '#ffcc88',
-                sunGlow: '#ff9060',
-                // Wall colors - warm stone
-                wallMain: '#a08870',
-                wallShadow: '#786858',
-                wallHighlight: '#c0a890',
-                wallMoss: '#607850',
-                // Gate/arch
-                gateWood: '#5a4838',
-                gateIron: '#3a3030',
-                // Ground inside garden
-                groundFar: '#507848',
-                groundMid: '#406838',
-                groundNear: '#306028',
-                pathStone: '#b8a080',
-                pathShadow: '#988868',
-                // Plants
-                flower1: '#ff7090',
-                flower2: '#ffaa60',
-                flower3: '#90d0ff',
-                tree: '#1a3828',
-                treeFoliage: '#2a5838',
-                vine: '#3a6840'
+                // Sky peeking through canopy
+                skyPeek: '#8060a0',
+                canopyLight: '#4a7850',
+                canopyMid: '#3a6040',
+                canopyDark: '#2a4830',
+                // Lush greens
+                foliageBright: '#60a050',
+                foliageMid: '#408838',
+                foliageDark: '#286828',
+                foliageDeep: '#1a4820',
+                // Grass path
+                grassLight: '#70b058',
+                grassMid: '#509040',
+                grassDark: '#387830',
+                // Bold flower colors
+                flowerPink: '#ff6090',
+                flowerMagenta: '#e050a0',
+                flowerRed: '#d04060',
+                flowerOrange: '#ff8850',
+                flowerYellow: '#ffc040',
+                flowerBlue: '#6090d0',
+                flowerPurple: '#9060c0',
+                flowerWhite: '#f0e8e0',
+                // Accents
+                stone: '#a09080',
+                bark: '#4a3828'
             },
             day: {
-                skyTop: '#3080a0',
-                skyMid: '#50a8c0',
-                skyLow: '#80c8d8',
-                skyHorizon: '#c0e0e8',
-                clouds: '#f0f8ff',
-                cloudShadow: '#a0c8d8',
-                sun: '#fff8e0',
-                sunGlow: '#ffe8b0',
-                wallMain: '#c8b098',
-                wallShadow: '#a08870',
-                wallHighlight: '#e0d0b8',
-                wallMoss: '#708858',
-                gateWood: '#6a5848',
-                gateIron: '#484040',
-                groundFar: '#608858',
-                groundMid: '#507848',
-                groundNear: '#406838',
-                pathStone: '#d0c0a0',
-                pathShadow: '#b0a080',
-                flower1: '#ff6080',
-                flower2: '#ffa050',
-                flower3: '#80c0ff',
-                tree: '#1a3020',
-                treeFoliage: '#285028',
-                vine: '#4a7850'
+                skyPeek: '#50a8c0',
+                canopyLight: '#58a060',
+                canopyMid: '#488850',
+                canopyDark: '#387040',
+                foliageBright: '#70b860',
+                foliageMid: '#509848',
+                foliageDark: '#388030',
+                foliageDeep: '#286820',
+                grassLight: '#80c868',
+                grassMid: '#60a850',
+                grassDark: '#488838',
+                flowerPink: '#ff5088',
+                flowerMagenta: '#e048a0',
+                flowerRed: '#e04858',
+                flowerOrange: '#ff9048',
+                flowerYellow: '#ffd048',
+                flowerBlue: '#5090e0',
+                flowerPurple: '#8858c0',
+                flowerWhite: '#fff8f0',
+                stone: '#b8a898',
+                bark: '#5a4838'
             },
             golden: {
-                skyTop: '#5070a0',
-                skyMid: '#a08850',
-                skyLow: '#e0a050',
-                skyHorizon: '#f8c060',
-                clouds: '#ffd080',
-                cloudShadow: '#c89040',
-                sun: '#fff0a0',
-                sunGlow: '#ffc040',
-                wallMain: '#d0a878',
-                wallShadow: '#a88058',
-                wallHighlight: '#e8c8a0',
-                wallMoss: '#687048',
-                gateWood: '#584030',
-                gateIron: '#403028',
-                groundFar: '#687040',
-                groundMid: '#586030',
-                groundNear: '#485020',
-                pathStone: '#e0c090',
-                pathShadow: '#c0a070',
-                flower1: '#ff8060',
-                flower2: '#ffc040',
-                flower3: '#a0d080',
-                tree: '#283018',
-                treeFoliage: '#384820',
-                vine: '#587040'
+                skyPeek: '#e0a050',
+                canopyLight: '#708848',
+                canopyMid: '#607838',
+                canopyDark: '#506828',
+                foliageBright: '#90a850',
+                foliageMid: '#709038',
+                foliageDark: '#507828',
+                foliageDeep: '#406018',
+                grassLight: '#a0b860',
+                grassMid: '#809848',
+                grassDark: '#608030',
+                flowerPink: '#ff7080',
+                flowerMagenta: '#e06090',
+                flowerRed: '#e05050',
+                flowerOrange: '#ffa040',
+                flowerYellow: '#ffe048',
+                flowerBlue: '#7098c0',
+                flowerPurple: '#9868b0',
+                flowerWhite: '#fff0d8',
+                stone: '#d0b898',
+                bark: '#584028'
             },
             dusk: {
-                skyTop: '#3048a0',
-                skyMid: '#6050a0',
-                skyLow: '#c060a0',
-                skyHorizon: '#e080a0',
-                clouds: '#e888c0',
-                cloudShadow: '#9050a0',
-                sun: '#ffa080',
-                sunGlow: '#ff7060',
-                wallMain: '#8a7878',
-                wallShadow: '#6a5858',
-                wallHighlight: '#a89898',
-                wallMoss: '#506858',
-                gateWood: '#4a3838',
-                gateIron: '#302828',
-                groundFar: '#505868',
-                groundMid: '#404858',
-                groundNear: '#303848',
-                pathStone: '#9080a0',
-                pathShadow: '#706080',
-                flower1: '#ff70c0',
-                flower2: '#ffa080',
-                flower3: '#80a0ff',
-                tree: '#181830',
-                treeFoliage: '#282848',
-                vine: '#405060'
+                skyPeek: '#8050a0',
+                canopyLight: '#506868',
+                canopyMid: '#405858',
+                canopyDark: '#304848',
+                foliageBright: '#608870',
+                foliageMid: '#487058',
+                foliageDark: '#385848',
+                foliageDeep: '#284038',
+                grassLight: '#709078',
+                grassMid: '#587860',
+                grassDark: '#486048',
+                flowerPink: '#e080a0',
+                flowerMagenta: '#c060a0',
+                flowerRed: '#c06070',
+                flowerOrange: '#e09060',
+                flowerYellow: '#e0c060',
+                flowerBlue: '#7088b0',
+                flowerPurple: '#9070b0',
+                flowerWhite: '#e0d8d0',
+                stone: '#908888',
+                bark: '#403030'
             },
             night: {
-                skyTop: '#101830',
-                skyMid: '#182040',
-                skyLow: '#203050',
-                skyHorizon: '#304060',
-                clouds: '#384868',
-                cloudShadow: '#202840',
-                moon: '#e0e8ff',
-                moonGlow: '#8090c0',
-                wallMain: '#384048',
-                wallShadow: '#282830',
-                wallHighlight: '#4a5058',
-                wallMoss: '#304038',
-                gateWood: '#282020',
-                gateIron: '#181818',
-                groundFar: '#203028',
-                groundMid: '#182820',
-                groundNear: '#102018',
-                pathStone: '#404858',
-                pathShadow: '#303040',
-                flower1: '#6080a0',
-                flower2: '#7090a0',
-                flower3: '#5070a0',
-                tree: '#0a1018',
-                treeFoliage: '#101820',
-                vine: '#283830'
+                skyPeek: '#203050',
+                canopyLight: '#283838',
+                canopyMid: '#202830',
+                canopyDark: '#181820',
+                foliageBright: '#304840',
+                foliageMid: '#283830',
+                foliageDark: '#202828',
+                foliageDeep: '#181820',
+                grassLight: '#384840',
+                grassMid: '#303830',
+                grassDark: '#282828',
+                flowerPink: '#806070',
+                flowerMagenta: '#705068',
+                flowerRed: '#684050',
+                flowerOrange: '#806050',
+                flowerYellow: '#807050',
+                flowerBlue: '#506078',
+                flowerPurple: '#605070',
+                flowerWhite: '#a0a098',
+                stone: '#484848',
+                bark: '#282020'
             }
         };
 
@@ -341,392 +322,492 @@
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // DRAWING - SECRET GARDEN COMPOSITION
+        // TREE CANOPY - Overhead branches with dappled light
         // ═══════════════════════════════════════════════════════════════════
 
-        function drawSky(ctx, p) {
-            // Sky visible above the walls - just a strip at top
-            const gradient = ctx.createLinearGradient(0, 0, 0, height * 0.4);
-            gradient.addColorStop(0, p.skyTop);
-            gradient.addColorStop(0.5, p.skyMid);
-            gradient.addColorStop(1, p.skyLow);
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, width, height * 0.45);
+        function drawCanopy(ctx, p, time) {
+            // Sky peeking through gaps - just small patches at top
+            const skyY = height * 0.12;
+
+            // Dappled sky holes
+            for (let i = 0; i < 8; i++) {
+                const x = width * (0.15 + seededRandom(i * 7) * 0.7);
+                const y = skyY * (0.3 + seededRandom(i * 11) * 0.7);
+                const rx = 15 + seededRandom(i * 13) * 25;
+                const ry = 10 + seededRandom(i * 17) * 15;
+
+                ctx.fillStyle = p.skyPeek;
+                ctx.beginPath();
+                ctx.ellipse(x, y, rx, ry, seededRandom(i * 3) * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Dense canopy layers
+            // Back layer - darkest
+            ctx.fillStyle = p.canopyDark;
+            drawCanopyLayer(ctx, 0, -height * 0.05, width, height * 0.25, 0.8, 1);
+
+            // Mid layer
+            ctx.fillStyle = p.canopyMid;
+            drawCanopyLayer(ctx, 0, -height * 0.02, width, height * 0.20, 0.9, 2);
+
+            // Front layer - brightest, with gaps
+            ctx.fillStyle = p.canopyLight;
+            drawCanopyLayer(ctx, 0, 0, width, height * 0.18, 1.0, 3);
+
+            // Hanging branches on sides
+            drawHangingBranches(ctx, p, time);
         }
 
-        function drawSun(ctx, p, timeOfDay) {
-            const isNight = timeOfDay < 0.22 || timeOfDay > 0.85;
+        function drawCanopyLayer(ctx, x, y, w, h, density, seed) {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
 
-            if (isNight) {
-                // Moon peeking over the wall
-                ctx.fillStyle = p.moonGlow || '#8090c0';
+            // Irregular bottom edge with leaf clusters
+            for (let px = 0; px <= w; px += 8) {
+                const noise1 = Math.sin(px * 0.02 + seed) * 20;
+                const noise2 = Math.sin(px * 0.05 + seed * 2) * 15;
+                const noise3 = seededRandom(px * seed) * 25;
+                const py = y + h + noise1 + noise2 + noise3 * density;
+                ctx.lineTo(x + px, py);
+            }
+
+            ctx.lineTo(x + w, y);
+            ctx.closePath();
+            ctx.fill();
+
+            // Add leaf cluster bumps
+            for (let i = 0; i < 20; i++) {
+                const cx = x + seededRandom(seed + i * 7) * w;
+                const cy = y + h * 0.7 + seededRandom(seed + i * 11) * h * 0.5;
+                const r = 15 + seededRandom(seed + i * 13) * 30;
+
                 ctx.beginPath();
-                ctx.arc(width * 0.7, height * 0.12, 28, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.fillStyle = p.moon || '#e0e8ff';
-                ctx.beginPath();
-                ctx.arc(width * 0.7, height * 0.12, 18, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Stars
-                for (let i = 0; i < 25; i++) {
-                    const sx = seededRandom(i * 7) * width;
-                    const sy = seededRandom(i * 11) * height * 0.35;
-                    const size = 1 + seededRandom(i * 3) * 1.5;
-                    ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + seededRandom(i * 5) * 0.5})`;
-                    ctx.beginPath();
-                    ctx.arc(sx, sy, size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            } else {
-                // Sun position - arcs above wall
-                const dayProgress = (timeOfDay - 0.22) / 0.63;
-                const sunX = width * (0.3 + dayProgress * 0.4);
-                const sunY = height * (0.2 - Math.sin(dayProgress * Math.PI) * 0.12);
-
-                ctx.fillStyle = p.sunGlow;
-                ctx.beginPath();
-                ctx.arc(sunX, sunY, 35, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.fillStyle = p.sun;
-                ctx.beginPath();
-                ctx.arc(sunX, sunY, 22, 0, Math.PI * 2);
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        function drawClouds(ctx, p, time) {
-            if (!p.clouds || p.clouds === p.cloudShadow) return;
+        function drawHangingBranches(ctx, p, time) {
+            // Left side hanging foliage
+            for (let i = 0; i < 5; i++) {
+                const x = width * (0.02 + seededRandom(i * 5) * 0.12);
+                const y = height * (0.1 + seededRandom(i * 7) * 0.15);
+                const sway = Math.sin(time * 0.5 + i) * 3;
 
-            // Small clouds above the walls
-            const cloudData = [
-                { x: 0.2, y: 0.08, scale: 0.7 },
-                { x: 0.6, y: 0.05, scale: 0.9 },
-                { x: 0.85, y: 0.1, scale: 0.6 },
-            ];
+                drawFoliageClump(ctx, x + sway, y, p.canopyMid, 0.6 + seededRandom(i * 3) * 0.4, i);
+            }
 
-            cloudData.forEach((cloud, i) => {
-                const cx = (cloud.x + time * 0.008 * (0.5 + i * 0.2)) % 1.2 - 0.1;
-                const cy = cloud.y;
-                const scale = cloud.scale * 40;
+            // Right side hanging foliage
+            for (let i = 0; i < 5; i++) {
+                const x = width * (0.88 + seededRandom(i * 5 + 50) * 0.12);
+                const y = height * (0.1 + seededRandom(i * 7 + 50) * 0.15);
+                const sway = Math.sin(time * 0.5 + i + 2) * 3;
 
-                ctx.save();
-                ctx.translate(cx * width, cy * height);
-
-                ctx.fillStyle = p.cloudShadow;
-                ctx.beginPath();
-                ctx.ellipse(2, 3, scale * 1.1, scale * 0.45, 0, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.fillStyle = p.clouds;
-                ctx.beginPath();
-                ctx.ellipse(0, 0, scale * 1.1, scale * 0.45, 0, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.restore();
-            });
-        }
-
-        // ═══════════════════════════════════════════════════════════════════
-        // GARDEN WALLS - The enclosure
-        // ═══════════════════════════════════════════════════════════════════
-
-        function drawWalls(ctx, p) {
-            const wallTop = height * 0.35;
-            const wallHeight = height * 0.3;
-
-            // Back wall (behind arch)
-            ctx.fillStyle = p.wallShadow;
-            ctx.fillRect(0, wallTop, width, wallHeight);
-
-            // Wall texture - stone blocks
-            drawWallTexture(ctx, p, 0, wallTop, width, wallHeight);
-
-            // Wall cap/coping
-            ctx.fillStyle = p.wallHighlight;
-            ctx.fillRect(0, wallTop - 8, width, 12);
-
-            // Moss on wall top
-            for (let x = 0; x < width; x += 15 + seededRandom(x) * 10) {
-                if (seededRandom(x * 3) > 0.4) {
-                    ctx.fillStyle = p.wallMoss;
-                    const mossWidth = 8 + seededRandom(x * 7) * 15;
-                    const mossHeight = 5 + seededRandom(x * 11) * 8;
-                    ctx.beginPath();
-                    ctx.ellipse(x, wallTop - 2, mossWidth, mossHeight, 0, Math.PI, Math.PI * 2);
-                    ctx.fill();
-                }
+                drawFoliageClump(ctx, x + sway, y, p.canopyMid, 0.6 + seededRandom(i * 3 + 50) * 0.4, i + 50);
             }
         }
 
-        function drawWallTexture(ctx, p, x, y, w, h) {
-            // Stone block pattern
-            const blockH = 25;
-            const blockW = 45;
+        function drawFoliageClump(ctx, x, y, color, scale, seed) {
+            ctx.fillStyle = color;
 
-            for (let row = 0; row < h / blockH; row++) {
-                const offset = (row % 2) * blockW * 0.5;
-                for (let col = -1; col < w / blockW + 1; col++) {
-                    const bx = x + col * blockW + offset;
-                    const by = y + row * blockH;
-
-                    // Slight color variation
-                    const shade = 0.9 + seededRandom(bx * by) * 0.2;
-                    ctx.fillStyle = lerpColor(p.wallShadow, p.wallMain, shade);
-                    ctx.fillRect(bx + 1, by + 1, blockW - 2, blockH - 2);
-
-                    // Mortar lines (just leave gaps)
-                }
-            }
-        }
-
-        // ═══════════════════════════════════════════════════════════════════
-        // ARCHED GATE - The entrance
-        // ═══════════════════════════════════════════════════════════════════
-
-        function drawArchGate(ctx, p) {
-            const gateX = width * 0.5;
-            const gateW = width * 0.28;
-            const gateTop = height * 0.22;
-            const gateBottom = height * 0.65;
-            const archHeight = height * 0.18;
-
-            // Dark interior (through the gate)
-            ctx.fillStyle = '#1a2820';
+            // Main mass
             ctx.beginPath();
-            ctx.moveTo(gateX - gateW/2, gateBottom);
-            ctx.lineTo(gateX - gateW/2, gateTop + archHeight);
-            ctx.quadraticCurveTo(gateX - gateW/2, gateTop, gateX, gateTop);
-            ctx.quadraticCurveTo(gateX + gateW/2, gateTop, gateX + gateW/2, gateTop + archHeight);
-            ctx.lineTo(gateX + gateW/2, gateBottom);
-            ctx.closePath();
+            ctx.ellipse(x, y, 30 * scale, 40 * scale, 0.2, 0, Math.PI * 2);
             ctx.fill();
 
-            // Hint of path beyond
-            ctx.fillStyle = '#283830';
-            ctx.beginPath();
-            ctx.moveTo(gateX - 20, gateBottom);
-            ctx.lineTo(gateX - 15, gateTop + archHeight + 20);
-            ctx.lineTo(gateX + 15, gateTop + archHeight + 20);
-            ctx.lineTo(gateX + 20, gateBottom);
-            ctx.closePath();
-            ctx.fill();
-
-            // Stone arch frame - thick border
-            const archThickness = 18;
-
-            // Left pillar
-            ctx.fillStyle = p.wallMain;
-            ctx.fillRect(gateX - gateW/2 - archThickness, gateTop, archThickness, gateBottom - gateTop);
-
-            // Right pillar
-            ctx.fillRect(gateX + gateW/2, gateTop, archThickness, gateBottom - gateTop);
-
-            // Arch top
-            ctx.beginPath();
-            ctx.moveTo(gateX - gateW/2 - archThickness, gateTop + archHeight);
-            ctx.lineTo(gateX - gateW/2 - archThickness, gateTop);
-            ctx.quadraticCurveTo(gateX - gateW/2 - archThickness, gateTop - archThickness, gateX, gateTop - archThickness);
-            ctx.quadraticCurveTo(gateX + gateW/2 + archThickness, gateTop - archThickness, gateX + gateW/2 + archThickness, gateTop);
-            ctx.lineTo(gateX + gateW/2 + archThickness, gateTop + archHeight);
-            ctx.lineTo(gateX + gateW/2, gateTop + archHeight);
-            ctx.quadraticCurveTo(gateX + gateW/2, gateTop, gateX, gateTop);
-            ctx.quadraticCurveTo(gateX - gateW/2, gateTop, gateX - gateW/2, gateTop + archHeight);
-            ctx.closePath();
-            ctx.fill();
-
-            // Keystone
-            ctx.fillStyle = p.wallHighlight;
-            ctx.beginPath();
-            ctx.moveTo(gateX - 12, gateTop - archThickness);
-            ctx.lineTo(gateX - 15, gateTop + 5);
-            ctx.lineTo(gateX + 15, gateTop + 5);
-            ctx.lineTo(gateX + 12, gateTop - archThickness);
-            ctx.closePath();
-            ctx.fill();
-
-            // Iron gate (slightly open)
-            ctx.strokeStyle = p.gateIron;
-            ctx.lineWidth = 3;
-
-            // Left gate door (closed)
+            // Additional blobs
             for (let i = 0; i < 4; i++) {
-                const barX = gateX - gateW/2 + 8 + i * 12;
-                ctx.beginPath();
-                ctx.moveTo(barX, gateTop + 15);
-                ctx.lineTo(barX, gateBottom);
-                ctx.stroke();
-            }
+                const ox = (seededRandom(seed + i * 7) - 0.5) * 40 * scale;
+                const oy = (seededRandom(seed + i * 11) - 0.5) * 50 * scale;
+                const r = (15 + seededRandom(seed + i * 13) * 20) * scale;
 
-            // Right gate door (slightly open/angled)
-            ctx.save();
-            ctx.translate(gateX + gateW/2 - 5, gateTop + 15);
-            ctx.rotate(-0.15);
-            for (let i = 0; i < 4; i++) {
                 ctx.beginPath();
-                ctx.moveTo(-8 - i * 12, 0);
-                ctx.lineTo(-8 - i * 12, gateBottom - gateTop - 15);
-                ctx.stroke();
+                ctx.ellipse(x + ox, y + oy, r, r * 1.2, 0, 0, Math.PI * 2);
+                ctx.fill();
             }
-            ctx.restore();
+        }
 
-            // Decorative horizontal bars
+        // ═══════════════════════════════════════════════════════════════════
+        // GRASS PATH - Winding through the middle
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawGrassPath(ctx, p) {
+            // Path recedes into distance - narrower at top
+            const pathTop = height * 0.35;
+            const pathBottom = height * 1.05;
+
+            // Path shape - curves gently
+            ctx.fillStyle = p.grassMid;
             ctx.beginPath();
-            ctx.moveTo(gateX - gateW/2 + 5, gateTop + 40);
-            ctx.lineTo(gateX - 5, gateTop + 40);
+
+            // Left edge
+            ctx.moveTo(width * 0.35, pathBottom);
+            ctx.bezierCurveTo(
+                width * 0.38, height * 0.75,
+                width * 0.42, height * 0.55,
+                width * 0.46, pathTop
+            );
+
+            // Top (narrow)
+            ctx.lineTo(width * 0.54, pathTop);
+
+            // Right edge
+            ctx.bezierCurveTo(
+                width * 0.58, height * 0.55,
+                width * 0.62, height * 0.75,
+                width * 0.65, pathBottom
+            );
+
+            ctx.closePath();
+            ctx.fill();
+
+            // Lighter center strip
+            ctx.fillStyle = p.grassLight;
+            ctx.beginPath();
+            ctx.moveTo(width * 0.42, pathBottom);
+            ctx.bezierCurveTo(
+                width * 0.44, height * 0.75,
+                width * 0.46, height * 0.55,
+                width * 0.48, pathTop + 10
+            );
+            ctx.lineTo(width * 0.52, pathTop + 10);
+            ctx.bezierCurveTo(
+                width * 0.54, height * 0.55,
+                width * 0.56, height * 0.75,
+                width * 0.58, pathBottom
+            );
+            ctx.closePath();
+            ctx.fill();
+
+            // Path edge shadows/definition
+            ctx.strokeStyle = p.grassDark;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(width * 0.35, pathBottom);
+            ctx.bezierCurveTo(
+                width * 0.38, height * 0.75,
+                width * 0.42, height * 0.55,
+                width * 0.46, pathTop
+            );
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(width * 0.65, pathBottom);
+            ctx.bezierCurveTo(
+                width * 0.62, height * 0.75,
+                width * 0.58, height * 0.55,
+                width * 0.54, pathTop
+            );
             ctx.stroke();
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // SIDE WALLS - Creating the enclosed feeling
+        // FLOWER BORDERS - Dense plantings on both sides
         // ═══════════════════════════════════════════════════════════════════
 
-        function drawSideWalls(ctx, p) {
-            // Left wall receding into perspective
-            ctx.fillStyle = p.wallShadow;
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.35);
-            ctx.lineTo(width * 0.15, height * 0.45);
-            ctx.lineTo(width * 0.15, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
+        function drawFlowerBorders(ctx, p, time) {
+            // LEFT BORDER - Multiple layers of depth
 
-            // Wall texture on left
-            ctx.fillStyle = p.wallMain;
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.35);
-            ctx.lineTo(width * 0.12, height * 0.44);
-            ctx.lineTo(width * 0.12, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
+            // Back layer (furthest) - darker, smaller
+            drawBorderLayer(ctx, p, 'left', 0.35, 0.6, 0.28, time, 100);
 
-            // Right wall
-            ctx.fillStyle = p.wallShadow;
-            ctx.beginPath();
-            ctx.moveTo(width, height * 0.35);
-            ctx.lineTo(width * 0.85, height * 0.45);
-            ctx.lineTo(width * 0.85, height);
-            ctx.lineTo(width, height);
-            ctx.closePath();
-            ctx.fill();
+            // Mid layer
+            drawBorderLayer(ctx, p, 'left', 0.45, 0.75, 0.22, time, 200);
 
-            ctx.fillStyle = p.wallMain;
-            ctx.beginPath();
-            ctx.moveTo(width, height * 0.35);
-            ctx.lineTo(width * 0.88, height * 0.44);
-            ctx.lineTo(width * 0.88, height);
-            ctx.lineTo(width, height);
-            ctx.closePath();
-            ctx.fill();
+            // Front layer (closest) - brightest, largest
+            drawBorderLayer(ctx, p, 'left', 0.55, 0.95, 0.15, time, 300);
+
+            // RIGHT BORDER
+            drawBorderLayer(ctx, p, 'right', 0.35, 0.6, 0.28, time, 400);
+            drawBorderLayer(ctx, p, 'right', 0.45, 0.75, 0.22, time, 500);
+            drawBorderLayer(ctx, p, 'right', 0.55, 0.95, 0.15, time, 600);
         }
 
-        // ═══════════════════════════════════════════════════════════════════
-        // GARDEN GROUND - The enclosed space
-        // ═══════════════════════════════════════════════════════════════════
+        function drawBorderLayer(ctx, p, side, yStart, yEnd, xEdge, time, seed) {
+            const isLeft = side === 'left';
+            const xBase = isLeft ? 0 : width;
+            const xDir = isLeft ? 1 : -1;
 
-        function drawGardenGround(ctx, p) {
-            // Main garden floor
-            const gradient = ctx.createLinearGradient(0, height * 0.65, 0, height);
-            gradient.addColorStop(0, p.groundFar);
-            gradient.addColorStop(0.4, p.groundMid);
-            gradient.addColorStop(1, p.groundNear);
+            // Foliage base
+            const foliageDepth = (yStart < 0.5) ? p.foliageDeep :
+                                 (yStart < 0.6) ? p.foliageDark : p.foliageMid;
 
-            ctx.fillStyle = gradient;
+            ctx.fillStyle = foliageDepth;
             ctx.beginPath();
-            ctx.moveTo(width * 0.12, height * 0.65);
-            ctx.lineTo(width * 0.88, height * 0.65);
-            ctx.lineTo(width * 0.85, height);
-            ctx.lineTo(width * 0.15, height);
+            ctx.moveTo(xBase, height * yStart);
+
+            for (let y = yStart; y <= yEnd; y += 0.02) {
+                const baseX = xEdge + (y - yStart) * 0.3; // Gets wider toward bottom
+                const noise = seededRandom(y * 100 + seed) * 0.08;
+                const x = isLeft ? width * (baseX + noise) : width * (1 - baseX - noise);
+                ctx.lineTo(x, height * y);
+            }
+
+            ctx.lineTo(xBase, height * yEnd);
             ctx.closePath();
             ctx.fill();
-        }
 
-        function drawGardenPath(ctx, p) {
-            // Stone path from gate into garden
-            const pathPoints = [
-                { x: 0.5, y: 0.65 },
-                { x: 0.48, y: 0.72 },
-                { x: 0.5, y: 0.80 },
-                { x: 0.47, y: 0.88 },
-                { x: 0.5, y: 0.95 },
+            // Add shrubs and flowers on top
+            const flowerColors = [
+                p.flowerPink, p.flowerMagenta, p.flowerRed,
+                p.flowerOrange, p.flowerYellow, p.flowerBlue,
+                p.flowerPurple, p.flowerWhite
             ];
 
-            // Path stones
-            ctx.fillStyle = p.pathStone;
+            // Shrub clusters
+            for (let i = 0; i < 8; i++) {
+                const y = yStart + seededRandom(seed + i * 7) * (yEnd - yStart);
+                const baseX = xEdge + (y - yStart) * 0.25;
+                const x = isLeft ?
+                    width * (baseX * 0.7 + seededRandom(seed + i * 11) * baseX * 0.5) :
+                    width * (1 - baseX * 0.7 - seededRandom(seed + i * 11) * baseX * 0.5);
 
-            pathPoints.forEach((pt, i) => {
-                const cx = pt.x * width;
-                const cy = pt.y * height;
-                const stoneW = 35 + i * 8;
-                const stoneH = 18 + i * 3;
+                const scale = 0.4 + (y - yStart) / (yEnd - yStart) * 0.8;
+                const sway = Math.sin(time * 0.3 + seed + i) * 2;
 
-                // Main stone
-                ctx.fillStyle = p.pathStone;
+                drawShrub(ctx, x + sway, height * y, scale, p, seed + i * 100);
+            }
+
+            // Flower clusters
+            for (let i = 0; i < 12; i++) {
+                const y = yStart + seededRandom(seed + i * 13 + 50) * (yEnd - yStart);
+                const baseX = xEdge + (y - yStart) * 0.2;
+                const x = isLeft ?
+                    width * (baseX * 0.5 + seededRandom(seed + i * 17 + 50) * baseX * 0.8) :
+                    width * (1 - baseX * 0.5 - seededRandom(seed + i * 17 + 50) * baseX * 0.8);
+
+                const scale = 0.5 + (y - yStart) / (yEnd - yStart) * 1.0;
+                const color = flowerColors[Math.floor(seededRandom(seed + i * 19) * flowerColors.length)];
+                const sway = Math.sin(time * 0.5 + seed + i * 2) * 3;
+
+                drawFlowerClump(ctx, x + sway, height * y, color, scale, p, seed + i * 200);
+            }
+        }
+
+        function drawShrub(ctx, x, y, scale, p, seed) {
+            // Layered round shapes
+            const layers = [
+                { ox: 0, oy: -20, r: 35, color: p.foliageDark },
+                { ox: -15, oy: -10, r: 28, color: p.foliageMid },
+                { ox: 12, oy: -25, r: 30, color: p.foliageMid },
+                { ox: 5, oy: -35, r: 25, color: p.foliageBright },
+            ];
+
+            layers.forEach(layer => {
+                ctx.fillStyle = layer.color;
                 ctx.beginPath();
-                ctx.ellipse(cx, cy, stoneW, stoneH, 0, 0, Math.PI * 2);
+                ctx.ellipse(
+                    x + layer.ox * scale,
+                    y + layer.oy * scale,
+                    layer.r * scale,
+                    layer.r * scale * 0.8,
+                    0, 0, Math.PI * 2
+                );
                 ctx.fill();
+            });
+        }
 
-                // Side stones
-                if (i > 0) {
-                    ctx.fillStyle = p.pathShadow;
+        function drawFlowerClump(ctx, x, y, flowerColor, scale, p, seed) {
+            // Stems and leaves first
+            ctx.strokeStyle = p.foliageDark;
+            ctx.lineWidth = 2 * scale;
+
+            const flowerCount = 3 + Math.floor(seededRandom(seed) * 4);
+            const positions = [];
+
+            for (let i = 0; i < flowerCount; i++) {
+                const stemX = x + (seededRandom(seed + i * 7) - 0.5) * 30 * scale;
+                const stemH = (25 + seededRandom(seed + i * 11) * 35) * scale;
+                const curve = (seededRandom(seed + i * 13) - 0.5) * 15 * scale;
+
+                ctx.beginPath();
+                ctx.moveTo(stemX, y);
+                ctx.quadraticCurveTo(stemX + curve, y - stemH * 0.5, stemX + curve * 0.5, y - stemH);
+                ctx.stroke();
+
+                positions.push({ x: stemX + curve * 0.5, y: y - stemH });
+
+                // Leaves
+                if (seededRandom(seed + i * 17) > 0.4) {
+                    const leafY = y - stemH * 0.4;
+                    const leafDir = seededRandom(seed + i * 19) > 0.5 ? 1 : -1;
+                    ctx.fillStyle = p.foliageMid;
                     ctx.beginPath();
-                    ctx.ellipse(cx - stoneW * 0.8, cy + 5, stoneW * 0.5, stoneH * 0.6, 0.2, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.ellipse(cx + stoneW * 0.7, cy - 3, stoneW * 0.4, stoneH * 0.5, -0.1, 0, Math.PI * 2);
+                    ctx.ellipse(stemX + leafDir * 8 * scale, leafY, 10 * scale, 5 * scale, leafDir * 0.5, 0, Math.PI * 2);
                     ctx.fill();
                 }
+            }
+
+            // Flower heads
+            positions.forEach((pos, i) => {
+                const petalCount = 5 + Math.floor(seededRandom(seed + i * 23) * 3);
+                const petalSize = (6 + seededRandom(seed + i * 29) * 4) * scale;
+
+                // Petals
+                ctx.fillStyle = flowerColor;
+                for (let j = 0; j < petalCount; j++) {
+                    const angle = (j / petalCount) * Math.PI * 2;
+                    const px = pos.x + Math.cos(angle) * petalSize * 0.8;
+                    const py = pos.y + Math.sin(angle) * petalSize * 0.8;
+
+                    ctx.beginPath();
+                    ctx.ellipse(px, py, petalSize * 0.7, petalSize * 0.5, angle, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Center
+                ctx.fillStyle = p.flowerYellow;
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, petalSize * 0.35, 0, Math.PI * 2);
+                ctx.fill();
             });
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // VINES ON WALLS
+        // SPECIAL FLOWERS - Large feature blooms
         // ═══════════════════════════════════════════════════════════════════
 
-        function drawVines(ctx, p, time) {
-            // Vines climbing left wall
-            drawVineCluster(ctx, p, width * 0.08, height * 0.5, 8, time, 1);
-            drawVineCluster(ctx, p, width * 0.05, height * 0.65, 5, time, 2);
+        function drawFeatureFlowers(ctx, p, time) {
+            // Large rose-like blooms on left
+            drawRoseCluster(ctx, width * 0.12, height * 0.45, p.flowerMagenta, 1.2, time, 1);
+            drawRoseCluster(ctx, width * 0.08, height * 0.55, p.flowerPink, 1.0, time, 2);
+            drawRoseCluster(ctx, width * 0.18, height * 0.62, p.flowerRed, 0.9, time, 3);
 
-            // Vines on right wall
-            drawVineCluster(ctx, p, width * 0.92, height * 0.48, 7, time, 3);
-            drawVineCluster(ctx, p, width * 0.9, height * 0.62, 6, time, 4);
+            // Purple/blue blooms on right
+            drawHydrangea(ctx, width * 0.88, height * 0.48, p.flowerPurple, 1.1, time, 10);
+            drawHydrangea(ctx, width * 0.92, height * 0.58, p.flowerBlue, 0.9, time, 11);
 
-            // Vines around arch
-            drawVineCluster(ctx, p, width * 0.35, height * 0.28, 6, time, 5);
-            drawVineCluster(ctx, p, width * 0.65, height * 0.30, 5, time, 6);
+            // Hostas with big leaves near path
+            drawHosta(ctx, width * 0.28, height * 0.72, p, 1.0, 20);
+            drawHosta(ctx, width * 0.72, height * 0.70, p, 0.9, 21);
         }
 
-        function drawVineCluster(ctx, p, x, y, count, time, seed) {
-            for (let i = 0; i < count; i++) {
-                const vx = x + (seededRandom(seed + i) - 0.5) * 30;
-                const vy = y + (seededRandom(seed + i + 50) - 0.5) * 40;
-                const len = 30 + seededRandom(seed + i + 100) * 50;
-                const sway = Math.sin(time * 0.5 + seed + i) * 3;
+        function drawRoseCluster(ctx, x, y, color, scale, time, seed) {
+            const sway = Math.sin(time * 0.4 + seed) * 4;
 
-                // Vine stem
-                ctx.strokeStyle = p.vine;
-                ctx.lineWidth = 2;
+            // Multiple rose blooms
+            for (let i = 0; i < 4; i++) {
+                const rx = x + (seededRandom(seed + i * 7) - 0.5) * 40 * scale + sway;
+                const ry = y + (seededRandom(seed + i * 11) - 0.5) * 30 * scale;
+                const rs = (0.6 + seededRandom(seed + i * 13) * 0.5) * scale;
+
+                drawRose(ctx, rx, ry, color, rs, seed + i);
+            }
+
+            // Foliage behind
+            ctx.fillStyle = lerpColor(color, '#2a4020', 0.7);
+            for (let i = 0; i < 6; i++) {
+                const lx = x + (seededRandom(seed + i * 17) - 0.5) * 50 * scale;
+                const ly = y + (seededRandom(seed + i * 19) - 0.5) * 40 * scale + 10;
                 ctx.beginPath();
-                ctx.moveTo(vx, vy);
-                ctx.quadraticCurveTo(vx + sway, vy + len * 0.5, vx + sway * 0.5, vy + len);
-                ctx.stroke();
+                ctx.ellipse(lx, ly, 15 * scale, 10 * scale, seededRandom(seed + i * 23), 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
 
-                // Leaves
-                for (let j = 0; j < 4; j++) {
-                    const ly = vy + len * (j + 1) / 5;
-                    const lx = vx + sway * (j / 4);
-                    const side = (j % 2 === 0) ? 1 : -1;
+        function drawRose(ctx, x, y, color, scale, seed) {
+            // Layered petals from outside in
+            const layers = 4;
+            for (let layer = 0; layer < layers; layer++) {
+                const layerScale = 1 - layer * 0.2;
+                const petals = 6 - layer;
+                const radius = 18 * scale * layerScale;
 
-                    ctx.fillStyle = p.vine;
+                ctx.fillStyle = lerpColor(color, '#ffffff', layer * 0.15);
+
+                for (let i = 0; i < petals; i++) {
+                    const angle = (i / petals) * Math.PI * 2 + layer * 0.3;
+                    const px = x + Math.cos(angle) * radius * 0.5;
+                    const py = y + Math.sin(angle) * radius * 0.5;
+
                     ctx.beginPath();
-                    ctx.ellipse(lx + side * 6, ly, 8, 5, side * 0.5, 0, Math.PI * 2);
+                    ctx.ellipse(px, py, radius * 0.6, radius * 0.4, angle, 0, Math.PI * 2);
                     ctx.fill();
                 }
+            }
+
+            // Dark center
+            ctx.fillStyle = lerpColor(color, '#301020', 0.5);
+            ctx.beginPath();
+            ctx.arc(x, y, 4 * scale, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawHydrangea(ctx, x, y, color, scale, time, seed) {
+            const sway = Math.sin(time * 0.35 + seed) * 3;
+
+            // Ball of small flowers
+            for (let i = 0; i < 25; i++) {
+                const angle = seededRandom(seed + i * 7) * Math.PI * 2;
+                const dist = seededRandom(seed + i * 11) * 25 * scale;
+                const fx = x + Math.cos(angle) * dist + sway;
+                const fy = y + Math.sin(angle) * dist * 0.7;
+                const fs = 4 + seededRandom(seed + i * 13) * 3;
+
+                const shade = lerpColor(color, '#ffffff', seededRandom(seed + i * 17) * 0.3);
+                ctx.fillStyle = shade;
+
+                // Four-petal flower
+                for (let j = 0; j < 4; j++) {
+                    const pa = j * Math.PI / 2;
+                    ctx.beginPath();
+                    ctx.ellipse(
+                        fx + Math.cos(pa) * fs * 0.4,
+                        fy + Math.sin(pa) * fs * 0.4,
+                        fs * 0.5, fs * 0.3, pa, 0, Math.PI * 2
+                    );
+                    ctx.fill();
+                }
+            }
+
+            // Large leaves below
+            ctx.fillStyle = lerpColor(color, '#2a5030', 0.8);
+            for (let i = 0; i < 3; i++) {
+                const lx = x + (i - 1) * 20 * scale;
+                const ly = y + 25 * scale;
+                ctx.beginPath();
+                ctx.ellipse(lx, ly, 20 * scale, 12 * scale, (i - 1) * 0.3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawHosta(ctx, x, y, p, scale, seed) {
+            // Large decorative leaves
+            const leafCount = 5;
+
+            for (let i = 0; i < leafCount; i++) {
+                const angle = (i / leafCount - 0.5) * Math.PI * 0.8;
+                const len = (40 + seededRandom(seed + i * 7) * 20) * scale;
+
+                // Leaf shape
+                ctx.fillStyle = i % 2 === 0 ? p.foliageBright : p.foliageMid;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+
+                const tipX = x + Math.sin(angle) * len;
+                const tipY = y - Math.cos(angle) * len * 0.8;
+                const bulge = len * 0.4;
+
+                ctx.quadraticCurveTo(
+                    x + Math.sin(angle - 0.3) * bulge,
+                    y - Math.cos(angle - 0.3) * bulge,
+                    tipX, tipY
+                );
+                ctx.quadraticCurveTo(
+                    x + Math.sin(angle + 0.3) * bulge,
+                    y - Math.cos(angle + 0.3) * bulge,
+                    x, y
+                );
+                ctx.fill();
+
+                // Vein
+                ctx.strokeStyle = p.foliageDark;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(tipX, tipY);
+                ctx.stroke();
             }
         }
 
@@ -736,9 +817,9 @@
 
         class Gardener {
             constructor() {
-                this.x = width * 0.55;
-                this.y = height * 0.82;
-                this.facing = -1;
+                this.x = width * 0.5;
+                this.y = height * 0.68;
+                this.facing = 1;
                 this.bobOffset = 0;
             }
 
@@ -747,8 +828,8 @@
             }
 
             draw(ctx, p) {
-                const scale = 0.65;
-                const h = 45 * scale;
+                const scale = 0.55;
+                const h = 50 * scale;
                 const x = this.x;
                 const y = this.y + this.bobOffset * 0.3;
 
@@ -759,7 +840,7 @@
                 // Shadow
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
                 ctx.beginPath();
-                ctx.ellipse(0, 2, 12 * scale, 4 * scale, 0, 0, Math.PI * 2);
+                ctx.ellipse(0, 2, 14 * scale, 5 * scale, 0, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Legs
@@ -767,177 +848,103 @@
                 ctx.fillRect(-5 * scale, -h * 0.35, 4 * scale, h * 0.35);
                 ctx.fillRect(1 * scale, -h * 0.35, 4 * scale, h * 0.35);
 
-                // Body - earthy green tunic
+                // Body - earthy green
                 ctx.fillStyle = '#6a8860';
                 ctx.beginPath();
-                ctx.moveTo(-8 * scale, -h * 0.35);
-                ctx.lineTo(-10 * scale, -h * 0.75);
-                ctx.lineTo(10 * scale, -h * 0.75);
-                ctx.lineTo(8 * scale, -h * 0.35);
+                ctx.moveTo(-9 * scale, -h * 0.35);
+                ctx.lineTo(-11 * scale, -h * 0.78);
+                ctx.lineTo(11 * scale, -h * 0.78);
+                ctx.lineTo(9 * scale, -h * 0.35);
                 ctx.closePath();
                 ctx.fill();
 
                 // Arms
                 ctx.fillStyle = '#d0a888';
-                ctx.fillRect(-12 * scale, -h * 0.7, 4 * scale, 14 * scale);
-                ctx.fillRect(8 * scale, -h * 0.7, 4 * scale, 14 * scale);
+                ctx.fillRect(-13 * scale, -h * 0.72, 4 * scale, 15 * scale);
+                ctx.fillRect(9 * scale, -h * 0.72, 4 * scale, 15 * scale);
 
                 // Head
                 ctx.fillStyle = '#e0b898';
                 ctx.beginPath();
-                ctx.arc(0, -h * 0.85, 8 * scale, 0, Math.PI * 2);
+                ctx.arc(0, -h * 0.88, 9 * scale, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Hair
                 ctx.fillStyle = '#4a3828';
                 ctx.beginPath();
-                ctx.arc(0, -h * 0.88, 9 * scale, Math.PI, Math.PI * 2);
+                ctx.arc(0, -h * 0.92, 10 * scale, Math.PI, Math.PI * 2);
                 ctx.fill();
 
                 // Straw hat
                 ctx.fillStyle = '#d8c090';
                 ctx.beginPath();
-                ctx.ellipse(0, -h * 0.95, 14 * scale, 4 * scale, 0, 0, Math.PI * 2);
+                ctx.ellipse(0, -h * 0.98, 16 * scale, 5 * scale, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.fillStyle = '#c8b080';
                 ctx.beginPath();
-                ctx.ellipse(0, -h, 8 * scale, 6 * scale, 0, Math.PI, Math.PI * 2);
+                ctx.ellipse(0, -h * 1.04, 9 * scale, 7 * scale, 0, Math.PI, Math.PI * 2);
                 ctx.fill();
 
                 // Watering can
                 ctx.fillStyle = '#708898';
-                ctx.fillRect(10 * scale, -h * 0.5, 8 * scale, 12 * scale);
-                ctx.fillRect(15 * scale, -h * 0.6, 6 * scale, 4 * scale);
+                ctx.fillRect(11 * scale, -h * 0.55, 9 * scale, 14 * scale);
+                ctx.fillRect(17 * scale, -h * 0.65, 7 * scale, 5 * scale);
 
                 ctx.restore();
             }
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        // PLANTS INSIDE THE GARDEN
+        // FOREGROUND ELEMENTS
         // ═══════════════════════════════════════════════════════════════════
 
-        function drawPottedPlant(ctx, x, y, scale, p, seed) {
-            ctx.save();
-            ctx.translate(x, y);
+        function drawForeground(ctx, p, time) {
+            // Large plants in extreme foreground (bottom corners)
 
-            // Terracotta pot
-            ctx.fillStyle = '#b07050';
-            ctx.beginPath();
-            ctx.moveTo(-15 * scale, 0);
-            ctx.lineTo(-12 * scale, -25 * scale);
-            ctx.lineTo(12 * scale, -25 * scale);
-            ctx.lineTo(15 * scale, 0);
-            ctx.closePath();
-            ctx.fill();
+            // Bottom left - big leaves
+            ctx.fillStyle = p.foliageDeep;
+            for (let i = 0; i < 4; i++) {
+                const x = width * (-0.05 + i * 0.08);
+                const y = height * 1.02;
+                const angle = -0.3 + i * 0.15 + Math.sin(time * 0.3 + i) * 0.05;
 
-            // Pot rim
-            ctx.fillStyle = '#c08060';
-            ctx.fillRect(-14 * scale, -28 * scale, 28 * scale, 6 * scale);
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.ellipse(0, -60, 35, 70, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
 
-            // Plant in pot
-            const colors = [p.flower1, p.flower2, p.flower3];
+            // Bottom right - big leaves
+            ctx.fillStyle = p.foliageDark;
+            for (let i = 0; i < 4; i++) {
+                const x = width * (0.78 + i * 0.08);
+                const y = height * 1.02;
+                const angle = 0.3 - i * 0.15 + Math.sin(time * 0.3 + i + 2) * 0.05;
+
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.ellipse(0, -55, 30, 65, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Some flowers peeking at very front
+            const fgColors = [p.flowerPink, p.flowerWhite, p.flowerYellow];
             for (let i = 0; i < 5; i++) {
-                const stemX = (seededRandom(seed + i) - 0.5) * 15 * scale;
-                const stemH = (25 + seededRandom(seed + i + 10) * 20) * scale;
-
-                // Stem
-                ctx.strokeStyle = p.vine || '#4a7850';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(stemX, -28 * scale);
-                ctx.lineTo(stemX + (seededRandom(seed + i + 20) - 0.5) * 10, -28 * scale - stemH);
-                ctx.stroke();
-
-                // Flower
-                ctx.fillStyle = colors[i % 3];
-                ctx.beginPath();
-                ctx.arc(stemX, -28 * scale - stemH, 6 * scale, 0, Math.PI * 2);
-                ctx.fill();
+                const x = width * (0.1 + seededRandom(i * 7 + 777) * 0.15);
+                const y = height * (0.92 + seededRandom(i * 11 + 777) * 0.08);
+                drawFlowerClump(ctx, x, y, fgColors[i % 3], 1.2, p, 777 + i);
             }
-
-            ctx.restore();
-        }
-
-        function drawFlowerBed(ctx, x, y, w, p, seed) {
-            const colors = [p.flower1, p.flower2, p.flower3];
-
-            for (let i = 0; i < 8; i++) {
-                const fx = x + (seededRandom(seed + i) - 0.5) * w;
-                const fy = y + (seededRandom(seed + i + 50) - 0.5) * 20;
-                const h = 20 + seededRandom(seed + i + 100) * 25;
-
-                // Stem
-                ctx.strokeStyle = p.vine || '#4a7850';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(fx, fy);
-                ctx.lineTo(fx + (seededRandom(seed + i + 150) - 0.5) * 8, fy - h);
-                ctx.stroke();
-
-                // Flower head
-                ctx.fillStyle = colors[Math.floor(seededRandom(seed + i + 200) * 3)];
-                const petals = 5 + Math.floor(seededRandom(seed + i + 250) * 3);
-                const petalSize = 4 + seededRandom(seed + i + 300) * 4;
-
-                for (let j = 0; j < petals; j++) {
-                    const angle = (j / petals) * Math.PI * 2;
-                    const px = fx + Math.cos(angle) * petalSize;
-                    const py = fy - h + Math.sin(angle) * petalSize;
-                    ctx.beginPath();
-                    ctx.arc(px, py, petalSize * 0.7, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                // Center
-                ctx.fillStyle = '#ffd040';
-                ctx.beginPath();
-                ctx.arc(fx, fy - h, petalSize * 0.4, 0, Math.PI * 2);
-                ctx.fill();
+            for (let i = 0; i < 5; i++) {
+                const x = width * (0.75 + seededRandom(i * 7 + 888) * 0.15);
+                const y = height * (0.92 + seededRandom(i * 11 + 888) * 0.08);
+                drawFlowerClump(ctx, x, y, fgColors[i % 3], 1.2, p, 888 + i);
             }
-        }
-
-        function drawBush(ctx, x, y, scale, p, seed) {
-            ctx.save();
-            ctx.translate(x, y);
-
-            const blobs = [
-                { ox: -12, oy: -8, r: 18 },
-                { ox: 8, oy: -12, r: 20 },
-                { ox: -3, oy: -20, r: 16 },
-                { ox: 12, oy: -6, r: 14 },
-            ];
-
-            blobs.forEach((blob, i) => {
-                ctx.fillStyle = lerpColor(p.groundNear, p.groundMid, 0.3 + i * 0.15);
-                ctx.beginPath();
-                ctx.arc(blob.ox * scale, blob.oy * scale, blob.r * scale, 0, Math.PI * 2);
-                ctx.fill();
-            });
-
-            ctx.restore();
-        }
-
-        function drawSmallTree(ctx, x, y, scale, p) {
-            ctx.save();
-            ctx.translate(x, y);
-
-            // Trunk
-            ctx.fillStyle = p.tree || '#2a3828';
-            ctx.fillRect(-5 * scale, -30 * scale, 10 * scale, 30 * scale);
-
-            // Foliage layers
-            ctx.fillStyle = p.treeFoliage || '#3a5838';
-            ctx.beginPath();
-            ctx.arc(0, -45 * scale, 25 * scale, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = p.tree || '#2a3828';
-            ctx.beginPath();
-            ctx.arc(0, -55 * scale, 18 * scale, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.restore();
         }
 
         // ═══════════════════════════════════════════════════════════════════
@@ -950,14 +957,7 @@
             name: 'Your Garden',
             health: 0.5,
             status: null,
-            plants: [
-                { x: 0.25, type: 'bush', growth: 0.7, layer: 1 },
-                { x: 0.75, type: 'bush', growth: 0.6, layer: 1 },
-                { x: 0.3, type: 'flowers', growth: 0.8, layer: 2 },
-                { x: 0.6, type: 'flowers', growth: 0.7, layer: 2 },
-                { x: 0.2, type: 'pot', growth: 0.8, layer: 2 },
-                { x: 0.8, type: 'pot', growth: 0.6, layer: 2 },
-            ]
+            plants: []
         };
 
         async function fetchGardenState() {
@@ -968,7 +968,7 @@
                 const response = await fetch(`${API_BASE}/api/garden/${userId}`);
                 if (response.ok) {
                     const data = await response.json();
-                    if (!data.error && data.plants) {
+                    if (!data.error) {
                         gardenState = data;
                         document.getElementById('garden-name').textContent = gardenState.name;
                         updateStatus();
@@ -980,17 +980,11 @@
         }
 
         let gardener;
-        let plantObjects = [];
 
         function initGarden() {
             gardener = new Gardener();
-            gardener.x = width * 0.55;
-            gardener.y = height * 0.82;
-
-            plantObjects = gardenState.plants.map((p, i) => ({
-                ...p,
-                seed: i * 137 + p.x * 1000
-            }));
+            gardener.x = width * 0.5;
+            gardener.y = height * 0.68;
 
             document.getElementById('garden-name').textContent = gardenState.name;
             updateStatus();
@@ -1003,12 +997,12 @@
             }
             const hour = new Date().getHours();
             const messages = {
-                5: 'Dawn light through the arch...',
-                9: 'A peaceful secret morning...',
-                12: 'Sunlight warms the stones...',
-                17: 'Golden light on ancient walls...',
-                20: 'Evening settles in the garden...',
-                23: 'Moonlight through the gate...'
+                5: 'Dawn mist in the garden...',
+                9: 'Peaceful morning blooms...',
+                12: 'Dappled sunlight through leaves...',
+                17: 'Golden hour in the garden...',
+                20: 'Evening calm settles...',
+                23: 'Moonlight on the path...'
             };
             let msg = messages[23];
             for (const [h, m] of Object.entries(messages)) {
@@ -1021,79 +1015,71 @@
         // INTERACTIONS
         // ═══════════════════════════════════════════════════════════════════
 
-        const plantStories = {
-            bush: {
-                icon: '🌿',
-                title: 'Garden Shrub',
+        const tooltip = document.getElementById('plant-tooltip');
+
+        function findInteractable(clickX, clickY) {
+            // Check gardener
+            const gx = gardener.x;
+            const gy = gardener.y - 20;
+            if (Math.sqrt((clickX - gx) ** 2 + (clickY - gy) ** 2) < 45) {
+                return { type: 'gardener' };
+            }
+
+            // Check flower areas (left border)
+            if (clickX < width * 0.35 && clickY > height * 0.35) {
+                return { type: 'flowers', side: 'left' };
+            }
+
+            // Check flower areas (right border)
+            if (clickX > width * 0.65 && clickY > height * 0.35) {
+                return { type: 'flowers', side: 'right' };
+            }
+
+            // Check path
+            if (clickX > width * 0.35 && clickX < width * 0.65 && clickY > height * 0.4) {
+                return { type: 'path' };
+            }
+
+            return null;
+        }
+
+        const interactions = {
+            gardener: {
+                icon: '👨‍🌾',
+                title: 'Your Gardener',
                 messages: [
-                    'Thriving in this sheltered space.',
-                    'Your care helps me flourish.',
-                    'Growing strong within these walls.'
+                    'Tending your garden with care...',
+                    'Every healthy choice helps it grow.',
+                    'This peaceful space reflects you.'
                 ]
             },
             flowers: {
                 icon: '🌸',
-                title: 'Wildflowers',
+                title: 'Flower Border',
                 messages: [
-                    'Blooming in your secret garden!',
-                    'Each petal reflects your care.',
-                    'Color from your healthy choices.'
+                    'Blooming from your healthy choices!',
+                    'Each flower reflects your progress.',
+                    'Color and life from your care.'
                 ]
             },
-            pot: {
-                icon: '🪴',
-                title: 'Potted Plant',
+            path: {
+                icon: '🌿',
+                title: 'Garden Path',
                 messages: [
-                    'Carefully tended and loved.',
-                    'A little treasure in your garden.',
-                    'Growing happily in its home.'
-                ]
-            },
-            tree: {
-                icon: '🌳',
-                title: 'Garden Tree',
-                messages: [
-                    'Reaching toward the sky.',
-                    'Deep roots from your consistency.',
-                    'Steady growth through steady care.'
+                    'A peaceful walk through your garden...',
+                    'Each step on your wellness journey.',
+                    'The path grows clearer each day.'
                 ]
             }
         };
 
-        const tooltip = document.getElementById('plant-tooltip');
-
-        function showPlantTooltip(plant) {
-            const story = plantStories[plant.type] || plantStories.flowers;
-            document.getElementById('tooltip-icon').textContent = story.icon;
-            document.getElementById('tooltip-title').textContent = story.title;
-            const msg = story.messages[Math.floor(Math.random() * story.messages.length)];
+        function showTooltip(item) {
+            const info = interactions[item.type] || interactions.flowers;
+            document.getElementById('tooltip-icon').textContent = info.icon;
+            document.getElementById('tooltip-title').textContent = info.title;
+            const msg = info.messages[Math.floor(Math.random() * info.messages.length)];
             document.getElementById('tooltip-message').textContent = msg;
             tooltip.classList.add('visible');
-        }
-
-        function findPlantAt(clickX, clickY) {
-            // Map plant positions in the enclosed garden space
-            for (const plant of plantObjects) {
-                // Plants are positioned within the garden bounds
-                const px = width * 0.15 + plant.x * width * 0.7;
-                const py = height * (0.70 + plant.layer * 0.08);
-                const hitRadius = 45;
-
-                const dx = clickX - px;
-                const dy = clickY - py;
-                if (Math.sqrt(dx * dx + dy * dy) < hitRadius) {
-                    return plant;
-                }
-            }
-
-            // Check gardener
-            const gx = gardener.x;
-            const gy = gardener.y - 20;
-            if (Math.sqrt((clickX - gx) ** 2 + (clickY - gy) ** 2) < 40) {
-                return { type: 'gardener' };
-            }
-
-            return null;
         }
 
         // ═══════════════════════════════════════════════════════════════════
@@ -1107,51 +1093,28 @@
 
             ctx.clearRect(0, 0, width, height);
 
-            // Sky (visible above walls)
-            drawSky(ctx, p);
-            drawSun(ctx, p, timeOfDay);
-            drawClouds(ctx, p, time);
+            // Fill with deep foliage color as base
+            ctx.fillStyle = p.foliageDeep;
+            ctx.fillRect(0, 0, width, height);
 
-            // Back wall with arch
-            drawWalls(ctx, p);
-            drawArchGate(ctx, p);
+            // Tree canopy at top
+            drawCanopy(ctx, p, time);
 
-            // Side walls
-            drawSideWalls(ctx, p);
+            // Grass path through middle
+            drawGrassPath(ctx, p);
 
-            // Garden floor
-            drawGardenGround(ctx, p);
-            drawGardenPath(ctx, p);
+            // Flower borders on both sides (back to front)
+            drawFlowerBorders(ctx, p, time);
 
-            // Vines on walls
-            drawVines(ctx, p, time);
+            // Feature flowers
+            drawFeatureFlowers(ctx, p, time);
 
-            // Plants - bushes along walls
-            plantObjects.filter(pl => pl.type === 'bush').forEach(pl => {
-                const px = width * 0.15 + pl.x * width * 0.7;
-                drawBush(ctx, px, height * 0.72, pl.growth * 0.7, p, pl.seed);
-            });
-
-            // Small tree if health is good
-            if (gardenState.health > 0.6) {
-                drawSmallTree(ctx, width * 0.22, height * 0.68, 0.6, p);
-            }
-
-            // Potted plants
-            plantObjects.filter(pl => pl.type === 'pot').forEach(pl => {
-                const px = width * 0.15 + pl.x * width * 0.7;
-                drawPottedPlant(ctx, px, height * 0.88, pl.growth * 0.8, p, pl.seed);
-            });
-
-            // Gardener
+            // Gardener on the path
             gardener.update(time);
             gardener.draw(ctx, p);
 
-            // Flower beds
-            plantObjects.filter(pl => pl.type === 'flowers').forEach(pl => {
-                const px = width * 0.15 + pl.x * width * 0.7;
-                drawFlowerBed(ctx, px, height * 0.85, 60 * pl.growth, p, pl.seed);
-            });
+            // Foreground elements
+            drawForeground(ctx, p, time);
 
             requestAnimationFrame(render);
         }
@@ -1171,16 +1134,9 @@
 
                 canvas.addEventListener('click', e => {
                     const rect = canvas.getBoundingClientRect();
-                    const plant = findPlantAt(e.clientX - rect.left, e.clientY - rect.top);
-                    if (plant) {
-                        if (plant.type === 'gardener') {
-                            document.getElementById('tooltip-icon').textContent = '👨‍🌾';
-                            document.getElementById('tooltip-title').textContent = 'Your Gardener';
-                            document.getElementById('tooltip-message').textContent = 'Tending your secret garden with care. This peaceful space grows with every healthy choice.';
-                            tooltip.classList.add('visible');
-                        } else {
-                            showPlantTooltip(plant);
-                        }
+                    const item = findInteractable(e.clientX - rect.left, e.clientY - rect.top);
+                    if (item) {
+                        showTooltip(item);
                     } else {
                         tooltip.classList.remove('visible');
                     }
@@ -1190,16 +1146,9 @@
                     e.preventDefault();
                     const touch = e.touches[0];
                     const rect = canvas.getBoundingClientRect();
-                    const plant = findPlantAt(touch.clientX - rect.left, touch.clientY - rect.top);
-                    if (plant) {
-                        if (plant.type === 'gardener') {
-                            document.getElementById('tooltip-icon').textContent = '👨‍🌾';
-                            document.getElementById('tooltip-title').textContent = 'Your Gardener';
-                            document.getElementById('tooltip-message').textContent = 'Tending your secret garden with care. This peaceful space grows with every healthy choice.';
-                            tooltip.classList.add('visible');
-                        } else {
-                            showPlantTooltip(plant);
-                        }
+                    const item = findInteractable(touch.clientX - rect.left, touch.clientY - rect.top);
+                    if (item) {
+                        showTooltip(item);
                     }
                 }, { passive: false });
 
