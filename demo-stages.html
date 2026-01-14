@@ -3,322 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hushful Garden - Stage Demo</title>
+    <title>Hushful Garden - Stages Demo</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Georgia', serif;
             background: #1a1a2e;
-            color: #f0e8d8;
+            color: #e8e8f0;
             padding: 20px;
         }
-
         h1 {
             text-align: center;
-            color: #d4c4a8;
             margin-bottom: 10px;
-            font-weight: 400;
+            color: #f0e0d0;
+            font-size: 28px;
         }
-
         .subtitle {
             text-align: center;
-            color: #8a7a6a;
             margin-bottom: 30px;
-            font-style: italic;
+            color: #a0a0b0;
+            font-size: 14px;
         }
-
-        .stages {
+        .controls {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
+        .controls button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .controls button.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .btn-dawn { background: linear-gradient(135deg, #e080a0, #f8a088); color: #3a2030; }
+        .btn-day { background: linear-gradient(135deg, #50a8c0, #80c8d8); color: #1a3040; }
+        .btn-golden { background: linear-gradient(135deg, #e0a050, #f8c060); color: #3a2010; }
+        .btn-dusk { background: linear-gradient(135deg, #c060a0, #e080a0); color: #2a1030; }
+        .btn-night { background: linear-gradient(135deg, #203050, #304060); color: #c0c0d0; }
 
+        .stages { max-width: 900px; margin: 0 auto; }
         .stage {
-            background: rgba(40, 35, 50, 0.6);
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.03);
             border-radius: 16px;
             overflow: hidden;
-            border: 1px solid rgba(100, 90, 80, 0.2);
+            border: 1px solid rgba(255,255,255,0.08);
         }
-
         .stage-header {
-            padding: 16px 20px;
-            background: rgba(60, 50, 70, 0.4);
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
         }
-
+        .stage-number {
+            font-size: 12px;
+            color: #808090;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
         .stage-title {
             font-size: 18px;
-            color: #e0d0c0;
+            font-weight: 600;
+            color: #f0e8e0;
+            margin-left: 10px;
         }
-
-        .stage-number {
-            background: rgba(200, 180, 150, 0.15);
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            color: #c8b898;
-        }
-
         .stage-metrics {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
         }
-
         .metric {
             font-size: 11px;
-            color: #9a8a7a;
+            color: #909098;
         }
-
         .metric span {
-            color: #c8b898;
+            color: #c0b8b0;
+            font-weight: 600;
         }
-
         .canvas-container {
-            position: relative;
-            height: 280px;
+            width: 100%;
+            height: 300px;
+            background: #101018;
         }
-
-        canvas {
+        .canvas-container canvas {
             width: 100%;
             height: 100%;
+            display: block;
         }
-
         .stage-description {
-            padding: 16px 20px;
-            background: rgba(50, 45, 60, 0.3);
+            padding: 15px 20px;
             font-size: 13px;
-            color: #a09080;
-            line-height: 1.6;
-        }
-
-        .stage-description strong {
-            color: #c8b898;
-        }
-
-        .controls {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .controls button {
-            background: rgba(200, 180, 150, 0.15);
-            border: 1px solid rgba(200, 180, 150, 0.3);
-            color: #d4c4a8;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: inherit;
-            margin: 0 5px;
-            transition: all 0.2s;
-        }
-
-        .controls button:hover {
-            background: rgba(200, 180, 150, 0.25);
-        }
-
-        .controls button.active {
-            background: rgba(200, 180, 150, 0.3);
-            border-color: rgba(200, 180, 150, 0.5);
-        }
-
-        @media (max-width: 600px) {
-            .stage-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .canvas-container {
-                height: 220px;
-            }
+            color: #a0a0a8;
+            font-style: italic;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
     </style>
 </head>
 <body>
     <h1>Hushful Garden Stages</h1>
-    <p class="subtitle">How the garden evolves based on user metabolic data and engagement</p>
+    <p class="subtitle">Kawase Hasui woodblock print style - watch your garden grow with your metabolic health</p>
 
     <div class="controls">
-        <button onclick="setTimeOfDay(0.35)" class="active">Dawn</button>
-        <button onclick="setTimeOfDay(0.5)">Day</button>
-        <button onclick="setTimeOfDay(0.7)">Golden</button>
-        <button onclick="setTimeOfDay(0.78)">Dusk</button>
-        <button onclick="setTimeOfDay(0.1)">Night</button>
+        <button class="btn-dawn" onclick="setTimeOfDay(0.25)">Dawn</button>
+        <button class="btn-day active" onclick="setTimeOfDay(0.5)">Day</button>
+        <button class="btn-golden" onclick="setTimeOfDay(0.68)">Golden Hour</button>
+        <button class="btn-dusk" onclick="setTimeOfDay(0.78)">Dusk</button>
+        <button class="btn-night" onclick="setTimeOfDay(0.95)">Night</button>
     </div>
 
-    <div class="stages" id="stages"></div>
+    <div id="stages" class="stages"></div>
 
     <script>
         // ═══════════════════════════════════════════════════════════════════
-        // GARDEN STAGES CONFIGURATION
+        // STAGE DEFINITIONS
         // ═══════════════════════════════════════════════════════════════════
 
         const stages = [
             {
-                title: "1. New User - Just Started",
-                description: "<strong>Just onboarded:</strong> Basic grass foundation only. The garden awaits nurturing through engagement, food logging, and connecting health devices.",
-                health: 0.15,
-                metrics: { engagement: 0.05, food: 0.0, ketone: 0.0, glucose: 0.5 },
+                title: 'Stage 1 - New Beginning',
+                description: 'A new user just starting their journey. The garden is sparse but full of potential.',
+                health: 0.2,
+                metrics: { engagement: 0.1, food: 0.1, ketone: 0.2, glucose: 0.3 },
                 plants: [
-                    { x: 0.15, type: 'grass', growth: 0.4, layer: 2 },
-                    { x: 0.4, type: 'grass', growth: 0.35, layer: 2 },
-                    { x: 0.65, type: 'grass', growth: 0.4, layer: 2 },
-                    { x: 0.85, type: 'grass', growth: 0.3, layer: 2 },
+                    { x: 0.5, type: 'flowers', growth: 0.3, layer: 2 },
+                    { x: 0.3, type: 'flowers', growth: 0.2, layer: 2 },
                 ]
             },
             {
-                title: "2. Early Engagement - First Week",
-                description: "<strong>Starting to engage:</strong> A few check-ins, maybe uploaded first food photo. Small bush emerging, ferns appearing. Garden starting to take shape.",
+                title: 'Stage 2 - First Sprouts',
+                description: 'A week of engagement. Small bushes appear, flowers begin to bloom.',
                 health: 0.35,
-                metrics: { engagement: 0.25, food: 0.2, ketone: 0.0, glucose: 0.5 },
+                metrics: { engagement: 0.3, food: 0.25, ketone: 0.35, glucose: 0.4 },
                 plants: [
-                    { x: 0.3, type: 'bush', growth: 0.35, layer: 0 },
-                    { x: 0.5, type: 'fern', growth: 0.4, layer: 1 },
-                    { x: 0.7, type: 'fern', growth: 0.3, layer: 1 },
-                    { x: 0.1, type: 'grass', growth: 0.5, layer: 2 },
-                    { x: 0.4, type: 'grass', growth: 0.5, layer: 2 },
-                    { x: 0.6, type: 'grass', growth: 0.5, layer: 2 },
-                    { x: 0.9, type: 'grass', growth: 0.45, layer: 2 },
+                    { x: 0.4, type: 'bush', growth: 0.4, layer: 1 },
+                    { x: 0.25, type: 'flowers', growth: 0.5, layer: 2 },
+                    { x: 0.6, type: 'flowers', growth: 0.4, layer: 2 },
+                    { x: 0.8, type: 'flowers', growth: 0.3, layer: 2 },
                 ]
             },
             {
-                title: "3. Active User - Logging Food",
-                description: "<strong>Regular food logging:</strong> Tulips blooming from meal photos. Bushes growing fuller. First wildflowers appearing. Connected CGM shows stable glucose = healthy tree.",
-                health: 0.55,
-                metrics: { engagement: 0.45, food: 0.5, ketone: 0.0, glucose: 0.6 },
+                title: 'Stage 3 - Growing Strong',
+                description: 'Two weeks of consistent tracking. The first tree takes root!',
+                health: 0.5,
+                metrics: { engagement: 0.5, food: 0.45, ketone: 0.5, glucose: 0.55 },
                 plants: [
-                    { x: 0.15, type: 'tree', growth: 0.5, layer: 0 },
-                    { x: 0.5, type: 'bush', growth: 0.55, layer: 0 },
-                    { x: 0.8, type: 'bush', growth: 0.45, layer: 0 },
-                    { x: 0.3, type: 'tulip', growth: 0.55, layer: 1 },
-                    { x: 0.55, type: 'tulip', growth: 0.45, layer: 1 },
-                    { x: 0.7, type: 'fern', growth: 0.5, layer: 1 },
-                    { x: 0.2, type: 'wildflower', growth: 0.4, layer: 1 },
-                    { x: 0.08, type: 'grass', growth: 0.6, layer: 2 },
-                    { x: 0.4, type: 'grass', growth: 0.6, layer: 2 },
-                    { x: 0.65, type: 'grass', growth: 0.55, layer: 2 },
-                    { x: 0.9, type: 'grass', growth: 0.6, layer: 2 },
+                    { x: 0.2, type: 'tree', growth: 0.5, layer: 0 },
+                    { x: 0.5, type: 'bush', growth: 0.6, layer: 1 },
+                    { x: 0.7, type: 'bush', growth: 0.5, layer: 1 },
+                    { x: 0.35, type: 'flowers', growth: 0.6, layer: 2 },
+                    { x: 0.6, type: 'flowers', growth: 0.7, layer: 2 },
+                    { x: 0.85, type: 'flowers', growth: 0.5, layer: 2 },
                 ]
             },
             {
-                title: "4. Thriving - Ketones + CGM Active",
-                description: "<strong>Full metabolic tracking:</strong> Ketone data triggers lavender blooms. Stable glucose grows strong trees. Tulips flourish from consistent food logging. Wildflowers dance everywhere.",
-                health: 0.75,
-                metrics: { engagement: 0.7, food: 0.65, ketone: 0.6, glucose: 0.75 },
+                title: 'Stage 4 - Flourishing',
+                description: 'A month of dedication. Multiple trees, lush bushes, vibrant flowers.',
+                health: 0.7,
+                metrics: { engagement: 0.7, food: 0.65, ketone: 0.7, glucose: 0.75 },
                 plants: [
-                    { x: 0.1, type: 'tree', growth: 0.75, layer: 0 },
-                    { x: 0.7, type: 'tree', growth: 0.65, layer: 0 },
-                    { x: 0.35, type: 'bush', growth: 0.7, layer: 0 },
-                    { x: 0.85, type: 'bush', growth: 0.6, layer: 0 },
-                    { x: 0.25, type: 'lavender', growth: 0.65, layer: 1 },
-                    { x: 0.6, type: 'lavender', growth: 0.55, layer: 1 },
-                    { x: 0.4, type: 'tulip', growth: 0.7, layer: 1 },
-                    { x: 0.75, type: 'tulip', growth: 0.6, layer: 1 },
-                    { x: 0.5, type: 'fern', growth: 0.65, layer: 1 },
-                    { x: 0.15, type: 'wildflower', growth: 0.6, layer: 1 },
-                    { x: 0.8, type: 'wildflower', growth: 0.55, layer: 1 },
-                    { x: 0.08, type: 'grass', growth: 0.7, layer: 2 },
-                    { x: 0.32, type: 'grass', growth: 0.7, layer: 2 },
-                    { x: 0.58, type: 'grass', growth: 0.65, layer: 2 },
-                    { x: 0.85, type: 'grass', growth: 0.7, layer: 2 },
-                    { x: 0.2, type: 'wildflower', growth: 0.6, layer: 2 },
-                    { x: 0.72, type: 'wildflower', growth: 0.55, layer: 2 },
+                    { x: 0.15, type: 'tree', growth: 0.7, layer: 0 },
+                    { x: 0.8, type: 'tree', growth: 0.6, layer: 0 },
+                    { x: 0.35, type: 'bush', growth: 0.75, layer: 1 },
+                    { x: 0.6, type: 'bush', growth: 0.7, layer: 1 },
+                    { x: 0.2, type: 'flowers', growth: 0.8, layer: 2 },
+                    { x: 0.45, type: 'flowers', growth: 0.85, layer: 2 },
+                    { x: 0.7, type: 'flowers', growth: 0.75, layer: 2 },
+                    { x: 0.9, type: 'flowers', growth: 0.7, layer: 2 },
                 ]
             },
             {
-                title: "5. Flourishing - Optimal Metabolic Health",
-                description: "<strong>Peak garden state:</strong> Deep ketosis blooms abundant lavender and wildflowers. Rock-solid glucose stability = majestic trees. Consistent logging = vibrant tulips. The garden radiates wellness.",
-                health: 0.92,
-                metrics: { engagement: 0.9, food: 0.85, ketone: 0.85, glucose: 0.9 },
+                title: 'Stage 5 - Paradise',
+                description: 'Metabolic mastery achieved! A thriving garden that reflects your vibrant health.',
+                health: 0.9,
+                metrics: { engagement: 0.9, food: 0.85, ketone: 0.9, glucose: 0.92 },
                 plants: [
-                    { x: 0.08, type: 'tree', growth: 0.95, layer: 0 },
-                    { x: 0.65, type: 'tree', growth: 0.88, layer: 0 },
-                    { x: 0.35, type: 'bush', growth: 0.9, layer: 0 },
-                    { x: 0.85, type: 'bush', growth: 0.85, layer: 0 },
-                    { x: 0.5, type: 'bush', growth: 0.75, layer: 0 },
-                    { x: 0.2, type: 'lavender', growth: 0.9, layer: 1 },
-                    { x: 0.55, type: 'lavender', growth: 0.85, layer: 1 },
-                    { x: 0.78, type: 'lavender', growth: 0.8, layer: 1 },
-                    { x: 0.35, type: 'tulip', growth: 0.9, layer: 1 },
-                    { x: 0.6, type: 'tulip', growth: 0.85, layer: 1 },
-                    { x: 0.45, type: 'fern', growth: 0.85, layer: 1 },
-                    { x: 0.9, type: 'fern', growth: 0.75, layer: 1 },
-                    { x: 0.12, type: 'wildflower', growth: 0.85, layer: 1 },
-                    { x: 0.7, type: 'wildflower', growth: 0.8, layer: 1 },
-                    { x: 0.28, type: 'wildflower', growth: 0.75, layer: 1 },
-                    { x: 0.05, type: 'grass', growth: 0.9, layer: 2 },
-                    { x: 0.25, type: 'grass', growth: 0.9, layer: 2 },
-                    { x: 0.48, type: 'grass', growth: 0.85, layer: 2 },
-                    { x: 0.72, type: 'grass', growth: 0.9, layer: 2 },
-                    { x: 0.92, type: 'grass', growth: 0.85, layer: 2 },
-                    { x: 0.15, type: 'wildflower', growth: 0.85, layer: 2 },
-                    { x: 0.4, type: 'wildflower', growth: 0.8, layer: 2 },
-                    { x: 0.62, type: 'wildflower', growth: 0.82, layer: 2 },
-                    { x: 0.82, type: 'wildflower', growth: 0.78, layer: 2 },
+                    { x: 0.12, type: 'tree', growth: 0.9, layer: 0 },
+                    { x: 0.5, type: 'tree', growth: 0.85, layer: 0 },
+                    { x: 0.88, type: 'tree', growth: 0.8, layer: 0 },
+                    { x: 0.28, type: 'bush', growth: 0.9, layer: 1 },
+                    { x: 0.65, type: 'bush', growth: 0.85, layer: 1 },
+                    { x: 0.15, type: 'flowers', growth: 0.95, layer: 2 },
+                    { x: 0.35, type: 'flowers', growth: 0.9, layer: 2 },
+                    { x: 0.55, type: 'flowers', growth: 0.92, layer: 2 },
+                    { x: 0.75, type: 'flowers', growth: 0.88, layer: 2 },
+                    { x: 0.92, type: 'flowers', growth: 0.85, layer: 2 },
                 ]
             }
         ];
 
-        // ═══════════════════════════════════════════════════════════════════
-        // RENDERING ENGINE (simplified from main garden)
-        // ═══════════════════════════════════════════════════════════════════
+        let currentTimeOfDay = 0.5; // Start at midday
 
-        let currentTimeOfDay = 0.35; // Dawn default
+        // ═══════════════════════════════════════════════════════════════════
+        // KAWASE HASUI COLOR PALETTES
+        // ═══════════════════════════════════════════════════════════════════
 
         const palettes = {
-            dawn: { skyTop: '#bfa8c4', skyMid: '#e0c8b8', skyBottom: '#f0dcc8', sun: '#ffecd4', groundFar: '#98b090', groundMid: '#7a9870', groundNear: '#5c8058', warmth: 0.15 },
-            day: { skyTop: '#94b8c8', skyMid: '#c8dce4', skyBottom: '#e4eff4', sun: '#fff8e0', groundFar: '#88a880', groundMid: '#6c9064', groundNear: '#547850', warmth: 0 },
-            golden: { skyTop: '#c8b898', skyMid: '#e0d0a8', skyBottom: '#f0e4c0', sun: '#ffe0a0', groundFar: '#90a078', groundMid: '#788860', groundNear: '#586848', warmth: 0.25 },
-            dusk: { skyTop: '#786888', skyMid: '#b898a0', skyBottom: '#d8b8b0', sun: '#f0c8a8', groundFar: '#687860', groundMid: '#485840', groundNear: '#384830', warmth: 0.2 },
-            night: { skyTop: '#1c1828', skyMid: '#282438', skyBottom: '#383450', moon: '#e0dce8', groundFar: '#283828', groundMid: '#182818', groundNear: '#0c180c', warmth: -0.1 }
+            dawn: {
+                skyTop: '#4a5580',
+                skyMid: '#8060a0',
+                skyLow: '#e080a0',
+                skyHorizon: '#f8a088',
+                clouds: '#ff90b0',
+                cloudShadow: '#c060a0',
+                sun: '#ffcc88',
+                sunGlow: '#ff9060',
+                hillFar: '#406858',
+                hillMid: '#305848',
+                hillNear: '#204838',
+                groundFar: '#386048',
+                groundMid: '#285038',
+                groundNear: '#1a4030',
+                flower1: '#ff7090',
+                flower2: '#ffaa60',
+                flower3: '#90d0ff',
+                tree: '#1a3828',
+                treeFoliage: '#2a5838',
+                path: '#c8a878'
+            },
+            day: {
+                skyTop: '#3080a0',
+                skyMid: '#50a8c0',
+                skyLow: '#80c8d8',
+                skyHorizon: '#c0e0e8',
+                clouds: '#f0f8ff',
+                cloudShadow: '#a0c8d8',
+                sun: '#fff8e0',
+                sunGlow: '#ffe8b0',
+                hillFar: '#508868',
+                hillMid: '#407858',
+                hillNear: '#306848',
+                groundFar: '#488858',
+                groundMid: '#387848',
+                groundNear: '#286838',
+                flower1: '#ff6080',
+                flower2: '#ffa050',
+                flower3: '#80c0ff',
+                tree: '#1a3020',
+                treeFoliage: '#285028',
+                path: '#d8b888'
+            },
+            golden: {
+                skyTop: '#5070a0',
+                skyMid: '#a08850',
+                skyLow: '#e0a050',
+                skyHorizon: '#f8c060',
+                clouds: '#ffd080',
+                cloudShadow: '#c89040',
+                sun: '#fff0a0',
+                sunGlow: '#ffc040',
+                hillFar: '#607048',
+                hillMid: '#506038',
+                hillNear: '#405028',
+                groundFar: '#587040',
+                groundMid: '#486030',
+                groundNear: '#385020',
+                flower1: '#ff8060',
+                flower2: '#ffc040',
+                flower3: '#a0d080',
+                tree: '#283018',
+                treeFoliage: '#384820',
+                path: '#e0c090'
+            },
+            dusk: {
+                skyTop: '#3048a0',
+                skyMid: '#6050a0',
+                skyLow: '#c060a0',
+                skyHorizon: '#e080a0',
+                clouds: '#e888c0',
+                cloudShadow: '#9050a0',
+                sun: '#ffa080',
+                sunGlow: '#ff7060',
+                hillFar: '#484870',
+                hillMid: '#383860',
+                hillNear: '#282850',
+                groundFar: '#404068',
+                groundMid: '#303058',
+                groundNear: '#202048',
+                flower1: '#ff70c0',
+                flower2: '#ffa080',
+                flower3: '#80a0ff',
+                tree: '#181830',
+                treeFoliage: '#282848',
+                path: '#9080a0'
+            },
+            night: {
+                skyTop: '#101830',
+                skyMid: '#182040',
+                skyLow: '#203050',
+                skyHorizon: '#304060',
+                clouds: '#384868',
+                cloudShadow: '#202840',
+                moon: '#e0e8ff',
+                moonGlow: '#8090c0',
+                hillFar: '#1a2838',
+                hillMid: '#142030',
+                hillNear: '#101828',
+                groundFar: '#182030',
+                groundMid: '#101828',
+                groundNear: '#0a1020',
+                flower1: '#6080a0',
+                flower2: '#7090a0',
+                flower3: '#5070a0',
+                tree: '#0a1018',
+                treeFoliage: '#101820',
+                path: '#384050'
+            }
         };
 
         function getPalette(t) {
-            if (t < 0.22 || t > 0.88) return palettes.night;
-            if (t < 0.32) return lerpPalette(palettes.night, palettes.dawn, (t - 0.22) / 0.1);
-            if (t < 0.42) return lerpPalette(palettes.dawn, palettes.day, (t - 0.32) / 0.1);
-            if (t < 0.65) return palettes.day;
-            if (t < 0.72) return lerpPalette(palettes.day, palettes.golden, (t - 0.65) / 0.07);
-            if (t < 0.80) return lerpPalette(palettes.golden, palettes.dusk, (t - 0.72) / 0.08);
-            return lerpPalette(palettes.dusk, palettes.night, (t - 0.80) / 0.08);
+            if (t < 0.22) return lerpPalette(palettes.night, palettes.dawn, t / 0.22);
+            if (t < 0.35) return lerpPalette(palettes.dawn, palettes.day, (t - 0.22) / 0.13);
+            if (t < 0.6) return palettes.day;
+            if (t < 0.72) return lerpPalette(palettes.day, palettes.golden, (t - 0.6) / 0.12);
+            if (t < 0.82) return lerpPalette(palettes.golden, palettes.dusk, (t - 0.72) / 0.1);
+            if (t < 0.92) return lerpPalette(palettes.dusk, palettes.night, (t - 0.82) / 0.1);
+            return palettes.night;
         }
 
-        function lerpPalette(a, b, t) {
+        function lerpPalette(p1, p2, t) {
             const result = {};
-            for (const key of Object.keys(a)) {
-                if (typeof a[key] === 'number') result[key] = a[key] + (b[key] - a[key]) * t;
-                else result[key] = lerpColor(a[key], b[key], t);
+            for (const key in p1) {
+                if (typeof p1[key] === 'string' && p1[key].startsWith('#')) {
+                    result[key] = lerpColor(p1[key], p2[key], t);
+                } else {
+                    result[key] = p1[key];
+                }
             }
             return result;
         }
 
         function lerpColor(c1, c2, t) {
-            if (!c1 || !c2 || c1.startsWith('rgba') || c2.startsWith('rgba')) return c1 || c2;
             const r1 = parseInt(c1.slice(1,3), 16), g1 = parseInt(c1.slice(3,5), 16), b1 = parseInt(c1.slice(5,7), 16);
             const r2 = parseInt(c2.slice(1,3), 16), g2 = parseInt(c2.slice(3,5), 16), b2 = parseInt(c2.slice(5,7), 16);
-            const r = Math.round(r1 + (r2 - r1) * t), g = Math.round(g1 + (g2 - g1) * t), b = Math.round(b1 + (b2 - b1) * t);
+            const r = Math.round(r1 + (r2 - r1) * t);
+            const g = Math.round(g1 + (g2 - g1) * t);
+            const b = Math.round(b1 + (b2 - b1) * t);
             return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
-        }
-
-        function applyWarmth(color, amount) {
-            if (!color || color.startsWith('rgba')) return color;
-            const r = parseInt(color.slice(1,3), 16);
-            const g = parseInt(color.slice(3,5), 16);
-            const b = parseInt(color.slice(5,7), 16);
-            const warmR = Math.min(255, Math.max(0, r + amount * 30));
-            const warmG = Math.min(255, Math.max(0, g + amount * 10));
-            const warmB = Math.min(255, Math.max(0, b - amount * 15));
-            return `rgb(${Math.round(warmR)}, ${Math.round(warmG)}, ${Math.round(warmB)})`;
         }
 
         function seededRandom(seed) {
@@ -326,221 +358,391 @@
             return x - Math.floor(x);
         }
 
-        function drawGlow(ctx, x, y, radius, color, opacity = 0.3) {
-            try {
-                const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                let c = color;
-                if (c.startsWith('rgb(')) {
-                    c = c.replace('rgb(', 'rgba(').replace(')', `, ${opacity})`);
-                } else {
-                    c = `rgba(255, 255, 200, ${opacity})`;
-                }
-                gradient.addColorStop(0, c);
-                gradient.addColorStop(1, 'transparent');
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(x, y, radius, 0, Math.PI * 2);
-                ctx.fill();
-            } catch (e) {}
+        // ═══════════════════════════════════════════════════════════════════
+        // DRAWING FUNCTIONS
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawSky(ctx, p, w, h) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, h * 0.7);
+            gradient.addColorStop(0, p.skyTop);
+            gradient.addColorStop(0.35, p.skyMid);
+            gradient.addColorStop(0.7, p.skyLow);
+            gradient.addColorStop(1, p.skyHorizon);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, w, h);
         }
 
-        // ═══════════════════════════════════════════════════════════════════
-        // PLANT DRAWING
-        // ═══════════════════════════════════════════════════════════════════
+        function drawClouds(ctx, p, w, h, time) {
+            if (!p.clouds || p.clouds === p.cloudShadow) return;
 
-        function drawPlant(ctx, plant, width, height, time, palette) {
-            const layerGroundY = [height * 0.73, height * 0.79, height * 0.87][plant.layer];
-            const x = plant.x * width;
-            const growth = plant.growth;
-            const scale = [0.5, 0.75, 1][plant.layer];
-            const sway = Math.sin(time * 0.5 + plant.x * 10) * 0.01;
-            const warmth = palette.warmth || 0;
-            const seed = plant.x * 1000;
+            const cloudData = [
+                { x: 0.15, y: 0.1, scale: 1.0, seed: 1 },
+                { x: 0.55, y: 0.06, scale: 1.3, seed: 2 },
+                { x: 0.85, y: 0.12, scale: 0.9, seed: 3 },
+            ];
+
+            cloudData.forEach(cloud => {
+                const cx = (cloud.x + time * 0.008 * (0.5 + cloud.seed * 0.2)) % 1.2 - 0.1;
+                const scale = cloud.scale * 40;
+
+                ctx.save();
+                ctx.translate(cx * w, cloud.y * h);
+
+                ctx.fillStyle = p.cloudShadow;
+                drawCloudShape(ctx, 2, 4, scale);
+                ctx.fillStyle = p.clouds;
+                drawCloudShape(ctx, 0, 0, scale);
+
+                ctx.restore();
+            });
+        }
+
+        function drawCloudShape(ctx, ox, oy, scale) {
+            ctx.beginPath();
+            ctx.ellipse(ox, oy, scale * 1.2, scale * 0.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(ox - scale * 0.5, oy + scale * 0.1, scale * 0.6, scale * 0.35, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(ox + scale * 0.4, oy + scale * 0.05, scale * 0.7, scale * 0.4, 0, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawSun(ctx, p, w, h, timeOfDay) {
+            const isNight = timeOfDay < 0.22 || timeOfDay > 0.85;
+
+            if (isNight) {
+                // Moon
+                ctx.fillStyle = p.moonGlow || '#8090c0';
+                ctx.beginPath();
+                ctx.arc(w * 0.8, h * 0.12, 25, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = p.moon || '#e0e8ff';
+                ctx.beginPath();
+                ctx.arc(w * 0.8, h * 0.12, 16, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Stars
+                for (let i = 0; i < 25; i++) {
+                    const sx = seededRandom(i * 7) * w;
+                    const sy = seededRandom(i * 11) * h * 0.4;
+                    const size = 0.8 + seededRandom(i * 3) * 1.5;
+                    ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + seededRandom(i * 5) * 0.5})`;
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else {
+                const dayProgress = (timeOfDay - 0.22) / 0.63;
+                const sunX = w * (0.15 + dayProgress * 0.7);
+                const sunY = h * (0.3 - Math.sin(dayProgress * Math.PI) * 0.2);
+
+                ctx.fillStyle = p.sunGlow;
+                ctx.beginPath();
+                ctx.arc(sunX, sunY, 32, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = p.sun;
+                ctx.beginPath();
+                ctx.arc(sunX, sunY, 20, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawHills(ctx, p, w, h) {
+            // Far
+            ctx.fillStyle = p.hillFar;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.5);
+            for (let x = 0; x <= w; x += 15) {
+                const y = h * 0.5 + Math.sin(x * 0.01) * 20 + Math.sin(x * 0.004) * 35;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fill();
+
+            // Mid
+            ctx.fillStyle = p.hillMid;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.58);
+            for (let x = 0; x <= w; x += 12) {
+                const y = h * 0.58 + Math.sin(x * 0.012 + 1) * 18 + Math.sin(x * 0.005) * 28;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fill();
+
+            // Near
+            ctx.fillStyle = p.hillNear;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.65);
+            for (let x = 0; x <= w; x += 8) {
+                const y = h * 0.65 + Math.sin(x * 0.015 + 2) * 14 + Math.sin(x * 0.006) * 20;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawGround(ctx, p, w, h) {
+            ctx.fillStyle = p.groundFar;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.72);
+            for (let x = 0; x <= w; x += 6) {
+                const y = h * 0.72 + Math.sin(x * 0.018 + 3) * 8;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.fillStyle = p.groundMid;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.8);
+            for (let x = 0; x <= w; x += 5) {
+                const y = h * 0.8 + Math.sin(x * 0.022 + 4) * 6;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.fillStyle = p.groundNear;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.87);
+            for (let x = 0; x <= w; x += 4) {
+                const y = h * 0.87 + Math.sin(x * 0.028 + 5) * 4;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawPath(ctx, p, w, h) {
+            ctx.fillStyle = p.path;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.45, h);
+            ctx.bezierCurveTo(w * 0.42, h * 0.92, w * 0.48, h * 0.84, w * 0.44, h * 0.76);
+            ctx.bezierCurveTo(w * 0.40, h * 0.70, w * 0.46, h * 0.66, w * 0.43, h * 0.62);
+            ctx.lineTo(w * 0.47, h * 0.62);
+            ctx.bezierCurveTo(w * 0.50, h * 0.66, w * 0.44, h * 0.70, w * 0.48, h * 0.76);
+            ctx.bezierCurveTo(w * 0.52, h * 0.84, w * 0.46, h * 0.92, w * 0.52, h);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawGardener(ctx, p, w, h, time) {
+            const x = w * 0.46;
+            const y = h * 0.74 + Math.sin(time * 2) * 1.5;
+            const scale = 0.55;
+            const ht = 40 * scale;
 
             ctx.save();
-            ctx.globalAlpha = [0.65, 0.82, 1][plant.layer];
-            ctx.translate(x, layerGroundY);
-            ctx.scale(scale, scale);
+            ctx.translate(x, y);
 
-            switch (plant.type) {
-                case 'grass': drawGrass(ctx, sway, growth, warmth, seed); break;
-                case 'fern': drawFern(ctx, sway, growth, warmth, seed); break;
-                case 'wildflower': drawWildflower(ctx, sway, growth, warmth, seed, time); break;
-                case 'tulip': drawTulip(ctx, sway, growth, warmth, seed); break;
-                case 'lavender': drawLavender(ctx, sway, growth, warmth, seed); break;
-                case 'bush': drawBush(ctx, sway, growth, warmth, seed); break;
-                case 'tree': drawTree(ctx, sway, growth, warmth, seed); break;
-            }
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.15)';
+            ctx.beginPath();
+            ctx.ellipse(0, 2, 10 * scale, 3 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Legs
+            ctx.fillStyle = '#3a4858';
+            ctx.fillRect(-4 * scale, -ht * 0.35, 3.5 * scale, ht * 0.35);
+            ctx.fillRect(0.5 * scale, -ht * 0.35, 3.5 * scale, ht * 0.35);
+
+            // Body
+            ctx.fillStyle = '#6a8860';
+            ctx.beginPath();
+            ctx.moveTo(-7 * scale, -ht * 0.35);
+            ctx.lineTo(-8 * scale, -ht * 0.75);
+            ctx.lineTo(8 * scale, -ht * 0.75);
+            ctx.lineTo(7 * scale, -ht * 0.35);
+            ctx.closePath();
+            ctx.fill();
+
+            // Arms
+            ctx.fillStyle = '#d0a888';
+            ctx.fillRect(-10 * scale, -ht * 0.7, 3.5 * scale, 12 * scale);
+            ctx.fillRect(6.5 * scale, -ht * 0.7, 3.5 * scale, 12 * scale);
+
+            // Head
+            ctx.fillStyle = '#e0b898';
+            ctx.beginPath();
+            ctx.arc(0, -ht * 0.85, 7 * scale, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Hair
+            ctx.fillStyle = '#4a3828';
+            ctx.beginPath();
+            ctx.arc(0, -ht * 0.88, 7.5 * scale, Math.PI, Math.PI * 2);
+            ctx.fill();
+
+            // Hat
+            ctx.fillStyle = '#d8c090';
+            ctx.beginPath();
+            ctx.ellipse(0, -ht * 0.95, 12 * scale, 3.5 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#c8b080';
+            ctx.beginPath();
+            ctx.ellipse(0, -ht, 7 * scale, 5 * scale, 0, Math.PI, Math.PI * 2);
+            ctx.fill();
+
+            // Tool
+            ctx.fillStyle = '#708898';
+            ctx.fillRect(8 * scale, -ht * 0.5, 7 * scale, 10 * scale);
+            ctx.fillRect(12 * scale, -ht * 0.6, 5 * scale, 3.5 * scale);
 
             ctx.restore();
         }
 
-        function drawGrass(ctx, sway, growth, warmth, seed) {
-            const h = 25 + growth * 22;
-            for (let i = 0; i < 5; i++) {
-                const offsetX = (i - 2) * 3.5;
-                const bladeH = h * (0.7 + seededRandom(seed + i) * 0.3);
-                ctx.strokeStyle = applyWarmth(`hsl(${95 + i * 3}, 32%, ${32 + seededRandom(seed + i) * 6}%)`, warmth);
-                ctx.lineWidth = 1.8;
-                ctx.lineCap = 'round';
-                ctx.beginPath();
-                ctx.moveTo(offsetX, 0);
-                ctx.quadraticCurveTo(offsetX + sway * bladeH * 30, -bladeH * 0.6, offsetX + sway * bladeH * 28, -bladeH);
-                ctx.stroke();
-            }
-        }
+        function drawTree(ctx, x, y, scale, p, seed) {
+            const ht = 90 * scale;
 
-        function drawFern(ctx, sway, growth, warmth, seed) {
-            const h = 40 + growth * 32;
-            ctx.strokeStyle = applyWarmth(`hsl(100, 30%, 36%)`, warmth);
-            ctx.lineWidth = 2.2;
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Trunk
+            ctx.fillStyle = p.tree;
             ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.quadraticCurveTo(sway * h * 22, -h * 0.5, sway * h * 17, -h);
-            ctx.stroke();
-
-            for (let i = 0; i < 8; i++) {
-                const t = 0.18 + (i / 8) * 0.78;
-                const fx = sway * h * 22 * t;
-                const fy = -h * t;
-                const side = i % 2 === 0 ? -1 : 1;
-                const frondLen = 16 * (1 - t * 0.5) * growth;
-                ctx.strokeStyle = applyWarmth(`hsl(${98 + seededRandom(seed + i) * 8}, 32%, ${38 + i * 2.5}%)`, warmth);
-                ctx.lineWidth = 1.2;
-                ctx.beginPath();
-                ctx.moveTo(fx, fy);
-                ctx.quadraticCurveTo(fx + side * frondLen * 0.72, fy - frondLen * 0.28, fx + side * frondLen, fy - frondLen * 0.08);
-                ctx.stroke();
-            }
-        }
-
-        function drawWildflower(ctx, sway, growth, warmth, seed, time) {
-            const h = 50 + growth * 40;
-            ctx.strokeStyle = applyWarmth(`hsl(95, 32%, 38%)`, warmth);
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.bezierCurveTo(sway * h * 22, -h * 0.3, sway * h * 28, -h * 0.65, sway * h * 22, -h);
-            ctx.stroke();
-
-            const fx = sway * h * 22;
-            const fy = -h;
-            const petalSize = 6 + growth * 7;
-            const baseHue = 350 + seed * 0.05;
-
-            for (let i = 0; i < 5; i++) {
-                const angle = (i / 5) * Math.PI * 2 + time * 0.04;
-                ctx.fillStyle = applyWarmth(`hsl(${baseHue + i * 5}, 35%, ${72 + seededRandom(seed + i) * 8}%)`, warmth);
-                ctx.beginPath();
-                ctx.ellipse(fx + Math.cos(angle) * petalSize * 0.4, fy + Math.sin(angle) * petalSize * 0.4, petalSize, petalSize * 0.55, angle, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            drawGlow(ctx, fx, fy, petalSize * 0.8, 'rgb(255, 240, 180)', 0.3);
-            ctx.fillStyle = applyWarmth('#f8e8b8', warmth);
-            ctx.beginPath();
-            ctx.arc(fx, fy, petalSize * 0.32, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        function drawTulip(ctx, sway, growth, warmth, seed) {
-            const h = 45 + growth * 35;
-            ctx.strokeStyle = applyWarmth(`hsl(100, 30%, 35%)`, warmth);
-            ctx.lineWidth = 3;
-            ctx.lineCap = 'round';
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.quadraticCurveTo(sway * h * 18, -h * 0.5, sway * h * 12, -h + 10);
-            ctx.stroke();
-
-            const tx = sway * h * 12;
-            const ty = -h + 10;
-            const size = 10 + growth * 9;
-            const baseHue = 355 + seed * 0.02;
-
-            ctx.fillStyle = applyWarmth(`hsl(${baseHue}, 40%, 62%)`, warmth);
-            ctx.beginPath();
-            ctx.ellipse(tx - 4, ty - 6, size * 0.52, size * 0.95, -0.2, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.ellipse(tx + 4, ty - 6, size * 0.52, size * 0.95, 0.2, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = applyWarmth(`hsl(${baseHue + 5}, 45%, 68%)`, warmth);
-            ctx.beginPath();
-            ctx.ellipse(tx, ty - 4, size * 0.62, size * 0.9, 0, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        function drawLavender(ctx, sway, growth, warmth, seed) {
-            const h = 55 + growth * 30;
-            for (let s = -1; s <= 1; s++) {
-                const offsetX = s * 7;
-                ctx.strokeStyle = applyWarmth(`hsl(105, 28%, 40%)`, warmth);
-                ctx.lineWidth = 1.5;
-                ctx.beginPath();
-                ctx.moveTo(offsetX, 0);
-                ctx.bezierCurveTo(offsetX + sway * h * 16, -h * 0.4, offsetX + sway * h * 22, -h * 0.7, offsetX + sway * h * 16, -h);
-                ctx.stroke();
-
-                const budCount = 6 + Math.floor(growth * 5);
-                for (let i = 0; i < budCount; i++) {
-                    const t = 0.35 + (i / budCount) * 0.65;
-                    const bx = offsetX + sway * h * 16 * t;
-                    const by = -h * t;
-                    const budSize = 2.2 + (1 - t) * 2.2;
-                    ctx.fillStyle = applyWarmth(`hsl(${268 + seededRandom(seed + i) * 15}, ${42 + seededRandom(seed + i + 50) * 8}%, ${58 + i * 2}%)`, warmth);
-                    ctx.beginPath();
-                    ctx.ellipse(bx + (seededRandom(seed + i * 2) - 0.5) * 3, by, budSize, budSize * 1.6, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-        }
-
-        function drawBush(ctx, sway, growth, warmth, seed) {
-            const h = 50 + growth * 45;
-            const w = h * 1.35;
-            const layers = [
-                { x: -w * 0.22, y: -h * 0.42, w: w * 0.52, h: h * 0.52, hue: 95 },
-                { x: w * 0.12, y: -h * 0.52, w: w * 0.58, h: h * 0.56, hue: 100 },
-                { x: -w * 0.12, y: -h * 0.62, w: w * 0.48, h: h * 0.48, hue: 105 },
-                { x: 0, y: -h * 0.38, w: w * 0.42, h: h * 0.42, hue: 98 },
-            ];
-
-            layers.forEach((l, i) => {
-                ctx.fillStyle = applyWarmth(`hsl(${l.hue}, 28%, ${30 + i * 5}%)`, warmth);
-                ctx.beginPath();
-                ctx.ellipse(l.x + sway * h * 9, l.y, l.w, l.h, seededRandom(seed + i) * 0.15, 0, Math.PI * 2);
-                ctx.fill();
-            });
-        }
-
-        function drawTree(ctx, sway, growth, warmth, seed) {
-            const h = 100 + growth * 65;
-
-            ctx.fillStyle = applyWarmth('#4a3a2a', warmth);
-            ctx.beginPath();
-            ctx.moveTo(-7, 0);
-            ctx.bezierCurveTo(-6, -h * 0.3, -5, -h * 0.5, -3, -h * 0.62);
-            ctx.lineTo(3, -h * 0.62);
-            ctx.bezierCurveTo(5, -h * 0.5, 6, -h * 0.3, 7, 0);
+            ctx.moveTo(-6 * scale, 0);
+            ctx.lineTo(-5 * scale, -ht * 0.4);
+            ctx.lineTo(5 * scale, -ht * 0.4);
+            ctx.lineTo(6 * scale, 0);
             ctx.closePath();
             ctx.fill();
 
-            const foliage = [
-                { x: 0, y: -h * 0.56, r: h * 0.36, hue: 95 },
-                { x: -h * 0.16, y: -h * 0.72, r: h * 0.30, hue: 100 },
-                { x: h * 0.13, y: -h * 0.74, r: h * 0.27, hue: 98 },
-                { x: 0, y: -h * 0.88, r: h * 0.23, hue: 105 },
-                { x: -h * 0.09, y: -h * 0.98, r: h * 0.16, hue: 102 },
+            // Foliage layers
+            const layers = [
+                { cy: -ht * 0.5, rx: 28, ry: 20 },
+                { cy: -ht * 0.65, rx: 32, ry: 22 },
+                { cy: -ht * 0.8, rx: 26, ry: 18 },
+                { cy: -ht * 0.92, rx: 18, ry: 13 },
             ];
 
-            foliage.forEach((f, i) => {
-                ctx.fillStyle = applyWarmth(`hsl(${f.hue}, 26%, ${28 + i * 4}%)`, warmth);
+            layers.forEach((layer, i) => {
+                ctx.fillStyle = lerpColor(p.treeFoliage, p.tree, i * 0.15);
                 ctx.beginPath();
-                ctx.ellipse(f.x + sway * h * 3.5, f.y, f.r, f.r * 0.88, 0, 0, Math.PI * 2);
+                ctx.ellipse(0, layer.cy, layer.rx * scale, layer.ry * scale, 0, 0, Math.PI * 2);
                 ctx.fill();
+            });
+
+            ctx.restore();
+        }
+
+        function drawBush(ctx, x, y, scale, p, seed) {
+            const colors = [p.groundNear, p.groundMid, p.hillNear];
+
+            ctx.save();
+            ctx.translate(x, y);
+
+            const blobs = [
+                { ox: -12, oy: -8, r: 18 },
+                { ox: 8, oy: -12, r: 20 },
+                { ox: -4, oy: -20, r: 16 },
+                { ox: 12, oy: -6, r: 14 },
+            ];
+
+            blobs.forEach((blob, i) => {
+                ctx.fillStyle = colors[i % 3];
+                ctx.beginPath();
+                ctx.arc(blob.ox * scale, blob.oy * scale, blob.r * scale, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            ctx.restore();
+        }
+
+        function drawFlower(ctx, x, y, color, scale, seed) {
+            const ht = 20 * scale;
+            const petalSize = 5 * scale;
+
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Stem
+            ctx.strokeStyle = '#2a5030';
+            ctx.lineWidth = 1.5 * scale;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(Math.sin(seed) * 2, -ht);
+            ctx.stroke();
+
+            // Petals
+            ctx.fillStyle = color;
+            const petals = 5 + Math.floor(seededRandom(seed) * 3);
+            for (let i = 0; i < petals; i++) {
+                const angle = (i / petals) * Math.PI * 2;
+                const px = Math.cos(angle) * petalSize * 0.7;
+                const py = -ht + Math.sin(angle) * petalSize * 0.7;
+                ctx.beginPath();
+                ctx.arc(px, py, petalSize * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Center
+            ctx.fillStyle = '#ffc040';
+            ctx.beginPath();
+            ctx.arc(0, -ht, petalSize * 0.35, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function drawFlowerCluster(ctx, x, y, p, count, seed) {
+            const colors = [p.flower1, p.flower2, p.flower3];
+            for (let i = 0; i < count; i++) {
+                const fx = x + (seededRandom(seed + i) - 0.5) * 35;
+                const fy = y + (seededRandom(seed + i + 100) - 0.5) * 12;
+                const color = colors[Math.floor(seededRandom(seed + i + 50) * 3)];
+                const sc = 0.5 + seededRandom(seed + i + 200) * 0.5;
+                drawFlower(ctx, fx, fy, color, sc, seed + i);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SCENE RENDERING
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawScene(ctx, stage, w, h, time) {
+            const p = getPalette(currentTimeOfDay);
+
+            ctx.clearRect(0, 0, w, h);
+
+            drawSky(ctx, p, w, h);
+            drawSun(ctx, p, w, h, currentTimeOfDay);
+            drawClouds(ctx, p, w, h, time);
+            drawHills(ctx, p, w, h);
+            drawGround(ctx, p, w, h);
+            drawPath(ctx, p, w, h);
+
+            // Trees
+            stage.plants.filter(pl => pl.type === 'tree').forEach((pl, i) => {
+                drawTree(ctx, pl.x * w, h * 0.70, pl.growth * 0.7, p, i * 137 + pl.x * 1000);
+            });
+
+            // Bushes
+            stage.plants.filter(pl => pl.type === 'bush').forEach((pl, i) => {
+                drawBush(ctx, pl.x * w, h * 0.78, pl.growth * 0.65, p, i * 137 + pl.x * 1000);
+            });
+
+            // Gardener
+            drawGardener(ctx, p, w, h, time);
+
+            // Flowers
+            stage.plants.filter(pl => pl.type === 'flowers').forEach((pl, i) => {
+                const flowerCount = 4 + Math.floor(pl.growth * 5);
+                drawFlowerCluster(ctx, pl.x * w, h * 0.85, p, flowerCount, i * 137 + pl.x * 1000);
             });
         }
 
@@ -549,12 +751,12 @@
         // ═══════════════════════════════════════════════════════════════════
 
         const canvases = [];
-        const CANVAS_HEIGHT = 280;
+        const CANVAS_HEIGHT = 300;
 
         function initStages() {
             const container = document.getElementById('stages');
             container.innerHTML = '';
-            canvases.length = 0; // Clear existing
+            canvases.length = 0;
 
             stages.forEach((stage, index) => {
                 const div = document.createElement('div');
@@ -568,7 +770,7 @@
                         <div class="stage-metrics">
                             <div class="metric">Health: <span>${Math.round(stage.health * 100)}%</span></div>
                             <div class="metric">Engagement: <span>${Math.round(stage.metrics.engagement * 100)}%</span></div>
-                            <div class="metric">Food Logging: <span>${Math.round(stage.metrics.food * 100)}%</span></div>
+                            <div class="metric">Food: <span>${Math.round(stage.metrics.food * 100)}%</span></div>
                             <div class="metric">Ketones: <span>${Math.round(stage.metrics.ketone * 100)}%</span></div>
                             <div class="metric">Glucose: <span>${Math.round(stage.metrics.glucose * 100)}%</span></div>
                         </div>
@@ -581,31 +783,20 @@
                 container.appendChild(div);
             });
 
-            // Wait for DOM to settle, then initialize canvases
             requestAnimationFrame(() => {
                 stages.forEach((stage, index) => {
                     const canvas = document.getElementById(`canvas-${index}`);
-                    const container = canvas.parentElement;
-                    const displayWidth = container.clientWidth || 800;
+                    const cont = canvas.parentElement;
+                    const displayWidth = cont.clientWidth || 800;
                     const displayHeight = CANVAS_HEIGHT;
                     const dpr = window.devicePixelRatio || 1;
 
-                    // Set actual canvas size for high DPI
                     canvas.width = displayWidth * dpr;
                     canvas.height = displayHeight * dpr;
-
-                    // Set display size
                     canvas.style.width = displayWidth + 'px';
                     canvas.style.height = displayHeight + 'px';
 
-                    // Store display dimensions for drawing
-                    canvases.push({
-                        canvas,
-                        stage,
-                        displayWidth,
-                        displayHeight,
-                        dpr
-                    });
+                    canvases.push({ canvas, stage, displayWidth, displayHeight, dpr });
                 });
             });
         }
@@ -616,113 +807,10 @@
                 const ctx = canvas.getContext('2d');
                 ctx.save();
                 ctx.scale(dpr, dpr);
-                drawSceneFixed(ctx, stage, displayWidth, displayHeight, time);
+                drawScene(ctx, stage, displayWidth, displayHeight, time);
                 ctx.restore();
             });
             requestAnimationFrame(render);
-        }
-
-        // Fixed version that takes explicit dimensions
-        function drawSceneFixed(ctx, stage, width, height, time) {
-            const palette = getPalette(currentTimeOfDay);
-            const warmth = palette.warmth || 0;
-            const isNight = currentTimeOfDay < 0.22 || currentTimeOfDay > 0.88;
-
-            // Clear
-            ctx.clearRect(0, 0, width, height);
-
-            // Sky
-            const skyGradient = ctx.createLinearGradient(0, 0, 0, height);
-            skyGradient.addColorStop(0, applyWarmth(palette.skyTop, warmth));
-            skyGradient.addColorStop(0.45, applyWarmth(palette.skyMid, warmth));
-            skyGradient.addColorStop(1, applyWarmth(palette.skyBottom, warmth));
-            ctx.fillStyle = skyGradient;
-            ctx.fillRect(0, 0, width, height);
-
-            // Sun/Moon
-            const celestialX = width * 0.72;
-            const celestialY = height * 0.11;
-
-            if (isNight) {
-                // Stars
-                for (let i = 0; i < 30; i++) {
-                    const sx = (Math.sin(i * 73.156) * 0.5 + 0.5) * width;
-                    const sy = (Math.cos(i * 127.84) * 0.5 + 0.5) * height * 0.5;
-                    const twinkle = Math.sin(time * 1.8 + i * 0.6) * 0.35 + 0.45;
-                    ctx.fillStyle = `rgba(255, 255, 255, ${twinkle * 0.6})`;
-                    ctx.beginPath();
-                    ctx.arc(sx, sy, 0.8, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                // Moon
-                drawGlow(ctx, celestialX, celestialY, 35, 'rgb(200, 195, 220)', 0.25);
-                ctx.fillStyle = palette.moon || '#e0dce8';
-                ctx.beginPath();
-                ctx.arc(celestialX, celestialY, 14, 0, Math.PI * 2);
-                ctx.fill();
-            } else {
-                // Sun
-                drawGlow(ctx, celestialX, celestialY, 55, 'rgb(255, 240, 200)', 0.35);
-                drawGlow(ctx, celestialX, celestialY, 35, 'rgb(255, 250, 220)', 0.45);
-                ctx.fillStyle = palette.sun || '#fff8e0';
-                ctx.beginPath();
-                ctx.arc(celestialX, celestialY, 16, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            // Hills
-            drawHillLayerFixed(ctx, width, height, height * 0.67, applyWarmth(palette.groundFar, warmth), 0.006, 32, time * 0.045);
-            drawHillLayerFixed(ctx, width, height, height * 0.72, applyWarmth(lerpColor(palette.groundFar, palette.groundMid, 0.5), warmth), 0.009, 24, time * 0.07);
-            drawHillLayerFixed(ctx, width, height, height * 0.77, applyWarmth(palette.groundMid, warmth), 0.012, 19, time * 0.1);
-            drawHillLayerFixed(ctx, width, height, height * 0.82, applyWarmth(lerpColor(palette.groundMid, palette.groundNear, 0.5), warmth), 0.015, 15, time * 0.14);
-            drawHillLayerFixed(ctx, width, height, height * 0.87, applyWarmth(palette.groundNear, warmth), 0.019, 11, time * 0.18);
-
-            // Plants sorted by layer
-            const sortedPlants = [...stage.plants].sort((a, b) => a.layer - b.layer);
-            sortedPlants.forEach(plant => drawPlantFixed(ctx, plant, width, height, time, palette));
-        }
-
-        function drawHillLayerFixed(ctx, width, height, baseY, color, freq, amplitude, offset) {
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(0, height);
-            for (let x = 0; x <= width; x += 3) {
-                const y = baseY +
-                    Math.sin(x * freq + offset) * amplitude +
-                    Math.sin(x * freq * 2.3 + offset * 1.5) * amplitude * 0.42 +
-                    Math.sin(x * freq * 0.5 + offset * 0.7) * amplitude * 0.58;
-                ctx.lineTo(x, y);
-            }
-            ctx.lineTo(width, height);
-            ctx.closePath();
-            ctx.fill();
-        }
-
-        function drawPlantFixed(ctx, plant, width, height, time, palette) {
-            const layerGroundY = [height * 0.73, height * 0.79, height * 0.87][plant.layer];
-            const x = plant.x * width;
-            const growth = plant.growth;
-            const scale = [0.5, 0.75, 1][plant.layer];
-            const sway = Math.sin(time * 0.5 + plant.x * 10) * 0.01;
-            const warmth = palette.warmth || 0;
-            const seed = plant.x * 1000;
-
-            ctx.save();
-            ctx.globalAlpha = [0.65, 0.82, 1][plant.layer];
-            ctx.translate(x, layerGroundY);
-            ctx.scale(scale, scale);
-
-            switch (plant.type) {
-                case 'grass': drawGrass(ctx, sway, growth, warmth, seed); break;
-                case 'fern': drawFern(ctx, sway, growth, warmth, seed); break;
-                case 'wildflower': drawWildflower(ctx, sway, growth, warmth, seed, time); break;
-                case 'tulip': drawTulip(ctx, sway, growth, warmth, seed); break;
-                case 'lavender': drawLavender(ctx, sway, growth, warmth, seed); break;
-                case 'bush': drawBush(ctx, sway, growth, warmth, seed); break;
-                case 'tree': drawTree(ctx, sway, growth, warmth, seed); break;
-            }
-
-            ctx.restore();
         }
 
         function setTimeOfDay(t) {
@@ -734,9 +822,7 @@
         // Start
         initStages();
         requestAnimationFrame(render);
-        window.addEventListener('resize', () => {
-            initStages();
-        });
+        window.addEventListener('resize', initStages);
     </script>
 </body>
 </html>
