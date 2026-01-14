@@ -15,7 +15,8 @@
         body {
             overflow: hidden;
             touch-action: none;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Georgia', serif;
+            background: #1a1a2e;
         }
 
         #garden-canvas {
@@ -26,33 +27,57 @@
 
         #info-panel {
             position: fixed;
-            bottom: 20px;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 12px 24px;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 252, 247, 0.92);
+            backdrop-filter: blur(12px);
+            padding: 14px 28px;
+            border-radius: 24px;
+            box-shadow:
+                0 4px 24px rgba(107, 91, 74, 0.15),
+                0 1px 3px rgba(107, 91, 74, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
             text-align: center;
             z-index: 100;
+            border: 1px solid rgba(107, 91, 74, 0.08);
         }
 
         #garden-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2d5a27;
-            margin-bottom: 4px;
+            font-size: 17px;
+            font-weight: 500;
+            color: #5a4a3a;
+            margin-bottom: 3px;
+            letter-spacing: 0.3px;
         }
 
         #garden-status {
-            font-size: 13px;
-            color: #666;
+            font-size: 12px;
+            color: #8a7a6a;
+            font-style: italic;
+            letter-spacing: 0.2px;
+        }
+
+        /* Soft vignette overlay */
+        #vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 50%,
+                rgba(42, 36, 56, 0.3) 100%
+            );
+            z-index: 50;
         }
     </style>
 </head>
 <body>
     <canvas id="garden-canvas"></canvas>
+    <div id="vignette"></div>
 
     <div id="info-panel">
         <div id="garden-name">Your Garden</div>
@@ -60,269 +85,600 @@
     </div>
 
     <script>
+        // ═══════════════════════════════════════════════════════════
+        // HUSHFUL GARDEN - Soft Watercolor Style
+        // A cozy, dreamy metabolic garden visualization
+        // ═══════════════════════════════════════════════════════════
+
         // Initialize Telegram Web App
         const tg = window.Telegram?.WebApp;
         if (tg) {
             tg.ready();
             tg.expand();
+            // Match Telegram theme
+            document.body.style.background = tg.backgroundColor || '#1a1a2e';
         }
 
-        // Canvas setup
+        // Canvas setup with high DPI support
         const canvas = document.getElementById('garden-canvas');
         const ctx = canvas.getContext('2d');
+        let width, height, dpr;
 
         function resizeCanvas() {
-            canvas.width = window.innerWidth * window.devicePixelRatio;
-            canvas.height = window.innerHeight * window.devicePixelRatio;
-            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            dpr = window.devicePixelRatio || 1;
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
 
-        // Time of day (0-1, where 0.5 is noon)
+        // ═══════════════════════════════════════════════════════════
+        // COLOR PALETTES - Soft, muted, watercolor-inspired
+        // ═══════════════════════════════════════════════════════════
+
+        const palettes = {
+            dawn: {
+                skyTop: '#c9b8d4',      // Soft lavender
+                skyMid: '#e8d4c4',      // Warm cream
+                skyBottom: '#f5e6d3',   // Peachy white
+                sun: '#ffe8c4',
+                sunGlow: 'rgba(255, 220, 180, 0.4)',
+                groundFar: '#a8c4a0',   // Sage green
+                groundMid: '#8fb087',   // Soft forest
+                groundNear: '#7a9a72',  // Deeper sage
+                accent: '#d4a5a5'       // Dusty rose
+            },
+            day: {
+                skyTop: '#a8c8dc',      // Soft sky blue
+                skyMid: '#d4e4ec',      // Pale blue
+                skyBottom: '#e8f0f4',   // Almost white blue
+                sun: '#fff8e8',
+                sunGlow: 'rgba(255, 248, 220, 0.5)',
+                groundFar: '#9cb894',   // Light sage
+                groundMid: '#7fa078',   // Medium sage
+                groundNear: '#6a8a64',  // Forest sage
+                accent: '#c4d4b4'       // Soft lime
+            },
+            golden: {
+                skyTop: '#d4c4a8',      // Warm beige
+                skyMid: '#e8d8b8',      // Golden cream
+                skyBottom: '#f4e8c8',   // Butter yellow
+                sun: '#ffe4a8',
+                sunGlow: 'rgba(255, 210, 140, 0.5)',
+                groundFar: '#a8b894',   // Warm sage
+                groundMid: '#8a9a78',   // Golden green
+                groundNear: '#6a7a5a',  // Olive sage
+                accent: '#d4c494'       // Warm gold
+            },
+            dusk: {
+                skyTop: '#8a7a9a',      // Dusty purple
+                skyMid: '#c4a8b4',      // Mauve
+                skyBottom: '#e4c8c4',   // Blush
+                sun: '#f4d4b4',
+                sunGlow: 'rgba(244, 180, 140, 0.4)',
+                groundFar: '#7a8a74',   // Muted sage
+                groundMid: '#5a6a54',   // Deep sage
+                groundNear: '#4a5a44',  // Dark sage
+                accent: '#b4949a'       // Dusty rose
+            },
+            night: {
+                skyTop: '#2a2438',      // Deep purple
+                skyMid: '#3a3448',      // Soft purple
+                skyBottom: '#4a4458',   // Lighter purple
+                moon: '#e8e4f0',
+                moonGlow: 'rgba(200, 190, 220, 0.3)',
+                groundFar: '#3a4438',   // Night sage
+                groundMid: '#2a3428',   // Deep forest
+                groundNear: '#1a2418',  // Almost black green
+                accent: '#6a5a7a'       // Night purple
+            }
+        };
+
         function getTimeOfDay() {
             const now = new Date();
-            const hours = now.getHours() + now.getMinutes() / 60;
-            return hours / 24;
+            return (now.getHours() + now.getMinutes() / 60) / 24;
         }
 
-        // Sky colors based on time
-        function getSkyColors(timeOfDay) {
-            const colors = {
-                night: { top: '#0a1628', bottom: '#1a2744' },
-                dawn: { top: '#4a6fa5', bottom: '#f4a460' },
-                day: { top: '#87ceeb', bottom: '#e0f4ff' },
-                dusk: { top: '#4a3f6b', bottom: '#ff7e67' }
-            };
-
-            if (timeOfDay < 0.2 || timeOfDay > 0.85) return colors.night;
-            if (timeOfDay < 0.3) return colors.dawn;
-            if (timeOfDay < 0.7) return colors.day;
-            if (timeOfDay < 0.85) return colors.dusk;
-            return colors.night;
+        function getPalette(t) {
+            if (t < 0.22 || t > 0.88) return palettes.night;
+            if (t < 0.32) return lerpPalette(palettes.night, palettes.dawn, (t - 0.22) / 0.1);
+            if (t < 0.42) return lerpPalette(palettes.dawn, palettes.day, (t - 0.32) / 0.1);
+            if (t < 0.65) return palettes.day;
+            if (t < 0.72) return lerpPalette(palettes.day, palettes.golden, (t - 0.65) / 0.07);
+            if (t < 0.80) return lerpPalette(palettes.golden, palettes.dusk, (t - 0.72) / 0.08);
+            return lerpPalette(palettes.dusk, palettes.night, (t - 0.80) / 0.08);
         }
 
-        // Plant class
+        function lerpPalette(a, b, t) {
+            const result = {};
+            for (const key of Object.keys(a)) {
+                result[key] = lerpColor(a[key], b[key], t);
+            }
+            return result;
+        }
+
+        function lerpColor(c1, c2, t) {
+            if (c1.startsWith('rgba')) return c1; // Skip rgba
+            const r1 = parseInt(c1.slice(1,3), 16), g1 = parseInt(c1.slice(3,5), 16), b1 = parseInt(c1.slice(5,7), 16);
+            const r2 = parseInt(c2.slice(1,3), 16), g2 = parseInt(c2.slice(3,5), 16), b2 = parseInt(c2.slice(5,7), 16);
+            const r = Math.round(r1 + (r2 - r1) * t), g = Math.round(g1 + (g2 - g1) * t), b = Math.round(b1 + (b2 - b1) * t);
+            return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // AMBIENT PARTICLES - Pollen, dust motes, fireflies
+        // ═══════════════════════════════════════════════════════════
+
+        class AmbientParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = 1 + Math.random() * 2.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = -0.1 - Math.random() * 0.2;
+                this.wobbleOffset = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = 0.5 + Math.random() * 0.5;
+                this.opacity = 0.2 + Math.random() * 0.4;
+                this.fadeSpeed = 0.002 + Math.random() * 0.003;
+            }
+
+            update(time, isNight) {
+                this.x += this.speedX + Math.sin(time * this.wobbleSpeed + this.wobbleOffset) * 0.3;
+                this.y += this.speedY;
+
+                if (isNight) {
+                    // Fireflies pulse
+                    this.opacity = 0.3 + Math.sin(time * 2 + this.wobbleOffset) * 0.3;
+                }
+
+                if (this.y < -10 || this.x < -10 || this.x > width + 10) {
+                    this.y = height + 10;
+                    this.x = Math.random() * width;
+                }
+            }
+
+            draw(ctx, isNight, palette) {
+                ctx.save();
+                if (isNight) {
+                    // Firefly glow
+                    ctx.shadowColor = '#ffffa0';
+                    ctx.shadowBlur = 8;
+                    ctx.fillStyle = `rgba(255, 255, 200, ${this.opacity})`;
+                } else {
+                    // Pollen/dust mote
+                    ctx.fillStyle = `rgba(255, 252, 240, ${this.opacity * 0.6})`;
+                }
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // CLOUDS - Soft, painterly clouds
+        // ═══════════════════════════════════════════════════════════
+
+        class Cloud {
+            constructor(x, y, scale) {
+                this.x = x;
+                this.baseY = y;
+                this.scale = scale;
+                this.speed = 0.05 + Math.random() * 0.1;
+                this.wobbleOffset = Math.random() * Math.PI * 2;
+                this.opacity = 0.3 + Math.random() * 0.3;
+            }
+
+            update(time) {
+                this.x += this.speed;
+                if (this.x > width + 200) this.x = -200;
+                this.y = this.baseY + Math.sin(time * 0.2 + this.wobbleOffset) * 5;
+            }
+
+            draw(ctx, palette) {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#fff';
+
+                // Soft cloud shape using multiple circles
+                const s = this.scale;
+                const circles = [
+                    { x: 0, y: 0, r: 30 * s },
+                    { x: 25 * s, y: -10 * s, r: 35 * s },
+                    { x: 55 * s, y: -5 * s, r: 28 * s },
+                    { x: 80 * s, y: 5 * s, r: 22 * s },
+                    { x: 15 * s, y: 15 * s, r: 20 * s },
+                    { x: 50 * s, y: 12 * s, r: 25 * s },
+                ];
+
+                circles.forEach(c => {
+                    ctx.beginPath();
+                    ctx.arc(this.x + c.x, this.y + c.y, c.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                ctx.restore();
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // PLANTS - Organic, soft-edged flora
+        // ═══════════════════════════════════════════════════════════
+
         class Plant {
-            constructor(x, groundY, type, growthStage) {
+            constructor(x, groundY, type, growth, layer) {
                 this.x = x;
                 this.groundY = groundY;
                 this.type = type;
-                this.growthStage = growthStage; // 0-1
+                this.growth = Math.max(0.1, growth);
+                this.layer = layer; // 0=far, 1=mid, 2=near (affects size/color)
                 this.swayOffset = Math.random() * Math.PI * 2;
-                this.swaySpeed = 0.5 + Math.random() * 0.3;
-                this.swayAmount = 0.02 + Math.random() * 0.02;
+                this.swaySpeed = 0.4 + Math.random() * 0.3;
+                this.swayAmount = 0.015 + Math.random() * 0.015;
+                this.hueShift = (Math.random() - 0.5) * 15;
             }
 
-            draw(ctx, time) {
+            getLayerScale() {
+                return [0.5, 0.75, 1][this.layer] || 1;
+            }
+
+            draw(ctx, time, palette) {
                 const sway = Math.sin(time * this.swaySpeed + this.swayOffset) * this.swayAmount;
-                const height = this.getHeight();
+                const scale = this.getLayerScale();
 
                 ctx.save();
                 ctx.translate(this.x, this.groundY);
+                ctx.scale(scale, scale);
 
-                if (this.type === 'flower') {
-                    this.drawFlower(ctx, height, sway, time);
-                } else if (this.type === 'grass') {
-                    this.drawGrass(ctx, height, sway);
-                } else if (this.type === 'bush') {
-                    this.drawBush(ctx, height, sway);
-                } else if (this.type === 'tree') {
-                    this.drawTree(ctx, height, sway);
+                switch(this.type) {
+                    case 'wildflower': this.drawWildflower(ctx, sway, time, palette); break;
+                    case 'tulip': this.drawTulip(ctx, sway, palette); break;
+                    case 'lavender': this.drawLavender(ctx, sway, time, palette); break;
+                    case 'grass': this.drawGrass(ctx, sway, palette); break;
+                    case 'fern': this.drawFern(ctx, sway, palette); break;
+                    case 'bush': this.drawBush(ctx, sway, palette); break;
+                    case 'tree': this.drawTree(ctx, sway, palette); break;
+                    default: this.drawGrass(ctx, sway, palette);
                 }
 
                 ctx.restore();
             }
 
-            getHeight() {
-                const baseHeights = {
-                    flower: 60,
-                    grass: 30,
-                    bush: 80,
-                    tree: 150
-                };
-                return (baseHeights[this.type] || 50) * this.growthStage;
-            }
+            drawWildflower(ctx, sway, time, palette) {
+                const h = 50 + this.growth * 40;
 
-            drawFlower(ctx, height, sway, time) {
-                // Stem
-                ctx.strokeStyle = '#3d7a3d';
-                ctx.lineWidth = 3;
+                // Stem - organic curve
+                ctx.strokeStyle = this.adjustColor('#7a9a6a', -10);
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
-                ctx.quadraticCurveTo(sway * height * 30, -height * 0.5, sway * height * 20, -height);
+                ctx.bezierCurveTo(
+                    sway * h * 20, -h * 0.3,
+                    sway * h * 25 + 5, -h * 0.6,
+                    sway * h * 20, -h
+                );
                 ctx.stroke();
 
                 // Flower head
-                const flowerX = sway * height * 20;
-                const flowerY = -height;
-                const petalSize = 8 + this.growthStage * 8;
+                const fx = sway * h * 20;
+                const fy = -h;
+                const petalSize = 6 + this.growth * 6;
 
-                // Petals
-                const colors = ['#ff9ecd', '#ffb7d5', '#ffd4e5', '#ff85c0', '#ffaacc'];
-                const petalCount = 5;
-                for (let i = 0; i < petalCount; i++) {
-                    const angle = (i / petalCount) * Math.PI * 2 + time * 0.1;
-                    ctx.fillStyle = colors[i % colors.length];
+                // Soft petals
+                const petalColors = ['#e8b4b4', '#d4a0a0', '#c8a0b0', '#d8b8b8', '#e0c0c0'];
+                for (let i = 0; i < 5; i++) {
+                    const angle = (i / 5) * Math.PI * 2 + time * 0.05;
+                    ctx.fillStyle = petalColors[i];
                     ctx.beginPath();
                     ctx.ellipse(
-                        flowerX + Math.cos(angle) * petalSize * 0.5,
-                        flowerY + Math.sin(angle) * petalSize * 0.5,
-                        petalSize, petalSize * 0.6,
+                        fx + Math.cos(angle) * petalSize * 0.4,
+                        fy + Math.sin(angle) * petalSize * 0.4,
+                        petalSize, petalSize * 0.5,
                         angle, 0, Math.PI * 2
                     );
                     ctx.fill();
                 }
 
                 // Center
-                ctx.fillStyle = '#ffeb3b';
+                ctx.fillStyle = '#f4e4b4';
                 ctx.beginPath();
-                ctx.arc(flowerX, flowerY, petalSize * 0.4, 0, Math.PI * 2);
+                ctx.arc(fx, fy, petalSize * 0.35, 0, Math.PI * 2);
                 ctx.fill();
             }
 
-            drawGrass(ctx, height, sway) {
-                const bladeCount = 5;
-                for (let i = 0; i < bladeCount; i++) {
-                    const offsetX = (i - bladeCount / 2) * 4;
-                    const bladeSway = sway * (1 + i * 0.1);
+            drawTulip(ctx, sway, palette) {
+                const h = 45 + this.growth * 35;
 
-                    ctx.strokeStyle = `hsl(${100 + i * 5}, 60%, ${35 + i * 3}%)`;
-                    ctx.lineWidth = 2;
+                // Stem
+                ctx.strokeStyle = '#6a8a5a';
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.quadraticCurveTo(sway * h * 15, -h * 0.5, sway * h * 10, -h + 10);
+                ctx.stroke();
+
+                // Tulip cup - layered petals
+                const tx = sway * h * 10;
+                const ty = -h + 10;
+                const size = 10 + this.growth * 8;
+
+                // Back petals
+                ctx.fillStyle = '#c89090';
+                ctx.beginPath();
+                ctx.ellipse(tx - 4, ty - 5, size * 0.5, size * 0.9, -0.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(tx + 4, ty - 5, size * 0.5, size * 0.9, 0.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Front petal
+                ctx.fillStyle = '#d8a0a0';
+                ctx.beginPath();
+                ctx.ellipse(tx, ty - 3, size * 0.6, size * 0.85, 0, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            drawLavender(ctx, sway, time, palette) {
+                const h = 55 + this.growth * 30;
+
+                // Multiple stems
+                for (let s = -1; s <= 1; s++) {
+                    const offsetX = s * 6;
+                    const stemSway = sway + s * 0.01;
+
+                    // Stem
+                    ctx.strokeStyle = '#7a9070';
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.moveTo(offsetX, 0);
+                    ctx.bezierCurveTo(
+                        offsetX + stemSway * h * 15, -h * 0.4,
+                        offsetX + stemSway * h * 20, -h * 0.7,
+                        offsetX + stemSway * h * 15, -h
+                    );
+                    ctx.stroke();
+
+                    // Lavender buds
+                    const budCount = 6 + Math.floor(this.growth * 4);
+                    for (let i = 0; i < budCount; i++) {
+                        const t = 0.4 + (i / budCount) * 0.6;
+                        const bx = offsetX + stemSway * h * 15 * t;
+                        const by = -h * t;
+                        const budSize = 2 + (1 - t) * 2;
+
+                        ctx.fillStyle = `hsl(${270 + this.hueShift}, 40%, ${55 + i * 2}%)`;
+                        ctx.beginPath();
+                        ctx.ellipse(bx + (Math.random() - 0.5) * 3, by, budSize, budSize * 1.5, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            }
+
+            drawGrass(ctx, sway, palette) {
+                const h = 25 + this.growth * 20;
+                const blades = 5 + Math.floor(Math.random() * 3);
+
+                for (let i = 0; i < blades; i++) {
+                    const offsetX = (i - blades / 2) * 3;
+                    const bladeH = h * (0.7 + Math.random() * 0.3);
+                    const bladeSway = sway * (1 + i * 0.08);
+
+                    const hue = 95 + this.hueShift + i * 3;
+                    ctx.strokeStyle = `hsl(${hue}, 35%, ${35 + this.layer * 8}%)`;
+                    ctx.lineWidth = 1.5;
                     ctx.lineCap = 'round';
+
                     ctx.beginPath();
                     ctx.moveTo(offsetX, 0);
                     ctx.quadraticCurveTo(
-                        offsetX + bladeSway * height * 40,
-                        -height * 0.6,
-                        offsetX + bladeSway * height * 30,
-                        -height * (0.8 + i * 0.05)
+                        offsetX + bladeSway * bladeH * 30,
+                        -bladeH * 0.6,
+                        offsetX + bladeSway * bladeH * 25,
+                        -bladeH
                     );
                     ctx.stroke();
                 }
             }
 
-            drawBush(ctx, height, sway) {
-                const bushWidth = height * 1.2;
+            drawFern(ctx, sway, palette) {
+                const h = 40 + this.growth * 30;
 
-                // Multiple layered circles for bush effect
+                // Main stem
+                ctx.strokeStyle = '#5a7a50';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.quadraticCurveTo(sway * h * 20, -h * 0.5, sway * h * 15, -h);
+                ctx.stroke();
+
+                // Fronds
+                const frondCount = 8;
+                for (let i = 0; i < frondCount; i++) {
+                    const t = 0.2 + (i / frondCount) * 0.75;
+                    const fx = sway * h * 20 * t;
+                    const fy = -h * t;
+                    const side = i % 2 === 0 ? -1 : 1;
+                    const frondLen = 15 * (1 - t * 0.5) * this.growth;
+
+                    ctx.strokeStyle = `hsl(${100 + this.hueShift}, 35%, ${40 + i * 2}%)`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(fx, fy);
+                    ctx.quadraticCurveTo(
+                        fx + side * frondLen * 0.7, fy - frondLen * 0.3,
+                        fx + side * frondLen, fy - frondLen * 0.1
+                    );
+                    ctx.stroke();
+                }
+            }
+
+            drawBush(ctx, sway, palette) {
+                const h = 50 + this.growth * 40;
+                const w = h * 1.3;
+
+                // Layered foliage blobs
                 const layers = [
-                    { y: -height * 0.3, size: bushWidth * 0.5, color: '#2d5a27' },
-                    { y: -height * 0.5, size: bushWidth * 0.6, color: '#3d7a3d' },
-                    { y: -height * 0.7, size: bushWidth * 0.4, color: '#4a9a4a' },
+                    { x: -w * 0.2, y: -h * 0.4, w: w * 0.5, h: h * 0.5, hue: 95 },
+                    { x: w * 0.1, y: -h * 0.5, w: w * 0.55, h: h * 0.55, hue: 100 },
+                    { x: -w * 0.1, y: -h * 0.6, w: w * 0.45, h: h * 0.45, hue: 105 },
+                    { x: 0, y: -h * 0.35, w: w * 0.4, h: h * 0.4, hue: 98 },
                 ];
 
-                layers.forEach((layer, i) => {
-                    ctx.fillStyle = layer.color;
+                layers.forEach((l, i) => {
+                    ctx.fillStyle = `hsl(${l.hue + this.hueShift}, 30%, ${32 + i * 5 + this.layer * 5}%)`;
                     ctx.beginPath();
                     ctx.ellipse(
-                        sway * height * 10 * (i + 1),
-                        layer.y,
-                        layer.size,
-                        layer.size * 0.7,
+                        l.x + sway * h * 8 * (i + 1),
+                        l.y,
+                        l.w, l.h,
                         0, 0, Math.PI * 2
                     );
                     ctx.fill();
                 });
             }
 
-            drawTree(ctx, height, sway) {
+            drawTree(ctx, sway, palette) {
+                const h = 100 + this.growth * 60;
+
                 // Trunk
-                ctx.fillStyle = '#5d4037';
+                ctx.fillStyle = '#5a4a3a';
                 ctx.beginPath();
-                ctx.moveTo(-8, 0);
-                ctx.lineTo(-6, -height * 0.4);
-                ctx.lineTo(6, -height * 0.4);
-                ctx.lineTo(8, 0);
+                ctx.moveTo(-6, 0);
+                ctx.bezierCurveTo(-5, -h * 0.3, -4, -h * 0.5, -3, -h * 0.6);
+                ctx.lineTo(3, -h * 0.6);
+                ctx.bezierCurveTo(4, -h * 0.5, 5, -h * 0.3, 6, 0);
                 ctx.closePath();
                 ctx.fill();
 
-                // Foliage layers
-                const foliageY = -height * 0.4;
-                const foliageSize = height * 0.5;
-
-                const foliageLayers = [
-                    { y: foliageY, size: foliageSize, color: '#2d5a27' },
-                    { y: foliageY - foliageSize * 0.3, size: foliageSize * 0.8, color: '#3d7a3d' },
-                    { y: foliageY - foliageSize * 0.5, size: foliageSize * 0.5, color: '#4a9a4a' },
+                // Foliage - soft layered blobs
+                const foliage = [
+                    { x: 0, y: -h * 0.55, r: h * 0.35, hue: 95 },
+                    { x: -h * 0.15, y: -h * 0.7, r: h * 0.28, hue: 100 },
+                    { x: h * 0.12, y: -h * 0.72, r: h * 0.25, hue: 98 },
+                    { x: 0, y: -h * 0.85, r: h * 0.22, hue: 105 },
+                    { x: -h * 0.08, y: -h * 0.95, r: h * 0.15, hue: 102 },
                 ];
 
-                foliageLayers.forEach((layer, i) => {
-                    ctx.fillStyle = layer.color;
+                foliage.forEach((f, i) => {
+                    ctx.fillStyle = `hsl(${f.hue + this.hueShift}, 28%, ${30 + i * 4 + this.layer * 5}%)`;
                     ctx.beginPath();
                     ctx.ellipse(
-                        sway * height * 5 * (i + 1),
-                        layer.y,
-                        layer.size,
-                        layer.size * 0.8,
+                        f.x + sway * h * 3 * (i + 1),
+                        f.y,
+                        f.r, f.r * 0.85,
                         0, 0, Math.PI * 2
                     );
                     ctx.fill();
                 });
             }
+
+            adjustColor(hex, amount) {
+                const num = parseInt(hex.slice(1), 16);
+                const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+                const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+                const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+                return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+            }
         }
 
-        // Butterfly class
+        // ═══════════════════════════════════════════════════════════
+        // BUTTERFLY - Delicate, floating visitor
+        // ═══════════════════════════════════════════════════════════
+
         class Butterfly {
-            constructor(canvasWidth, canvasHeight) {
-                this.x = Math.random() * canvasWidth;
-                this.y = canvasHeight * 0.3 + Math.random() * canvasHeight * 0.4;
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height * 0.3 + Math.random() * height * 0.4;
                 this.targetX = this.x;
                 this.targetY = this.y;
-                this.wingAngle = 0;
-                this.color = `hsl(${Math.random() * 60 + 280}, 70%, 60%)`;
-                this.size = 8 + Math.random() * 6;
-                this.canvasWidth = canvasWidth;
-                this.canvasHeight = canvasHeight;
+                this.wingPhase = Math.random() * Math.PI * 2;
+                this.hue = 280 + Math.random() * 60; // Purple to pink range
+                this.size = 6 + Math.random() * 4;
+                this.restTimer = 0;
+                this.isResting = false;
             }
 
             update(time) {
-                // Flap wings
-                this.wingAngle = Math.sin(time * 8) * 0.5;
+                this.wingPhase = time * 6;
 
-                // Occasionally pick new target
-                if (Math.random() < 0.01) {
-                    this.targetX = Math.random() * this.canvasWidth;
-                    this.targetY = this.canvasHeight * 0.2 + Math.random() * this.canvasHeight * 0.5;
+                if (this.isResting) {
+                    this.restTimer--;
+                    if (this.restTimer <= 0) this.isResting = false;
+                    return;
                 }
 
-                // Move toward target with gentle floating
-                this.x += (this.targetX - this.x) * 0.01 + Math.sin(time * 2) * 0.5;
-                this.y += (this.targetY - this.y) * 0.01 + Math.cos(time * 1.5) * 0.3;
+                // Occasionally rest on a flower
+                if (Math.random() < 0.002) {
+                    this.isResting = true;
+                    this.restTimer = 120 + Math.random() * 180;
+                }
+
+                // Pick new target occasionally
+                if (Math.random() < 0.008) {
+                    this.targetX = Math.random() * width;
+                    this.targetY = height * 0.25 + Math.random() * height * 0.45;
+                }
+
+                // Float toward target
+                this.x += (this.targetX - this.x) * 0.012 + Math.sin(time * 1.5) * 0.4;
+                this.y += (this.targetY - this.y) * 0.012 + Math.cos(time * 1.2) * 0.3;
             }
 
             draw(ctx) {
+                const wingAngle = this.isResting
+                    ? 0.1
+                    : Math.sin(this.wingPhase) * 0.6;
+
                 ctx.save();
                 ctx.translate(this.x, this.y);
 
                 // Body
-                ctx.fillStyle = '#333';
+                ctx.fillStyle = '#4a3a3a';
                 ctx.beginPath();
-                ctx.ellipse(0, 0, 2, this.size * 0.4, 0, 0, Math.PI * 2);
+                ctx.ellipse(0, 0, 1.5, this.size * 0.35, 0, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Wings
-                ctx.fillStyle = this.color;
+                // Wings - soft watercolor effect
+                const wingColor = `hsla(${this.hue}, 50%, 65%, 0.8)`;
+                const wingHighlight = `hsla(${this.hue + 20}, 60%, 75%, 0.6)`;
 
                 // Left wings
                 ctx.save();
-                ctx.rotate(-this.wingAngle);
+                ctx.rotate(-wingAngle * 0.8);
+                ctx.fillStyle = wingColor;
                 ctx.beginPath();
-                ctx.ellipse(-this.size * 0.5, -this.size * 0.2, this.size * 0.6, this.size * 0.4, -0.3, 0, Math.PI * 2);
+                ctx.ellipse(-this.size * 0.5, -this.size * 0.15, this.size * 0.55, this.size * 0.35, -0.3, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.fillStyle = wingHighlight;
                 ctx.beginPath();
-                ctx.ellipse(-this.size * 0.4, this.size * 0.2, this.size * 0.4, this.size * 0.3, -0.2, 0, Math.PI * 2);
+                ctx.ellipse(-this.size * 0.35, this.size * 0.15, this.size * 0.35, this.size * 0.25, -0.2, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.restore();
 
                 // Right wings
                 ctx.save();
-                ctx.rotate(this.wingAngle);
+                ctx.rotate(wingAngle * 0.8);
+                ctx.fillStyle = wingColor;
                 ctx.beginPath();
-                ctx.ellipse(this.size * 0.5, -this.size * 0.2, this.size * 0.6, this.size * 0.4, 0.3, 0, Math.PI * 2);
+                ctx.ellipse(this.size * 0.5, -this.size * 0.15, this.size * 0.55, this.size * 0.35, 0.3, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.fillStyle = wingHighlight;
                 ctx.beginPath();
-                ctx.ellipse(this.size * 0.4, this.size * 0.2, this.size * 0.4, this.size * 0.3, 0.2, 0, Math.PI * 2);
+                ctx.ellipse(this.size * 0.35, this.size * 0.15, this.size * 0.35, this.size * 0.25, 0.2, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.restore();
 
@@ -330,255 +686,254 @@
             }
         }
 
-        // Particle class (for sparkles/fireflies at night)
-        class Particle {
-            constructor(canvasWidth, canvasHeight, isNight) {
-                this.x = Math.random() * canvasWidth;
-                this.y = Math.random() * canvasHeight * 0.8;
-                this.size = 1 + Math.random() * 2;
-                this.speed = 0.2 + Math.random() * 0.3;
-                this.opacity = Math.random();
-                this.isNight = isNight;
-                this.canvasWidth = canvasWidth;
-                this.canvasHeight = canvasHeight;
-            }
+        // ═══════════════════════════════════════════════════════════
+        // SCENE RENDERING
+        // ═══════════════════════════════════════════════════════════
 
-            update(time) {
-                this.y -= this.speed;
-                this.x += Math.sin(time + this.y * 0.01) * 0.3;
-                this.opacity = 0.3 + Math.sin(time * 2 + this.y * 0.1) * 0.3;
-
-                if (this.y < 0) {
-                    this.y = this.canvasHeight;
-                    this.x = Math.random() * this.canvasWidth;
-                }
-            }
-
-            draw(ctx) {
-                if (this.isNight) {
-                    // Firefly glow
-                    ctx.fillStyle = `rgba(255, 255, 150, ${this.opacity})`;
-                    ctx.shadowColor = 'rgba(255, 255, 100, 0.8)';
-                    ctx.shadowBlur = 10;
-                } else {
-                    // Daytime sparkle
-                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 0.5})`;
-                    ctx.shadowBlur = 0;
-                }
-
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            }
+        function drawSky(ctx, palette, time) {
+            // Multi-stop gradient for depth
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, palette.skyTop);
+            gradient.addColorStop(0.4, palette.skyMid);
+            gradient.addColorStop(1, palette.skyBottom);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
         }
 
-        // Garden state (this would come from your backend)
+        function drawCelestial(ctx, palette, timeOfDay, time) {
+            const isNight = timeOfDay < 0.25 || timeOfDay > 0.8;
+            const celestialX = width * 0.75;
+            const celestialY = height * 0.12;
+
+            ctx.save();
+
+            if (isNight) {
+                // Stars
+                for (let i = 0; i < 60; i++) {
+                    const sx = (Math.sin(i * 73.156) * 0.5 + 0.5) * width;
+                    const sy = (Math.cos(i * 127.84) * 0.5 + 0.5) * height * 0.5;
+                    const twinkle = Math.sin(time * 1.5 + i * 0.5) * 0.3 + 0.5;
+                    const starSize = 0.5 + Math.random() * 1;
+
+                    ctx.fillStyle = `rgba(255, 255, 255, ${twinkle * 0.7})`;
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, starSize, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Moon
+                ctx.fillStyle = palette.moon;
+                ctx.shadowColor = palette.moonGlow;
+                ctx.shadowBlur = 30;
+                ctx.beginPath();
+                ctx.arc(celestialX, celestialY, 22, 0, Math.PI * 2);
+                ctx.fill();
+            } else {
+                // Sun with soft glow
+                ctx.fillStyle = palette.sunGlow;
+                ctx.beginPath();
+                ctx.arc(celestialX, celestialY, 50, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = palette.sun;
+                ctx.shadowColor = palette.sun;
+                ctx.shadowBlur = 20;
+                ctx.beginPath();
+                ctx.arc(celestialX, celestialY, 25, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.restore();
+        }
+
+        function drawHills(ctx, palette, time) {
+            // Far hills
+            drawHillLayer(ctx, height * 0.72, palette.groundFar, 0.008, 25, time * 0.1);
+            // Mid hills
+            drawHillLayer(ctx, height * 0.78, palette.groundMid, 0.012, 18, time * 0.15 + 1);
+            // Near ground
+            drawHillLayer(ctx, height * 0.85, palette.groundNear, 0.015, 12, time * 0.2 + 2);
+        }
+
+        function drawHillLayer(ctx, baseY, color, freq, amplitude, offset) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(0, height);
+
+            for (let x = 0; x <= width; x += 3) {
+                const y = baseY +
+                    Math.sin(x * freq + offset) * amplitude +
+                    Math.sin(x * freq * 2.3 + offset * 1.5) * amplitude * 0.4;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.lineTo(width, height);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // GARDEN STATE & INITIALIZATION
+        // ═══════════════════════════════════════════════════════════
+
+        // This would come from your backend API
         const gardenState = {
             name: tg?.initDataUnsafe?.user?.first_name
                 ? `${tg.initDataUnsafe.user.first_name}'s Garden`
                 : 'Your Garden',
+            growthLevel: 0.7,
             plants: [
-                { x: 0.15, type: 'tree', growth: 0.9 },
-                { x: 0.25, type: 'bush', growth: 0.8 },
-                { x: 0.35, type: 'flower', growth: 1 },
-                { x: 0.42, type: 'grass', growth: 1 },
-                { x: 0.5, type: 'flower', growth: 0.7 },
-                { x: 0.58, type: 'grass', growth: 0.9 },
-                { x: 0.65, type: 'flower', growth: 0.85 },
-                { x: 0.75, type: 'bush', growth: 0.6 },
-                { x: 0.85, type: 'tree', growth: 0.7 },
+                // Layer 0 (far) - smaller, more muted
+                { x: 0.1, type: 'tree', growth: 0.8, layer: 0 },
+                { x: 0.3, type: 'bush', growth: 0.7, layer: 0 },
+                { x: 0.7, type: 'tree', growth: 0.6, layer: 0 },
+                { x: 0.9, type: 'bush', growth: 0.8, layer: 0 },
+
+                // Layer 1 (mid)
+                { x: 0.15, type: 'fern', growth: 0.9, layer: 1 },
+                { x: 0.25, type: 'lavender', growth: 0.8, layer: 1 },
+                { x: 0.4, type: 'tulip', growth: 0.9, layer: 1 },
+                { x: 0.55, type: 'wildflower', growth: 1, layer: 1 },
+                { x: 0.65, type: 'lavender', growth: 0.85, layer: 1 },
+                { x: 0.8, type: 'fern', growth: 0.7, layer: 1 },
+
+                // Layer 2 (near) - larger, more vibrant
+                { x: 0.08, type: 'grass', growth: 1, layer: 2 },
+                { x: 0.2, type: 'wildflower', growth: 0.9, layer: 2 },
+                { x: 0.32, type: 'grass', growth: 0.95, layer: 2 },
+                { x: 0.45, type: 'tulip', growth: 1, layer: 2 },
+                { x: 0.58, type: 'grass', growth: 0.9, layer: 2 },
+                { x: 0.72, type: 'wildflower', growth: 0.85, layer: 2 },
+                { x: 0.85, type: 'grass', growth: 1, layer: 2 },
+                { x: 0.95, type: 'fern', growth: 0.8, layer: 2 },
             ]
         };
 
-        // Initialize garden elements
         let plants = [];
-        let butterflies = [];
         let particles = [];
+        let clouds = [];
+        let butterflies = [];
 
         function initGarden() {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
             const groundY = height * 0.85;
 
-            // Create plants from state
-            plants = gardenState.plants.map(p =>
-                new Plant(p.x * width, groundY, p.type, p.growth)
-            );
+            // Create plants sorted by layer
+            plants = gardenState.plants.map(p => {
+                const layerGroundY = [height * 0.74, height * 0.80, height * 0.87][p.layer];
+                return new Plant(p.x * width, layerGroundY, p.type, p.growth, p.layer);
+            });
 
-            // Add some random grass
-            for (let i = 0; i < 15; i++) {
-                plants.push(new Plant(
+            // Sort by layer (far to near) then by y position
+            plants.sort((a, b) => a.layer - b.layer || a.groundY - b.groundY);
+
+            // Ambient particles
+            particles = [];
+            for (let i = 0; i < 25; i++) {
+                particles.push(new AmbientParticle());
+            }
+
+            // Clouds
+            clouds = [];
+            for (let i = 0; i < 4; i++) {
+                clouds.push(new Cloud(
                     Math.random() * width,
-                    groundY,
-                    'grass',
-                    0.5 + Math.random() * 0.5
+                    height * (0.08 + Math.random() * 0.15),
+                    0.4 + Math.random() * 0.6
                 ));
             }
 
-            // Sort by y position (back to front)
-            plants.sort((a, b) => a.groundY - b.groundY);
-
-            // Create butterflies
+            // Butterflies
             butterflies = [];
-            for (let i = 0; i < 3; i++) {
-                butterflies.push(new Butterfly(width, height));
+            for (let i = 0; i < 2; i++) {
+                butterflies.push(new Butterfly());
             }
 
-            // Create particles
-            const isNight = getTimeOfDay() < 0.25 || getTimeOfDay() > 0.8;
-            particles = [];
-            for (let i = 0; i < 20; i++) {
-                particles.push(new Particle(width, height, isNight));
-            }
-
-            // Update info panel
+            // Update UI
             document.getElementById('garden-name').textContent = gardenState.name;
             updateStatus();
         }
 
         function updateStatus() {
             const hour = new Date().getHours();
-            let status = '';
+            const statuses = {
+                5: 'Waking gently with the dawn...',
+                9: 'Basking in soft morning light...',
+                12: 'Peaceful in the afternoon glow...',
+                17: 'Settling into golden hour...',
+                20: 'Resting under twilight skies...',
+                23: 'Dreaming beneath the stars...'
+            };
 
-            if (hour >= 5 && hour < 9) {
-                status = 'Waking up with the sunrise...';
-            } else if (hour >= 9 && hour < 12) {
-                status = 'Soaking in the morning light...';
-            } else if (hour >= 12 && hour < 14) {
-                status = 'Enjoying the midday sun...';
-            } else if (hour >= 14 && hour < 17) {
-                status = 'Growing peacefully...';
-            } else if (hour >= 17 && hour < 20) {
-                status = 'Settling into evening...';
-            } else if (hour >= 20 && hour < 23) {
-                status = 'Resting under the stars...';
-            } else {
-                status = 'Dreaming in the moonlight...';
+            let status = statuses[23];
+            for (const [h, s] of Object.entries(statuses)) {
+                if (hour >= parseInt(h)) status = s;
             }
 
             document.getElementById('garden-status').textContent = status;
         }
 
-        // Draw sky gradient
-        function drawSky(ctx, width, height) {
+        // ═══════════════════════════════════════════════════════════
+        // MAIN RENDER LOOP
+        // ═══════════════════════════════════════════════════════════
+
+        let lastStatusUpdate = 0;
+
+        function render(timestamp) {
+            const time = timestamp * 0.001;
             const timeOfDay = getTimeOfDay();
-            const colors = getSkyColors(timeOfDay);
-
-            const gradient = ctx.createLinearGradient(0, 0, 0, height);
-            gradient.addColorStop(0, colors.top);
-            gradient.addColorStop(1, colors.bottom);
-
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, width, height);
-
-            // Stars at night
-            if (timeOfDay < 0.25 || timeOfDay > 0.8) {
-                for (let i = 0; i < 50; i++) {
-                    const x = (Math.sin(i * 123.456) * 0.5 + 0.5) * width;
-                    const y = (Math.cos(i * 789.012) * 0.5 + 0.5) * height * 0.6;
-                    const twinkle = Math.sin(Date.now() * 0.002 + i) * 0.3 + 0.7;
-
-                    ctx.fillStyle = `rgba(255, 255, 255, ${twinkle * 0.8})`;
-                    ctx.beginPath();
-                    ctx.arc(x, y, 1 + Math.random(), 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            // Sun or moon
-            const celestialY = height * 0.15;
-            const celestialX = width * 0.8;
-
-            if (timeOfDay > 0.25 && timeOfDay < 0.75) {
-                // Sun
-                ctx.fillStyle = '#fff5c0';
-                ctx.shadowColor = '#ffeb3b';
-                ctx.shadowBlur = 30;
-                ctx.beginPath();
-                ctx.arc(celestialX, celestialY, 30, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            } else {
-                // Moon
-                ctx.fillStyle = '#f5f5f5';
-                ctx.shadowColor = '#fff';
-                ctx.shadowBlur = 20;
-                ctx.beginPath();
-                ctx.arc(celestialX, celestialY, 25, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            }
-        }
-
-        // Draw ground
-        function drawGround(ctx, width, height) {
-            const groundY = height * 0.85;
-
-            // Grass gradient
-            const gradient = ctx.createLinearGradient(0, groundY, 0, height);
-            gradient.addColorStop(0, '#4a9a4a');
-            gradient.addColorStop(0.3, '#3d7a3d');
-            gradient.addColorStop(1, '#2d5a27');
-
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.moveTo(0, groundY);
-
-            // Gentle hills
-            for (let x = 0; x <= width; x += 50) {
-                const hillHeight = Math.sin(x * 0.01) * 10 + Math.sin(x * 0.02) * 5;
-                ctx.lineTo(x, groundY + hillHeight);
-            }
-
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
-        }
-
-        // Main render loop
-        let lastTime = 0;
-        function render(currentTime) {
-            const time = currentTime * 0.001;
-            const width = window.innerWidth;
-            const height = window.innerHeight;
+            const palette = getPalette(timeOfDay);
+            const isNight = timeOfDay < 0.25 || timeOfDay > 0.8;
 
             // Clear
             ctx.clearRect(0, 0, width, height);
 
-            // Draw scene
-            drawSky(ctx, width, height);
-            drawGround(ctx, width, height);
+            // Sky
+            drawSky(ctx, palette, time);
 
-            // Update and draw particles
-            particles.forEach(p => {
-                p.update(time);
-                p.draw(ctx);
-            });
+            // Celestial body (sun/moon)
+            drawCelestial(ctx, palette, timeOfDay, time);
 
-            // Draw plants (sorted back to front)
-            plants.forEach(plant => plant.draw(ctx, time));
+            // Clouds (daytime only)
+            if (!isNight) {
+                clouds.forEach(c => {
+                    c.update(time);
+                    c.draw(ctx, palette);
+                });
+            }
 
-            // Update and draw butterflies (only during day)
-            const timeOfDay = getTimeOfDay();
-            if (timeOfDay > 0.25 && timeOfDay < 0.8) {
+            // Hills (parallax ground layers)
+            drawHills(ctx, palette, time);
+
+            // Plants by layer
+            plants.forEach(p => p.draw(ctx, time, palette));
+
+            // Butterflies (daytime)
+            if (!isNight) {
                 butterflies.forEach(b => {
                     b.update(time);
                     b.draw(ctx);
                 });
             }
 
-            // Update status every minute
-            if (currentTime - lastTime > 60000) {
+            // Ambient particles
+            particles.forEach(p => {
+                p.update(time, isNight);
+                p.draw(ctx, isNight, palette);
+            });
+
+            // Update status periodically
+            if (timestamp - lastStatusUpdate > 60000) {
                 updateStatus();
-                lastTime = currentTime;
+                lastStatusUpdate = timestamp;
             }
 
             requestAnimationFrame(render);
         }
 
-        // Handle window resize
+        // ═══════════════════════════════════════════════════════════
+        // EVENT HANDLERS
+        // ═══════════════════════════════════════════════════════════
+
         window.addEventListener('resize', () => {
             resizeCanvas();
             initGarden();
@@ -587,12 +942,6 @@
         // Initialize and start
         initGarden();
         requestAnimationFrame(render);
-
-        // Update night particles periodically
-        setInterval(() => {
-            const isNight = getTimeOfDay() < 0.25 || getTimeOfDay() > 0.8;
-            particles.forEach(p => p.isNight = isNight);
-        }, 60000);
     </script>
 </body>
 </html>
