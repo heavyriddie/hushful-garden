@@ -833,38 +833,51 @@
         // GARDEN STATE & INITIALIZATION
         // ═══════════════════════════════════════════════════════════
 
-        // This would come from your backend API
-        const gardenState = {
+        // API base URL for fetching garden state
+        const API_BASE = 'https://hushful-telegram-bot.onrender.com';
+
+        // Default garden state (used while loading or if API fails)
+        let gardenState = {
             name: tg?.initDataUnsafe?.user?.first_name
                 ? `${tg.initDataUnsafe.user.first_name}'s Garden`
                 : 'Your Garden',
-            growthLevel: 0.7,
+            health: 0.5,
+            status: 'Growing peacefully...',
             plants: [
-                // Layer 0 (far) - smaller, more muted
-                { x: 0.1, type: 'tree', growth: 0.8, layer: 0 },
-                { x: 0.3, type: 'bush', growth: 0.7, layer: 0 },
-                { x: 0.7, type: 'tree', growth: 0.6, layer: 0 },
-                { x: 0.9, type: 'bush', growth: 0.8, layer: 0 },
-
-                // Layer 1 (mid)
-                { x: 0.15, type: 'fern', growth: 0.9, layer: 1 },
-                { x: 0.25, type: 'lavender', growth: 0.8, layer: 1 },
-                { x: 0.4, type: 'tulip', growth: 0.9, layer: 1 },
-                { x: 0.55, type: 'wildflower', growth: 1, layer: 1 },
-                { x: 0.65, type: 'lavender', growth: 0.85, layer: 1 },
-                { x: 0.8, type: 'fern', growth: 0.7, layer: 1 },
-
-                // Layer 2 (near) - larger, more vibrant
-                { x: 0.08, type: 'grass', growth: 1, layer: 2 },
-                { x: 0.2, type: 'wildflower', growth: 0.9, layer: 2 },
-                { x: 0.32, type: 'grass', growth: 0.95, layer: 2 },
-                { x: 0.45, type: 'tulip', growth: 1, layer: 2 },
-                { x: 0.58, type: 'grass', growth: 0.9, layer: 2 },
-                { x: 0.72, type: 'wildflower', growth: 0.85, layer: 2 },
-                { x: 0.85, type: 'grass', growth: 1, layer: 2 },
-                { x: 0.95, type: 'fern', growth: 0.8, layer: 2 },
+                // Minimal default garden
+                { x: 0.3, type: 'bush', growth: 0.5, layer: 0 },
+                { x: 0.5, type: 'fern', growth: 0.5, layer: 1 },
+                { x: 0.08, type: 'grass', growth: 0.5, layer: 2 },
+                { x: 0.58, type: 'grass', growth: 0.5, layer: 2 },
+                { x: 0.85, type: 'grass', growth: 0.5, layer: 2 },
             ]
         };
+
+        // Fetch personalized garden state from backend
+        async function fetchGardenState() {
+            const userId = tg?.initDataUnsafe?.user?.id;
+            if (!userId) {
+                console.log('No user ID available, using default garden');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/garden/${userId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (!data.error && data.plants) {
+                        gardenState = data;
+                        console.log('Loaded personalized garden:', gardenState.name);
+                        // Reinitialize with new state
+                        initGarden();
+                    }
+                } else {
+                    console.log('Garden API returned non-OK status:', response.status);
+                }
+            } catch (error) {
+                console.log('Could not fetch garden state, using defaults:', error.message);
+            }
+        }
 
         let plants = [];
         let particles = [];
@@ -911,6 +924,13 @@
         }
 
         function updateStatus() {
+            // Use backend-provided status if available
+            if (gardenState.status) {
+                document.getElementById('garden-status').textContent = gardenState.status;
+                return;
+            }
+
+            // Fallback to time-based status
             const hour = new Date().getHours();
             const statuses = {
                 5: 'Waking gently with the dawn...',
@@ -999,6 +1019,13 @@
         // Initialize and start
         initGarden();
         requestAnimationFrame(render);
+
+        // Fetch personalized garden state from backend (async)
+        // This will reinitialize the garden when data arrives
+        fetchGardenState();
+
+        // Refresh garden state periodically (every 5 minutes)
+        setInterval(fetchGardenState, 5 * 60 * 1000);
     </script>
 </body>
 </html>
