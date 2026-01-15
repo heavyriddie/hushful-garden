@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balanced Composition - Drawing Quality Variations</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', serif;
+            background: #12121a;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            color: #f0e8d8;
+        }
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #a0a0a0;
+            font-style: italic;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .option {
+            background: #1a1a28;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .option h2 {
+            padding: 12px 15px;
+            background: #252538;
+            font-size: 16px;
+            color: #f0e0c0;
+        }
+        .option-desc {
+            padding: 12px 15px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #a0a0b0;
+            border-bottom: 1px solid #303045;
+        }
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            padding-top: 133%;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .controls {
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: #18182a;
+        }
+        .controls button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            background: #354035;
+            color: #d0e0d0;
+            transition: all 0.2s;
+        }
+        .controls button:hover { background: #456045; }
+        .controls button.active {
+            background: #5a8a5a;
+            box-shadow: 0 0 8px rgba(90, 138, 90, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <h1>Drawing Quality Studies</h1>
+    <p class="subtitle">Elevating the artistic quality of shapes within balanced composition</p>
+
+    <div class="options-grid">
+        <!-- A: Refined Botanicals -->
+        <div class="option">
+            <h2>A: Refined Botanicals</h2>
+            <div class="option-desc">
+                Accurate, elegant plant forms. Roses with layered spiral petals,
+                proper leaf venation, botanically-inspired shapes. Each flower
+                type is distinct and recognizable. Refined natural beauty.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasA"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('A', 0.1)">Seedling</button>
+                <button onclick="setGrowth('A', 0.4)">Growing</button>
+                <button onclick="setGrowth('A', 0.7)">Blooming</button>
+                <button onclick="setGrowth('A', 1.0)">Flourishing</button>
+            </div>
+        </div>
+
+        <!-- B: Fluid Brushwork -->
+        <div class="option">
+            <h2>B: Fluid Brushwork</h2>
+            <div class="option-desc">
+                Organic curves suggesting confident brush strokes. Tapered lines,
+                flowing forms, gestural quality. Like ink wash painting with
+                bold, assured marks. Energy and movement in every shape.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasB"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('B', 0.1)">Seedling</button>
+                <button onclick="setGrowth('B', 0.4)">Growing</button>
+                <button onclick="setGrowth('B', 0.7)">Blooming</button>
+                <button onclick="setGrowth('B', 1.0)">Flourishing</button>
+            </div>
+        </div>
+
+        <!-- C: Ukiyo-e Precision -->
+        <div class="option">
+            <h2>C: Ukiyo-e Precision</h2>
+            <div class="option-desc">
+                Clean geometric reduction with deliberate negative space.
+                Simplified forms that capture essence. Strong outlines,
+                flat color areas, conscious composition. Less is more.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasC"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('C', 0.1)">Seedling</button>
+                <button onclick="setGrowth('C', 0.4)">Growing</button>
+                <button onclick="setGrowth('C', 0.7)">Blooming</button>
+                <button onclick="setGrowth('C', 1.0)">Flourishing</button>
+            </div>
+        </div>
+
+        <!-- D: Soft Naturalism -->
+        <div class="option">
+            <h2>D: Soft Naturalism</h2>
+            <div class="option-desc">
+                Gentle, naturalistic forms with subtle tonal shifts. Soft edges
+                where appropriate, organic imperfection. Warm, inviting quality
+                like watercolor studies. Delicate but present.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasD"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('D', 0.1)">Seedling</button>
+                <button onclick="setGrowth('D', 0.4)">Growing</button>
+                <button onclick="setGrowth('D', 0.7)">Blooming</button>
+                <button onclick="setGrowth('D', 1.0)">Flourishing</button>
+            </div>
+        </div>
+
+        <!-- E: Graphic Elegance -->
+        <div class="option">
+            <h2>E: Graphic Elegance</h2>
+            <div class="option-desc">
+                Bold, confident shapes with strong silhouettes. High contrast,
+                decisive forms. Art deco influence meets Japanese print.
+                Sophisticated, striking, memorable shapes.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasE"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('E', 0.1)">Seedling</button>
+                <button onclick="setGrowth('E', 0.4)">Growing</button>
+                <button onclick="setGrowth('E', 0.7)">Blooming</button>
+                <button onclick="setGrowth('E', 1.0)">Flourishing</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const growthStates = { A: 0.1, B: 0.1, C: 0.1, D: 0.1, E: 0.1 };
+
+        // Kawase palette
+        const K = {
+            skyTop: '#2a3860',
+            skyMid: '#6050a0',
+            skyLow: '#d07090',
+            skyHorizon: '#f8a080',
+            stone: '#8a7868',
+            stoneDark: '#5a4838',
+            stoneLight: '#b8a888',
+            gardenDark: '#2a4830',
+            gardenMid: '#3a6840',
+            gardenLight: '#4a8850',
+            path: '#c8a878',
+            pathDark: '#a08058',
+            treeDark: '#1a2820',
+            treeMid: '#2a4830',
+            treeLight: '#3a5838',
+            flowerPink: '#ff5080',
+            flowerMagenta: '#d040a0',
+            flowerYellow: '#ffc830',
+            flowerWhite: '#f8f0e8',
+            flowerBlue: '#7090c0',
+            outline: '#2a2020'
+        };
+
+        function initCanvas(id) {
+            const canvas = document.getElementById(`canvas${id}`);
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            return { ctx, w: rect.width, h: rect.height };
+        }
+
+        function setGrowth(style, value) {
+            growthStates[style] = value;
+            const options = document.querySelectorAll('.option');
+            const idx = ['A','B','C','D','E'].indexOf(style);
+            options[idx].querySelectorAll('.controls button').forEach((btn, i) => {
+                const vals = [0.1, 0.4, 0.7, 1.0];
+                btn.classList.toggle('active', Math.abs(vals[i] - value) < 0.05);
+            });
+            renderStyle(style);
+        }
+
+        function seededRandom(seed) {
+            const x = Math.sin(seed * 127.1 + seed * 311.7) * 43758.5453;
+            return x - Math.floor(x);
+        }
+
+        function lerpColor(c1, c2, t) {
+            const parse = c => [parseInt(c.slice(1,3),16), parseInt(c.slice(3,5),16), parseInt(c.slice(5,7),16)];
+            const [r1,g1,b1] = parse(c1), [r2,g2,b2] = parse(c2);
+            const r = Math.round(r1+(r2-r1)*t), g = Math.round(g1+(g2-g1)*t), b = Math.round(b1+(b2-b1)*t);
+            return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SHARED BASE: Sky, Gate, Ground, Path structure
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawSky(ctx, w, h) {
+            const grad = ctx.createLinearGradient(0, 0, 0, h * 0.5);
+            grad.addColorStop(0, K.skyTop);
+            grad.addColorStop(0.35, K.skyMid);
+            grad.addColorStop(0.7, K.skyLow);
+            grad.addColorStop(1, K.skyHorizon);
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+        }
+
+        function drawBaseStructure(ctx, w, h, lineWidth = 2) {
+            // Gate
+            ctx.fillStyle = K.stoneDark;
+            ctx.fillRect(0, 0, w * 0.18, h);
+            ctx.fillRect(w * 0.82, 0, w * 0.18, h);
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(w, 0);
+            ctx.lineTo(w, h * 0.24);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.08, 0, h * 0.24);
+            ctx.fill();
+
+            ctx.fillStyle = K.stone;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.18, h * 0.2);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.1, w * 0.82, h * 0.2);
+            ctx.lineTo(w * 0.82, h * 0.25);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.14, w * 0.18, h * 0.25);
+            ctx.fill();
+            ctx.fillRect(w * 0.15, h * 0.2, w * 0.05, h * 0.8);
+            ctx.fillRect(w * 0.8, h * 0.2, w * 0.05, h * 0.8);
+
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = lineWidth;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.18, h);
+            ctx.lineTo(w * 0.18, h * 0.22);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.09, w * 0.82, h * 0.22);
+            ctx.lineTo(w * 0.82, h);
+            ctx.stroke();
+
+            // Garden ground
+            ctx.fillStyle = K.gardenDark;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.18, h * 0.38);
+            ctx.lineTo(w * 0.82, h * 0.38);
+            ctx.lineTo(w * 0.85, h);
+            ctx.lineTo(w * 0.15, h);
+            ctx.fill();
+        }
+
+        function drawWindingPath(ctx, w, h, lineWidth = 2) {
+            ctx.fillStyle = K.path;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.35, h);
+            ctx.bezierCurveTo(w * 0.32, h * 0.85, w * 0.55, h * 0.7, w * 0.45, h * 0.55);
+            ctx.bezierCurveTo(w * 0.38, h * 0.45, w * 0.52, h * 0.4, w * 0.48, h * 0.38);
+            ctx.lineTo(w * 0.52, h * 0.38);
+            ctx.bezierCurveTo(w * 0.56, h * 0.4, w * 0.42, h * 0.45, w * 0.55, h * 0.55);
+            ctx.bezierCurveTo(w * 0.62, h * 0.7, w * 0.42, h * 0.85, w * 0.65, h);
+            ctx.fill();
+            ctx.strokeStyle = K.pathDark;
+            ctx.lineWidth = lineWidth;
+            ctx.stroke();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE A: REFINED BOTANICALS
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleA() {
+            const { ctx, w, h } = initCanvas('A');
+            const g = growthStates.A;
+
+            drawSky(ctx, w, h);
+            drawBaseStructure(ctx, w, h, 2);
+            drawWindingPath(ctx, w, h, 2);
+
+            // Refined tree with proper branching
+            drawBotanicalTree(ctx, w * 0.5, h * 0.48, g, w, h);
+
+            // Botanical flowers
+            const colors = [K.flowerPink, K.flowerMagenta, K.flowerYellow, K.flowerWhite];
+            const flowerCount = Math.floor(6 + g * 18);
+
+            for (let i = 0; i < flowerCount; i++) {
+                const side = i % 2;
+                const fx = w * (side === 0 ? 0.24 : 0.73) + (seededRandom(i * 7) - 0.5) * w * 0.1;
+                const fy = h * (0.48 + seededRandom(i * 11) * 0.38);
+                const fg = Math.max(0, g - seededRandom(i * 13) * 0.25);
+
+                if (fg > 0.1) {
+                    const size = (5 + fg * 9) * (0.8 + seededRandom(i * 17) * 0.4);
+                    const type = i % 4;
+
+                    // Draw leaves first
+                    drawBotanicalLeaves(ctx, fx, fy + size * 0.8, size * 1.2, type);
+
+                    // Draw flower based on type
+                    if (type === 0) {
+                        drawRefinedRose(ctx, fx, fy, colors[0], size);
+                    } else if (type === 1) {
+                        drawRefinedCamellia(ctx, fx, fy, colors[1], size);
+                    } else if (type === 2) {
+                        drawRefinedDaisy(ctx, fx, fy, colors[2], size);
+                    } else {
+                        drawRefinedHydrangea(ctx, fx, fy, colors[3], size * 1.2);
+                    }
+                }
+            }
+
+            // Gardener
+            drawRefinedGardener(ctx, w * 0.42, h * 0.76, w, h);
+
+            // Foreground with varied flower types
+            for (let i = 0; i < 4; i++) {
+                const fx = w * (0.18 + seededRandom(i * 31) * 0.14);
+                const fy = h * (0.88 + seededRandom(i * 37) * 0.1);
+                drawBotanicalLeaves(ctx, fx, fy + 12, 22 + g * 12, i);
+                if (i % 2 === 0) {
+                    drawRefinedRose(ctx, fx, fy, colors[i % 4], 9 + g * 6);
+                } else {
+                    drawRefinedCamellia(ctx, fx, fy, colors[i % 4], 9 + g * 6);
+                }
+            }
+            for (let i = 0; i < 4; i++) {
+                const fx = w * (0.7 + seededRandom(i * 41) * 0.12);
+                const fy = h * (0.86 + seededRandom(i * 43) * 0.12);
+                drawBotanicalLeaves(ctx, fx, fy + 12, 22 + g * 12, i + 2);
+                drawRefinedHydrangea(ctx, fx, fy, K.flowerBlue, 12 + g * 8);
+            }
+        }
+
+        function drawBotanicalTree(ctx, x, y, g, w, h) {
+            if (g < 0.12) return;
+
+            const treeH = 25 + g * 110;
+            const canopyW = 18 + g * 65;
+
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 1.5;
+
+            // Trunk with texture
+            ctx.fillStyle = K.treeDark;
+            const trunkW = 5 + g * 8;
+            ctx.beginPath();
+            ctx.moveTo(x - trunkW/2, y);
+            ctx.bezierCurveTo(x - trunkW/2 - 2, y - treeH * 0.3, x - trunkW/3, y - treeH * 0.4, x, y - treeH * 0.38);
+            ctx.bezierCurveTo(x + trunkW/3, y - treeH * 0.4, x + trunkW/2 + 2, y - treeH * 0.3, x + trunkW/2, y);
+            ctx.fill();
+            ctx.stroke();
+
+            // Branches
+            if (g > 0.3) {
+                ctx.lineWidth = 1 + g * 2;
+                ctx.beginPath();
+                ctx.moveTo(x - 2, y - treeH * 0.35);
+                ctx.bezierCurveTo(x - canopyW * 0.3, y - treeH * 0.45, x - canopyW * 0.5, y - treeH * 0.42, x - canopyW * 0.55, y - treeH * 0.48);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(x + 2, y - treeH * 0.36);
+                ctx.bezierCurveTo(x + canopyW * 0.25, y - treeH * 0.48, x + canopyW * 0.45, y - treeH * 0.45, x + canopyW * 0.5, y - treeH * 0.52);
+                ctx.stroke();
+            }
+
+            // Canopy with leaf-like clusters
+            if (g > 0.2) {
+                ctx.lineWidth = 1.5;
+
+                // Back canopy
+                ctx.fillStyle = K.treeDark;
+                drawLeafyCanopyCluster(ctx, x, y - treeH * 0.58, canopyW * 0.95, treeH * 0.35);
+
+                // Mid canopy
+                if (g > 0.4) {
+                    ctx.fillStyle = K.treeMid;
+                    drawLeafyCanopyCluster(ctx, x - canopyW * 0.1, y - treeH * 0.65, canopyW * 0.7, treeH * 0.28);
+                }
+
+                // Front highlight
+                if (g > 0.6) {
+                    ctx.fillStyle = K.treeLight;
+                    drawLeafyCanopyCluster(ctx, x + canopyW * 0.15, y - treeH * 0.7, canopyW * 0.45, treeH * 0.2);
+                }
+            }
+        }
+
+        function drawLeafyCanopyCluster(ctx, x, y, w, h) {
+            // Multiple overlapping leaf-shaped blobs
+            const blobs = [
+                { ox: 0, oy: 0, sw: 1, sh: 1 },
+                { ox: -0.35, oy: 0.1, sw: 0.6, sh: 0.7 },
+                { ox: 0.35, oy: 0.05, sw: 0.55, sh: 0.65 },
+                { ox: -0.15, oy: -0.25, sw: 0.5, sh: 0.55 },
+                { ox: 0.2, oy: -0.2, sw: 0.45, sh: 0.5 },
+            ];
+
+            blobs.forEach(b => {
+                ctx.beginPath();
+                const bx = x + b.ox * w;
+                const by = y + b.oy * h;
+                const bw = w * b.sw;
+                const bh = h * b.sh;
+
+                // Leaf-like shape with pointed ends
+                ctx.moveTo(bx - bw * 0.5, by);
+                ctx.quadraticCurveTo(bx - bw * 0.3, by - bh * 0.6, bx, by - bh * 0.5);
+                ctx.quadraticCurveTo(bx + bw * 0.3, by - bh * 0.6, bx + bw * 0.5, by);
+                ctx.quadraticCurveTo(bx + bw * 0.3, by + bh * 0.4, bx, by + bh * 0.3);
+                ctx.quadraticCurveTo(bx - bw * 0.3, by + bh * 0.4, bx - bw * 0.5, by);
+                ctx.fill();
+                ctx.stroke();
+            });
+        }
+
+        function drawBotanicalLeaves(ctx, x, y, size, type) {
+            ctx.fillStyle = K.gardenMid;
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 1;
+
+            if (type === 0 || type === 2) {
+                // Pinnate leaves (rose-like)
+                for (let i = -1; i <= 1; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(x + i * size * 0.15, y);
+                    ctx.quadraticCurveTo(x + i * size * 0.2 - 4, y - size * 0.5, x + i * size * 0.1, y - size * 0.8);
+                    ctx.quadraticCurveTo(x + i * size * 0.2 + 4, y - size * 0.5, x + i * size * 0.15, y);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            } else {
+                // Rounded leaves
+                for (let i = -1; i <= 1; i++) {
+                    ctx.beginPath();
+                    ctx.ellipse(x + i * size * 0.18, y - size * 0.4, size * 0.15, size * 0.3, i * 0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            }
+        }
+
+        function drawRefinedRose(ctx, x, y, color, size) {
+            ctx.strokeStyle = lerpColor(color, '#000000', 0.35);
+            ctx.lineWidth = Math.max(0.8, size * 0.06);
+
+            // Outer petals - 5 large petals with curves
+            ctx.fillStyle = color;
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
+                const px = x + Math.cos(angle) * size * 0.35;
+                const py = y + Math.sin(angle) * size * 0.35;
+
+                ctx.beginPath();
+                // Heart-shaped petal
+                ctx.moveTo(px, py + size * 0.35);
+                ctx.bezierCurveTo(
+                    px - size * 0.35, py + size * 0.1,
+                    px - size * 0.25, py - size * 0.3,
+                    px, py - size * 0.2
+                );
+                ctx.bezierCurveTo(
+                    px + size * 0.25, py - size * 0.3,
+                    px + size * 0.35, py + size * 0.1,
+                    px, py + size * 0.35
+                );
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Inner spiral petals
+            ctx.fillStyle = lerpColor(color, '#ffffff', 0.2);
+            for (let i = 0; i < 4; i++) {
+                const angle = (i / 4) * Math.PI * 2 + 0.4;
+                const dist = size * 0.18;
+                const px = x + Math.cos(angle) * dist;
+                const py = y + Math.sin(angle) * dist;
+                ctx.beginPath();
+                ctx.ellipse(px, py, size * 0.22, size * 0.15, angle + 0.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Center
+            ctx.fillStyle = lerpColor(color, '#ffffff', 0.4);
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.12, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function drawRefinedCamellia(ctx, x, y, color, size) {
+            ctx.strokeStyle = lerpColor(color, '#000000', 0.35);
+            ctx.lineWidth = Math.max(0.8, size * 0.06);
+
+            // Layered circular petals
+            for (let layer = 0; layer < 3; layer++) {
+                const petals = 5 + layer;
+                const dist = size * (0.15 + layer * 0.15);
+                const petalSize = size * (0.35 - layer * 0.05);
+
+                ctx.fillStyle = lerpColor(color, '#ffffff', layer * 0.15);
+
+                for (let i = 0; i < petals; i++) {
+                    const angle = (i / petals) * Math.PI * 2 + layer * 0.3;
+                    const px = x + Math.cos(angle) * dist;
+                    const py = y + Math.sin(angle) * dist;
+
+                    ctx.beginPath();
+                    ctx.ellipse(px, py, petalSize, petalSize * 0.7, angle + Math.PI/2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            }
+
+            // Golden stamens
+            ctx.fillStyle = '#e8c040';
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.15, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Stamen details
+            ctx.fillStyle = '#c8a020';
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.arc(x + Math.cos(angle) * size * 0.08, y + Math.sin(angle) * size * 0.08, size * 0.03, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawRefinedDaisy(ctx, x, y, color, size) {
+            ctx.strokeStyle = lerpColor(color, '#000000', 0.3);
+            ctx.lineWidth = Math.max(0.8, size * 0.05);
+
+            // Long thin petals radiating out
+            ctx.fillStyle = color;
+            const petals = 12;
+            for (let i = 0; i < petals; i++) {
+                const angle = (i / petals) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.quadraticCurveTo(
+                    x + Math.cos(angle - 0.15) * size * 0.5,
+                    y + Math.sin(angle - 0.15) * size * 0.5,
+                    x + Math.cos(angle) * size * 0.9,
+                    y + Math.sin(angle) * size * 0.9
+                );
+                ctx.quadraticCurveTo(
+                    x + Math.cos(angle + 0.15) * size * 0.5,
+                    y + Math.sin(angle + 0.15) * size * 0.5,
+                    x, y
+                );
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Large golden center
+            ctx.fillStyle = '#d8a020';
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.28, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Center texture
+            ctx.fillStyle = '#c89010';
+            for (let i = 0; i < 12; i++) {
+                const angle = (i / 12) * Math.PI * 2;
+                const dist = size * 0.12;
+                ctx.beginPath();
+                ctx.arc(x + Math.cos(angle) * dist, y + Math.sin(angle) * dist, size * 0.04, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawRefinedHydrangea(ctx, x, y, color, size) {
+            ctx.strokeStyle = lerpColor(color, '#000000', 0.3);
+            ctx.lineWidth = 0.8;
+
+            // Cluster of tiny 4-petal flowers
+            const count = 15;
+            for (let i = 0; i < count; i++) {
+                const angle = seededRandom(i * 7 + x) * Math.PI * 2;
+                const dist = seededRandom(i * 11 + y) * size * 0.45;
+                const fx = x + Math.cos(angle) * dist;
+                const fy = y + Math.sin(angle) * dist;
+                const fsize = size * (0.12 + seededRandom(i * 13) * 0.08);
+
+                ctx.fillStyle = lerpColor(color, '#ffffff', seededRandom(i * 17) * 0.3);
+
+                // 4 petals
+                for (let p = 0; p < 4; p++) {
+                    const pa = (p / 4) * Math.PI * 2;
+                    ctx.beginPath();
+                    ctx.ellipse(
+                        fx + Math.cos(pa) * fsize * 0.35,
+                        fy + Math.sin(pa) * fsize * 0.35,
+                        fsize * 0.4, fsize * 0.3, pa, 0, Math.PI * 2
+                    );
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                // Tiny center
+                ctx.fillStyle = '#e8e0d0';
+                ctx.beginPath();
+                ctx.arc(fx, fy, fsize * 0.12, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawRefinedGardener(ctx, x, y, w, h) {
+            const scale = h * 0.15;
+            ctx.save();
+            ctx.translate(x, y);
+
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 1.8;
+
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, scale * 0.32, scale * 0.09, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Dress with folds
+            ctx.fillStyle = '#4a6848';
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.2, 0);
+            ctx.bezierCurveTo(-scale * 0.25, -scale * 0.2, -scale * 0.28, -scale * 0.35, -scale * 0.2, -scale * 0.48);
+            ctx.lineTo(scale * 0.2, -scale * 0.48);
+            ctx.bezierCurveTo(scale * 0.28, -scale * 0.35, scale * 0.25, -scale * 0.2, scale * 0.2, 0);
+            ctx.fill();
+            ctx.stroke();
+
+            // Apron detail
+            ctx.fillStyle = '#e8e0d0';
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.12, -scale * 0.1);
+            ctx.lineTo(-scale * 0.1, -scale * 0.42);
+            ctx.lineTo(scale * 0.1, -scale * 0.42);
+            ctx.lineTo(scale * 0.12, -scale * 0.1);
+            ctx.fill();
+            ctx.stroke();
+
+            // Arms
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.ellipse(-scale * 0.26, -scale * 0.38, scale * 0.055, scale * 0.12, 0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(scale * 0.26, -scale * 0.36, scale * 0.055, scale * 0.13, -0.3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Head
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.58, scale * 0.13, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hair
+            ctx.fillStyle = '#6a4a30';
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.62, scale * 0.11, Math.PI * 1.15, Math.PI * 1.85);
+            ctx.fill();
+
+            // Hat with refined brim
+            ctx.fillStyle = '#d8c888';
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.66, scale * 0.3, scale * 0.075, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.16, -scale * 0.68);
+            ctx.quadraticCurveTo(-scale * 0.18, -scale * 0.78, 0, -scale * 0.8);
+            ctx.quadraticCurveTo(scale * 0.18, -scale * 0.78, scale * 0.16, -scale * 0.68);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hat band with bow
+            ctx.fillStyle = '#9070a0';
+            ctx.fillRect(-scale * 0.16, -scale * 0.69, scale * 0.32, scale * 0.04);
+            ctx.beginPath();
+            ctx.ellipse(scale * 0.12, -scale * 0.67, scale * 0.06, scale * 0.03, 0.3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Watering can - refined shape
+            ctx.fillStyle = '#607080';
+            ctx.beginPath();
+            ctx.moveTo(scale * 0.22, -scale * 0.22);
+            ctx.bezierCurveTo(scale * 0.2, -scale * 0.35, scale * 0.35, -scale * 0.38, scale * 0.38, -scale * 0.25);
+            ctx.lineTo(scale * 0.38, -scale * 0.18);
+            ctx.bezierCurveTo(scale * 0.35, -scale * 0.1, scale * 0.22, -scale * 0.12, scale * 0.22, -scale * 0.22);
+            ctx.fill();
+            ctx.stroke();
+            // Spout
+            ctx.beginPath();
+            ctx.moveTo(scale * 0.38, -scale * 0.28);
+            ctx.lineTo(scale * 0.48, -scale * 0.38);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE B: FLUID BRUSHWORK
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleB() {
+            const { ctx, w, h } = initCanvas('B');
+            const g = growthStates.B;
+
+            drawSky(ctx, w, h);
+            drawBaseStructure(ctx, w, h, 2.5);
+            drawWindingPath(ctx, w, h, 2.5);
+
+            // Fluid tree
+            drawFluidTree(ctx, w * 0.5, h * 0.48, g, w, h);
+
+            // Fluid flowers
+            const colors = [K.flowerPink, K.flowerMagenta, K.flowerYellow, K.flowerWhite];
+            const flowerCount = Math.floor(6 + g * 18);
+
+            for (let i = 0; i < flowerCount; i++) {
+                const side = i % 2;
+                const fx = w * (side === 0 ? 0.24 : 0.73) + (seededRandom(i * 7) - 0.5) * w * 0.1;
+                const fy = h * (0.48 + seededRandom(i * 11) * 0.38);
+                const fg = Math.max(0, g - seededRandom(i * 13) * 0.25);
+
+                if (fg > 0.1) {
+                    const size = (5 + fg * 9) * (0.8 + seededRandom(i * 17) * 0.4);
+                    drawFluidLeaves(ctx, fx, fy + size * 0.7, size);
+                    drawFluidFlower(ctx, fx, fy, colors[i % 4], size);
+                }
+            }
+
+            drawFluidGardener(ctx, w * 0.42, h * 0.76, w, h);
+
+            // Foreground
+            for (let i = 0; i < 4; i++) {
+                const fx = w * (0.18 + seededRandom(i * 31) * 0.14);
+                const fy = h * (0.88 + seededRandom(i * 37) * 0.1);
+                drawFluidLeaves(ctx, fx, fy + 12, 20 + g * 10);
+                drawFluidFlower(ctx, fx, fy, colors[i % 4], 9 + g * 6);
+            }
+            for (let i = 0; i < 4; i++) {
+                const fx = w * (0.7 + seededRandom(i * 41) * 0.12);
+                const fy = h * (0.86 + seededRandom(i * 43) * 0.12);
+                drawFluidLeaves(ctx, fx, fy + 12, 20 + g * 10);
+                drawFluidFlower(ctx, fx, fy, colors[(i+1) % 4], 9 + g * 6);
+            }
+        }
+
+        function drawFluidTree(ctx, x, y, g, w, h) {
+            if (g < 0.12) return;
+
+            const treeH = 25 + g * 110;
+            const canopyW = 18 + g * 65;
+
+            // Fluid trunk with tapered brushstroke feel
+            ctx.fillStyle = K.treeDark;
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(x - 3, y);
+            ctx.bezierCurveTo(x - 8, y - treeH * 0.2, x - 6, y - treeH * 0.35, x - 1, y - treeH * 0.4);
+            ctx.bezierCurveTo(x + 1, y - treeH * 0.4, x + 8, y - treeH * 0.35, x + 4, y - treeH * 0.2);
+            ctx.bezierCurveTo(x + 10, y - treeH * 0.1, x + 5, y, x + 4, y);
+            ctx.fill();
+            ctx.stroke();
+
+            // Gestural branches
+            if (g > 0.3) {
+                ctx.lineCap = 'round';
+                ctx.lineWidth = 2 + g * 3;
+                ctx.beginPath();
+                ctx.moveTo(x, y - treeH * 0.38);
+                ctx.bezierCurveTo(x - canopyW * 0.4, y - treeH * 0.5, x - canopyW * 0.6, y - treeH * 0.45, x - canopyW * 0.65, y - treeH * 0.52);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(x, y - treeH * 0.4);
+                ctx.bezierCurveTo(x + canopyW * 0.35, y - treeH * 0.55, x + canopyW * 0.55, y - treeH * 0.5, x + canopyW * 0.6, y - treeH * 0.58);
+                ctx.stroke();
+                ctx.lineCap = 'butt';
+            }
+
+            // Fluid canopy masses
+            if (g > 0.2) {
+                ctx.lineWidth = 2;
+                ctx.fillStyle = K.treeDark;
+                drawFluidCanopyBlob(ctx, x - canopyW * 0.2, y - treeH * 0.55, canopyW * 0.7, treeH * 0.35);
+                drawFluidCanopyBlob(ctx, x + canopyW * 0.15, y - treeH * 0.6, canopyW * 0.65, treeH * 0.3);
+
+                if (g > 0.4) {
+                    ctx.fillStyle = K.treeMid;
+                    drawFluidCanopyBlob(ctx, x, y - treeH * 0.68, canopyW * 0.55, treeH * 0.25);
+                }
+
+                if (g > 0.6) {
+                    ctx.fillStyle = K.treeLight;
+                    drawFluidCanopyBlob(ctx, x + canopyW * 0.1, y - treeH * 0.72, canopyW * 0.35, treeH * 0.18);
+                }
+            }
+        }
+
+        function drawFluidCanopyBlob(ctx, x, y, w, h) {
+            ctx.beginPath();
+            // Organic, flowing shape
+            ctx.moveTo(x - w * 0.4, y + h * 0.1);
+            ctx.bezierCurveTo(x - w * 0.55, y - h * 0.3, x - w * 0.3, y - h * 0.5, x, y - h * 0.4);
+            ctx.bezierCurveTo(x + w * 0.3, y - h * 0.55, x + w * 0.55, y - h * 0.2, x + w * 0.4, y + h * 0.15);
+            ctx.bezierCurveTo(x + w * 0.2, y + h * 0.35, x - w * 0.2, y + h * 0.3, x - w * 0.4, y + h * 0.1);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function drawFluidLeaves(ctx, x, y, size) {
+            ctx.fillStyle = K.gardenMid;
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 1.2;
+
+            // Sweeping gestural leaves
+            for (let i = -1; i <= 1; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x + i * size * 0.1, y);
+                ctx.bezierCurveTo(
+                    x + i * size * 0.25 - 5, y - size * 0.4,
+                    x + i * size * 0.15 - 3, y - size * 0.8,
+                    x + i * size * 0.05, y - size
+                );
+                ctx.bezierCurveTo(
+                    x + i * size * 0.15 + 5, y - size * 0.7,
+                    x + i * size * 0.2 + 3, y - size * 0.3,
+                    x + i * size * 0.1, y
+                );
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+
+        function drawFluidFlower(ctx, x, y, color, size) {
+            ctx.strokeStyle = lerpColor(color, '#000000', 0.3);
+            ctx.lineWidth = Math.max(1, size * 0.08);
+            ctx.lineCap = 'round';
+
+            // Flowing petals with brushstroke quality
+            ctx.fillStyle = color;
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
+                const sweep = seededRandom(i * 7 + x) * 0.4 - 0.2;
+
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.bezierCurveTo(
+                    x + Math.cos(angle - 0.3) * size * 0.5,
+                    y + Math.sin(angle - 0.3) * size * 0.5,
+                    x + Math.cos(angle + sweep) * size * 0.8,
+                    y + Math.sin(angle + sweep) * size * 0.85,
+                    x + Math.cos(angle) * size * 0.65,
+                    y + Math.sin(angle) * size * 0.65
+                );
+                ctx.bezierCurveTo(
+                    x + Math.cos(angle - sweep) * size * 0.8,
+                    y + Math.sin(angle - sweep) * size * 0.85,
+                    x + Math.cos(angle + 0.3) * size * 0.5,
+                    y + Math.sin(angle + 0.3) * size * 0.5,
+                    x, y
+                );
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Center with gestural dots
+            ctx.fillStyle = lerpColor(color, '#ffffff', 0.5);
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.lineCap = 'butt';
+        }
+
+        function drawFluidGardener(ctx, x, y, w, h) {
+            const scale = h * 0.15;
+            ctx.save();
+            ctx.translate(x, y);
+
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, scale * 0.32, scale * 0.09, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Flowing dress shape
+            ctx.fillStyle = '#4a6848';
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.22, 0);
+            ctx.bezierCurveTo(-scale * 0.28, -scale * 0.15, -scale * 0.3, -scale * 0.35, -scale * 0.18, -scale * 0.48);
+            ctx.bezierCurveTo(-scale * 0.05, -scale * 0.52, scale * 0.05, -scale * 0.52, scale * 0.18, -scale * 0.48);
+            ctx.bezierCurveTo(scale * 0.3, -scale * 0.35, scale * 0.28, -scale * 0.15, scale * 0.22, 0);
+            ctx.fill();
+            ctx.stroke();
+
+            // Arms with gesture
+            ctx.fillStyle = '#e8c8a8';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.2, -scale * 0.45);
+            ctx.bezierCurveTo(-scale * 0.35, -scale * 0.42, -scale * 0.32, -scale * 0.3, -scale * 0.28, -scale * 0.28);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(-scale * 0.28, -scale * 0.3, scale * 0.05, scale * 0.08, 0.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(scale * 0.2, -scale * 0.45);
+            ctx.bezierCurveTo(scale * 0.38, -scale * 0.4, scale * 0.35, -scale * 0.28, scale * 0.3, -scale * 0.25);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(scale * 0.3, -scale * 0.27, scale * 0.05, scale * 0.08, -0.4, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Head
+            ctx.lineWidth = 2;
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.58, scale * 0.13, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Flowing hat
+            ctx.fillStyle = '#d8c888';
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.32, -scale * 0.65);
+            ctx.bezierCurveTo(-scale * 0.35, -scale * 0.72, -scale * 0.1, -scale * 0.82, 0, -scale * 0.8);
+            ctx.bezierCurveTo(scale * 0.1, -scale * 0.82, scale * 0.35, -scale * 0.72, scale * 0.32, -scale * 0.65);
+            ctx.bezierCurveTo(scale * 0.28, -scale * 0.62, -scale * 0.28, -scale * 0.62, -scale * 0.32, -scale * 0.65);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hat band
+            ctx.fillStyle = '#8060a0';
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.25, -scale * 0.67);
+            ctx.bezierCurveTo(-scale * 0.1, -scale * 0.7, scale * 0.1, -scale * 0.7, scale * 0.25, -scale * 0.67);
+            ctx.lineTo(scale * 0.25, -scale * 0.64);
+            ctx.bezierCurveTo(scale * 0.1, -scale * 0.67, -scale * 0.1, -scale * 0.67, -scale * 0.25, -scale * 0.64);
+            ctx.fill();
+
+            // Watering can with gesture
+            ctx.fillStyle = '#607080';
+            ctx.beginPath();
+            ctx.ellipse(scale * 0.35, -scale * 0.22, scale * 0.1, scale * 0.12, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(scale * 0.42, -scale * 0.28);
+            ctx.bezierCurveTo(scale * 0.48, -scale * 0.35, scale * 0.52, -scale * 0.4, scale * 0.5, -scale * 0.42);
+            ctx.stroke();
+
+            ctx.lineCap = 'butt';
+            ctx.restore();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE C: UKIYO-E PRECISION
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleC() {
+            const { ctx, w, h } = initCanvas('C');
+            const g = growthStates.C;
+
+            drawSky(ctx, w, h);
+            drawBaseStructure(ctx, w, h, 2.5);
+            drawWindingPath(ctx, w, h, 2.5);
+
+            // Precise, geometric tree
+            drawPreciseTree(ctx, w * 0.5, h * 0.48, g, w, h);
+
+            // Precise flowers - fewer but more deliberate
+            const colors = [K.flowerPink, K.flowerMagenta, K.flowerYellow, K.flowerWhite];
+            const flowerCount = Math.floor(5 + g * 14);
+
+            for (let i = 0; i < flowerCount; i++) {
+                const side = i % 2;
+                const fx = w * (side === 0 ? 0.25 : 0.72) + (seededRandom(i * 7) - 0.5) * w * 0.08;
+                const fy = h * (0.5 + seededRandom(i * 11) * 0.35);
+                const fg = Math.max(0, g - seededRandom(i * 13) * 0.25);
+
+                if (fg > 0.12) {
+                    const size = (6 + fg * 10) * (0.85 + seededRandom(i * 17) * 0.3);
+                    drawPreciseLeaves(ctx, fx, fy + size * 0.6, size);
+                    drawPreciseFlower(ctx, fx, fy, colors[i % 4], size);
+                }
+            }
+
+            drawPreciseGardener(ctx, w * 0.42, h * 0.76, w, h);
+
+            // Deliberate foreground
+            for (let i = 0; i < 3; i++) {
+                const fx = w * (0.2 + i * 0.06);
+                const fy = h * (0.9 + (i % 2) * 0.05);
+                drawPreciseLeaves(ctx, fx, fy + 10, 22 + g * 10);
+                drawPreciseFlower(ctx, fx, fy, colors[i % 4], 10 + g * 6);
+            }
+            for (let i = 0; i < 3; i++) {
+                const fx = w * (0.72 + i * 0.05);
+                const fy = h * (0.88 + (i % 2) * 0.06);
+                drawPreciseLeaves(ctx, fx, fy + 10, 22 + g * 10);
+                drawPreciseFlower(ctx, fx, fy, colors[(i+2) % 4], 10 + g * 6);
+            }
+        }
+
+        function drawPreciseTree(ctx, x, y, g, w, h) {
+            if (g < 0.12) return;
+
+            const treeH = 25 + g * 110;
+            const canopyW = 18 + g * 60;
+
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 2.5;
+
+            // Clean geometric trunk
+            ctx.fillStyle = K.treeDark;
+            const tw = 4 + g * 6;
+            ctx.beginPath();
+            ctx.moveTo(x - tw, y);
+            ctx.lineTo(x - tw * 0.7, y - treeH * 0.4);
+            ctx.lineTo(x + tw * 0.7, y - treeH * 0.4);
+            ctx.lineTo(x + tw, y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Geometric canopy - overlapping circles with strong outlines
+            if (g > 0.2) {
+                // Deliberate arrangement
+                ctx.fillStyle = K.treeDark;
+                ctx.beginPath();
+                ctx.arc(x, y - treeH * 0.55, canopyW * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(x - canopyW * 0.35, y - treeH * 0.5, canopyW * 0.35, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(x + canopyW * 0.3, y - treeH * 0.52, canopyW * 0.38, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                if (g > 0.5) {
+                    ctx.fillStyle = K.treeMid;
+                    ctx.beginPath();
+                    ctx.arc(x, y - treeH * 0.65, canopyW * 0.38, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.arc(x - canopyW * 0.2, y - treeH * 0.58, canopyW * 0.28, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                if (g > 0.75) {
+                    ctx.fillStyle = K.treeLight;
+                    ctx.beginPath();
+                    ctx.arc(x + canopyW * 0.1, y - treeH * 0.7, canopyW * 0.25, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            }
+        }
+
+        function drawPreciseLeaves(ctx, x, y, size) {
+            ctx.fillStyle = K.gardenMid;
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 1.5;
+
+            // Clean, geometric leaf shapes
+            for (let i = -1; i <= 1; i++) {
+                ctx.beginPath();
+                const lx = x + i * size * 0.15;
+                ctx.moveTo(lx, y);
+                ctx.lineTo(lx - size * 0.08, y - size * 0.5);
+                ctx.lineTo(lx, y - size * 0.9);
+                ctx.lineTo(lx + size * 0.08, y - size * 0.5);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+
+        function drawPreciseFlower(ctx, x, y, color, size) {
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 1.5;
+
+            // Perfect geometric petals
+            ctx.fillStyle = color;
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
+                const px = x + Math.cos(angle) * size * 0.3;
+                const py = y + Math.sin(angle) * size * 0.3;
+
+                ctx.beginPath();
+                ctx.ellipse(px, py, size * 0.38, size * 0.28, angle + Math.PI/2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Clean center circle
+            ctx.fillStyle = lerpColor(color, '#ffffff', 0.4);
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Center dot
+            ctx.fillStyle = lerpColor(color, '#000000', 0.2);
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.08, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawPreciseGardener(ctx, x, y, w, h) {
+            const scale = h * 0.15;
+            ctx.save();
+            ctx.translate(x, y);
+
+            ctx.strokeStyle = K.outline;
+            ctx.lineWidth = 2;
+
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, scale * 0.32, scale * 0.09, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Clean trapezoid body
+            ctx.fillStyle = '#4a6848';
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.2, 0);
+            ctx.lineTo(-scale * 0.22, -scale * 0.48);
+            ctx.lineTo(scale * 0.22, -scale * 0.48);
+            ctx.lineTo(scale * 0.2, 0);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Arms - simple ovals
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.ellipse(-scale * 0.28, -scale * 0.38, scale * 0.06, scale * 0.12, 0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(scale * 0.28, -scale * 0.36, scale * 0.06, scale * 0.12, -0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Head - perfect circle
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.58, scale * 0.13, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hat - geometric
+            ctx.fillStyle = '#d8c888';
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.67, scale * 0.3, scale * 0.07, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hat dome - clean arc
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.67, scale * 0.15, Math.PI, 0);
+            ctx.lineTo(scale * 0.15, -scale * 0.67);
+            ctx.arc(0, -scale * 0.67, scale * 0.15, 0, Math.PI);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hat band - clean rectangle
+            ctx.fillStyle = '#8060a0';
+            ctx.fillRect(-scale * 0.15, -scale * 0.69, scale * 0.3, scale * 0.04);
+            ctx.strokeRect(-scale * 0.15, -scale * 0.69, scale * 0.3, scale * 0.04);
+
+            // Watering can - geometric
+            ctx.fillStyle = '#607080';
+            ctx.fillRect(scale * 0.2, -scale * 0.32, scale * 0.15, scale * 0.18);
+            ctx.strokeRect(scale * 0.2, -scale * 0.32, scale * 0.15, scale * 0.18);
+            ctx.fillRect(scale * 0.32, -scale * 0.4, scale * 0.1, scale * 0.06);
+            ctx.strokeRect(scale * 0.32, -scale * 0.4, scale * 0.1, scale * 0.06);
+
+            ctx.restore();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE D: SOFT NATURALISM
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleD() {
+            const { ctx, w, h } = initCanvas('D');
+            const g = growthStates.D;
+
+            drawSky(ctx, w, h);
+            drawBaseStructure(ctx, w, h, 1.5);
+            drawWindingPath(ctx, w, h, 1.5);
+
+            // Soft, natural tree
+            drawSoftTree(ctx, w * 0.5, h * 0.48, g, w, h);
+
+            // Soft flowers
+            const colors = [K.flowerPink, K.flowerMagenta, K.flowerYellow, K.flowerWhite];
+            const flowerCount = Math.floor(7 + g * 20);
+
+            for (let i = 0; i < flowerCount; i++) {
+                const side = i % 2;
+                const fx = w * (side === 0 ? 0.24 : 0.73) + (seededRandom(i * 7) - 0.5) * w * 0.11;
+                const fy = h * (0.48 + seededRandom(i * 11) * 0.4);
+                const fg = Math.max(0, g - seededRandom(i * 13) * 0.25);
+
+                if (fg > 0.1) {
+                    const size = (4 + fg * 8) * (0.8 + seededRandom(i * 17) * 0.4);
+                    drawSoftLeaves(ctx, fx, fy + size * 0.7, size);
+                    drawSoftFlower(ctx, fx, fy, colors[i % 4], size);
+                }
+            }
+
+            drawSoftGardener(ctx, w * 0.42, h * 0.76, w, h);
+
+            // Soft foreground
+            for (let i = 0; i < 5; i++) {
+                const fx = w * (0.17 + seededRandom(i * 31) * 0.15);
+                const fy = h * (0.87 + seededRandom(i * 37) * 0.11);
+                drawSoftLeaves(ctx, fx, fy + 10, 18 + g * 12);
+                drawSoftFlower(ctx, fx, fy, colors[i % 4], 8 + g * 5);
+            }
+            for (let i = 0; i < 5; i++) {
+                const fx = w * (0.7 + seededRandom(i * 41) * 0.12);
+                const fy = h * (0.85 + seededRandom(i * 43) * 0.13);
+                drawSoftLeaves(ctx, fx, fy + 10, 18 + g * 12);
+                drawSoftFlower(ctx, fx, fy, colors[(i+1) % 4], 8 + g * 5);
+            }
+        }
+
+        function drawSoftTree(ctx, x, y, g, w, h) {
+            if (g < 0.12) return;
+
+            const treeH = 25 + g * 110;
+            const canopyW = 18 + g * 65;
+
+            // Soft trunk with subtle gradient
+            const trunkGrad = ctx.createLinearGradient(x - 8, y, x + 8, y);
+            trunkGrad.addColorStop(0, '#3a3028');
+            trunkGrad.addColorStop(0.4, K.treeDark);
+            trunkGrad.addColorStop(0.6, K.treeDark);
+            trunkGrad.addColorStop(1, '#3a3028');
+
+            ctx.fillStyle = trunkGrad;
+            ctx.strokeStyle = 'rgba(40, 32, 24, 0.6)';
+            ctx.lineWidth = 1;
+
+            ctx.beginPath();
+            ctx.moveTo(x - 4 - g * 4, y);
+            ctx.quadraticCurveTo(x - 6 - g * 3, y - treeH * 0.3, x - 2, y - treeH * 0.4);
+            ctx.quadraticCurveTo(x + 6 + g * 3, y - treeH * 0.3, x + 4 + g * 4, y);
+            ctx.fill();
+            ctx.stroke();
+
+            // Soft, blended canopy
+            if (g > 0.2) {
+                // Multiple soft layers
+                ctx.globalAlpha = 0.9;
+
+                ctx.fillStyle = K.treeDark;
+                drawSoftCanopyBlob(ctx, x, y - treeH * 0.55, canopyW * 0.9, treeH * 0.35);
+                drawSoftCanopyBlob(ctx, x - canopyW * 0.3, y - treeH * 0.5, canopyW * 0.6, treeH * 0.28);
+                drawSoftCanopyBlob(ctx, x + canopyW * 0.25, y - treeH * 0.53, canopyW * 0.55, treeH * 0.26);
+
+                if (g > 0.4) {
+                    ctx.fillStyle = K.treeMid;
+                    drawSoftCanopyBlob(ctx, x, y - treeH * 0.62, canopyW * 0.65, treeH * 0.25);
+                    drawSoftCanopyBlob(ctx, x - canopyW * 0.15, y - treeH * 0.58, canopyW * 0.5, treeH * 0.2);
+                }
+
+                if (g > 0.6) {
+                    ctx.fillStyle = K.treeLight;
+                    ctx.globalAlpha = 0.8;
+                    drawSoftCanopyBlob(ctx, x + canopyW * 0.1, y - treeH * 0.68, canopyW * 0.4, treeH * 0.18);
+                }
+
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function drawSoftCanopyBlob(ctx, x, y, w, h) {
+            ctx.beginPath();
+            ctx.ellipse(x, y, w * 0.5, h * 0.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+            // Soft edge
+            ctx.strokeStyle = 'rgba(30, 50, 30, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+
+        function drawSoftLeaves(ctx, x, y, size) {
+            ctx.fillStyle = K.gardenMid;
+            ctx.strokeStyle = 'rgba(40, 60, 40, 0.4)';
+            ctx.lineWidth = 0.8;
+
+            for (let i = -1; i <= 1; i++) {
+                ctx.globalAlpha = 0.85;
+                ctx.beginPath();
+                const lx = x + i * size * 0.12;
+                ctx.moveTo(lx, y);
+                ctx.quadraticCurveTo(lx - 5, y - size * 0.5, lx, y - size * 0.85);
+                ctx.quadraticCurveTo(lx + 5, y - size * 0.5, lx, y);
+                ctx.fill();
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        function drawSoftFlower(ctx, x, y, color, size) {
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.lineWidth = 0.8;
+
+            // Soft, slightly varied petals
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 - Math.PI / 2 + seededRandom(i * 7 + x) * 0.15;
+                const px = x + Math.cos(angle) * size * 0.3;
+                const py = y + Math.sin(angle) * size * 0.3;
+
+                // Gradient fill for softness
+                const petalGrad = ctx.createRadialGradient(px, py - size * 0.1, 0, px, py, size * 0.4);
+                petalGrad.addColorStop(0, lerpColor(color, '#ffffff', 0.3));
+                petalGrad.addColorStop(0.7, color);
+                petalGrad.addColorStop(1, lerpColor(color, '#000000', 0.1));
+
+                ctx.fillStyle = petalGrad;
+                ctx.beginPath();
+                ctx.ellipse(px, py, size * 0.38, size * 0.28, angle + Math.PI/2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Soft center
+            const centerGrad = ctx.createRadialGradient(x, y, 0, x, y, size * 0.18);
+            centerGrad.addColorStop(0, '#fffaf0');
+            centerGrad.addColorStop(1, lerpColor(color, '#ffffff', 0.5));
+            ctx.fillStyle = centerGrad;
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.18, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawSoftGardener(ctx, x, y, w, h) {
+            const scale = h * 0.15;
+            ctx.save();
+            ctx.translate(x, y);
+
+            ctx.strokeStyle = 'rgba(40, 32, 32, 0.5)';
+            ctx.lineWidth = 1;
+
+            // Soft shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.15)';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, scale * 0.35, scale * 0.1, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Body with soft gradient
+            const bodyGrad = ctx.createLinearGradient(-scale * 0.3, 0, scale * 0.3, 0);
+            bodyGrad.addColorStop(0, '#3a5838');
+            bodyGrad.addColorStop(0.5, '#4a6848');
+            bodyGrad.addColorStop(1, '#3a5838');
+            ctx.fillStyle = bodyGrad;
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.2, 0);
+            ctx.quadraticCurveTo(-scale * 0.26, -scale * 0.25, -scale * 0.2, -scale * 0.48);
+            ctx.lineTo(scale * 0.2, -scale * 0.48);
+            ctx.quadraticCurveTo(scale * 0.26, -scale * 0.25, scale * 0.2, 0);
+            ctx.fill();
+            ctx.stroke();
+
+            // Soft arms
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.ellipse(-scale * 0.26, -scale * 0.38, scale * 0.055, scale * 0.12, 0.35, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(scale * 0.26, -scale * 0.36, scale * 0.055, scale * 0.12, -0.35, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Head with slight gradient
+            const headGrad = ctx.createRadialGradient(0, -scale * 0.58, 0, 0, -scale * 0.58, scale * 0.15);
+            headGrad.addColorStop(0, '#f0d0b8');
+            headGrad.addColorStop(1, '#e0c0a0');
+            ctx.fillStyle = headGrad;
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.58, scale * 0.13, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Soft hat
+            const hatGrad = ctx.createRadialGradient(0, -scale * 0.7, 0, 0, -scale * 0.68, scale * 0.32);
+            hatGrad.addColorStop(0, '#e8d898');
+            hatGrad.addColorStop(1, '#c8b878');
+            ctx.fillStyle = hatGrad;
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.67, scale * 0.3, scale * 0.075, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.73, scale * 0.16, scale * 0.1, 0, Math.PI, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Soft hat band
+            ctx.fillStyle = '#9878a8';
+            ctx.globalAlpha = 0.9;
+            ctx.fillRect(-scale * 0.16, -scale * 0.69, scale * 0.32, scale * 0.035);
+            ctx.globalAlpha = 1;
+
+            // Soft watering can
+            ctx.fillStyle = '#708090';
+            ctx.beginPath();
+            ctx.ellipse(scale * 0.32, -scale * 0.25, scale * 0.1, scale * 0.12, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE E: GRAPHIC ELEGANCE
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleE() {
+            const { ctx, w, h } = initCanvas('E');
+            const g = growthStates.E;
+
+            drawSky(ctx, w, h);
+            drawBaseStructure(ctx, w, h, 3);
+            drawWindingPath(ctx, w, h, 3);
+
+            // Bold, graphic tree
+            drawGraphicTree(ctx, w * 0.5, h * 0.48, g, w, h);
+
+            // Graphic flowers
+            const colors = [K.flowerPink, K.flowerMagenta, K.flowerYellow, K.flowerWhite];
+            const flowerCount = Math.floor(5 + g * 15);
+
+            for (let i = 0; i < flowerCount; i++) {
+                const side = i % 2;
+                const fx = w * (side === 0 ? 0.25 : 0.72) + (seededRandom(i * 7) - 0.5) * w * 0.09;
+                const fy = h * (0.5 + seededRandom(i * 11) * 0.35);
+                const fg = Math.max(0, g - seededRandom(i * 13) * 0.25);
+
+                if (fg > 0.12) {
+                    const size = (6 + fg * 10) * (0.85 + seededRandom(i * 17) * 0.3);
+                    drawGraphicLeaves(ctx, fx, fy + size * 0.6, size);
+                    drawGraphicFlower(ctx, fx, fy, colors[i % 4], size);
+                }
+            }
+
+            drawGraphicGardener(ctx, w * 0.42, h * 0.76, w, h);
+
+            // Bold foreground
+            for (let i = 0; i < 4; i++) {
+                const fx = w * (0.18 + i * 0.05);
+                const fy = h * (0.89 + (i % 2) * 0.05);
+                drawGraphicLeaves(ctx, fx, fy + 10, 24 + g * 10);
+                drawGraphicFlower(ctx, fx, fy, colors[i % 4], 11 + g * 6);
+            }
+            for (let i = 0; i < 4; i++) {
+                const fx = w * (0.7 + i * 0.05);
+                const fy = h * (0.87 + (i % 2) * 0.06);
+                drawGraphicLeaves(ctx, fx, fy + 10, 24 + g * 10);
+                drawGraphicFlower(ctx, fx, fy, colors[(i+2) % 4], 11 + g * 6);
+            }
+        }
+
+        function drawGraphicTree(ctx, x, y, g, w, h) {
+            if (g < 0.12) return;
+
+            const treeH = 25 + g * 115;
+            const canopyW = 20 + g * 70;
+
+            ctx.strokeStyle = '#1a1810';
+            ctx.lineWidth = 3;
+
+            // Bold trunk silhouette
+            ctx.fillStyle = K.treeDark;
+            ctx.beginPath();
+            ctx.moveTo(x - 5 - g * 5, y);
+            ctx.lineTo(x - 4 - g * 3, y - treeH * 0.42);
+            ctx.lineTo(x + 4 + g * 3, y - treeH * 0.42);
+            ctx.lineTo(x + 5 + g * 5, y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Bold, decisive canopy shapes
+            if (g > 0.2) {
+                // Strong overlapping forms
+                ctx.fillStyle = K.treeDark;
+
+                // Main mass
+                ctx.beginPath();
+                ctx.moveTo(x - canopyW * 0.5, y - treeH * 0.45);
+                ctx.lineTo(x - canopyW * 0.55, y - treeH * 0.6);
+                ctx.lineTo(x - canopyW * 0.3, y - treeH * 0.75);
+                ctx.lineTo(x, y - treeH * 0.8);
+                ctx.lineTo(x + canopyW * 0.35, y - treeH * 0.72);
+                ctx.lineTo(x + canopyW * 0.5, y - treeH * 0.55);
+                ctx.lineTo(x + canopyW * 0.45, y - treeH * 0.42);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                if (g > 0.5) {
+                    ctx.fillStyle = K.treeMid;
+                    ctx.beginPath();
+                    ctx.moveTo(x - canopyW * 0.35, y - treeH * 0.52);
+                    ctx.lineTo(x - canopyW * 0.38, y - treeH * 0.68);
+                    ctx.lineTo(x - canopyW * 0.1, y - treeH * 0.78);
+                    ctx.lineTo(x + canopyW * 0.2, y - treeH * 0.72);
+                    ctx.lineTo(x + canopyW * 0.32, y - treeH * 0.58);
+                    ctx.lineTo(x + canopyW * 0.25, y - treeH * 0.48);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                if (g > 0.75) {
+                    ctx.fillStyle = K.treeLight;
+                    ctx.beginPath();
+                    ctx.moveTo(x - canopyW * 0.15, y - treeH * 0.6);
+                    ctx.lineTo(x - canopyW * 0.12, y - treeH * 0.72);
+                    ctx.lineTo(x + canopyW * 0.08, y - treeH * 0.76);
+                    ctx.lineTo(x + canopyW * 0.18, y - treeH * 0.68);
+                    ctx.lineTo(x + canopyW * 0.12, y - treeH * 0.58);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            }
+        }
+
+        function drawGraphicLeaves(ctx, x, y, size) {
+            ctx.fillStyle = K.gardenMid;
+            ctx.strokeStyle = '#1a2818';
+            ctx.lineWidth = 1.5;
+
+            // Bold, angular leaves
+            for (let i = -1; i <= 1; i++) {
+                ctx.beginPath();
+                const lx = x + i * size * 0.15;
+                ctx.moveTo(lx, y);
+                ctx.lineTo(lx - size * 0.1, y - size * 0.45);
+                ctx.lineTo(lx, y - size * 0.95);
+                ctx.lineTo(lx + size * 0.1, y - size * 0.45);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+
+        function drawGraphicFlower(ctx, x, y, color, size) {
+            ctx.strokeStyle = '#1a1010';
+            ctx.lineWidth = 2;
+
+            // Bold, confident petals
+            ctx.fillStyle = color;
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
+                const px = x + Math.cos(angle) * size * 0.28;
+                const py = y + Math.sin(angle) * size * 0.28;
+
+                ctx.beginPath();
+                // Diamond-ish petal
+                ctx.moveTo(px - Math.cos(angle + Math.PI/2) * size * 0.22, py - Math.sin(angle + Math.PI/2) * size * 0.22);
+                ctx.lineTo(px + Math.cos(angle) * size * 0.35, py + Math.sin(angle) * size * 0.35);
+                ctx.lineTo(px + Math.cos(angle + Math.PI/2) * size * 0.22, py + Math.sin(angle + Math.PI/2) * size * 0.22);
+                ctx.lineTo(px - Math.cos(angle) * size * 0.2, py - Math.sin(angle) * size * 0.2);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Bold center
+            ctx.fillStyle = lerpColor(color, '#ffffff', 0.5);
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.22, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Strong center accent
+            ctx.fillStyle = lerpColor(color, '#000000', 0.3);
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.1, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawGraphicGardener(ctx, x, y, w, h) {
+            const scale = h * 0.15;
+            ctx.save();
+            ctx.translate(x, y);
+
+            ctx.strokeStyle = '#1a1810';
+            ctx.lineWidth = 2.5;
+
+            // Bold shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.25)';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, scale * 0.35, scale * 0.1, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Strong silhouette body
+            ctx.fillStyle = '#4a6848';
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.22, 0);
+            ctx.lineTo(-scale * 0.25, -scale * 0.48);
+            ctx.lineTo(scale * 0.25, -scale * 0.48);
+            ctx.lineTo(scale * 0.22, 0);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Arms - bold ovals
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.ellipse(-scale * 0.3, -scale * 0.38, scale * 0.065, scale * 0.13, 0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(scale * 0.3, -scale * 0.36, scale * 0.065, scale * 0.13, -0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Head
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.58, scale * 0.14, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Bold hat
+            ctx.fillStyle = '#d8c888';
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.68, scale * 0.32, scale * 0.08, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hat dome - strong shape
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.18, -scale * 0.7);
+            ctx.lineTo(-scale * 0.15, -scale * 0.82);
+            ctx.lineTo(scale * 0.15, -scale * 0.82);
+            ctx.lineTo(scale * 0.18, -scale * 0.7);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Bold hat band
+            ctx.fillStyle = '#7050a0';
+            ctx.fillRect(-scale * 0.18, -scale * 0.72, scale * 0.36, scale * 0.05);
+            ctx.strokeRect(-scale * 0.18, -scale * 0.72, scale * 0.36, scale * 0.05);
+
+            // Bold watering can
+            ctx.fillStyle = '#506070';
+            ctx.beginPath();
+            ctx.moveTo(scale * 0.22, -scale * 0.2);
+            ctx.lineTo(scale * 0.2, -scale * 0.35);
+            ctx.lineTo(scale * 0.4, -scale * 0.35);
+            ctx.lineTo(scale * 0.42, -scale * 0.2);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            // Spout
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(scale * 0.4, -scale * 0.32);
+            ctx.lineTo(scale * 0.52, -scale * 0.42);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // RENDER
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyle(id) {
+            switch(id) {
+                case 'A': renderStyleA(); break;
+                case 'B': renderStyleB(); break;
+                case 'C': renderStyleC(); break;
+                case 'D': renderStyleD(); break;
+                case 'E': renderStyleE(); break;
+            }
+        }
+
+        function renderAll() {
+            ['A', 'B', 'C', 'D', 'E'].forEach(renderStyle);
+        }
+
+        window.addEventListener('load', renderAll);
+        window.addEventListener('resize', renderAll);
+    </script>
+</body>
+</html>
