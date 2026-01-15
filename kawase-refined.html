@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kawase Woodblock - Refined Variations</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', serif;
+            background: #12121a;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            color: #f0e8d8;
+        }
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #a0a0a0;
+            font-style: italic;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .option {
+            background: #1a1a28;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .option h2 {
+            padding: 12px 15px;
+            background: #252538;
+            font-size: 16px;
+            color: #f0e0c0;
+        }
+        .option-desc {
+            padding: 12px 15px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #a0a0b0;
+            border-bottom: 1px solid #303045;
+        }
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            padding-top: 133%;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .controls {
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: #18182a;
+        }
+        .controls button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            background: #354035;
+            color: #d0e0d0;
+            transition: all 0.2s;
+        }
+        .controls button:hover { background: #456045; }
+        .controls button.active {
+            background: #5a8a5a;
+            box-shadow: 0 0 8px rgba(90, 138, 90, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <h1>Kawase Woodblock - Art Quality Variations</h1>
+    <p class="subtitle">5 approaches to improving the visual quality</p>
+
+    <div class="options-grid">
+        <!-- A: Precise Botanicals -->
+        <div class="option">
+            <h2>A: Precise Botanicals</h2>
+            <div class="option-desc">
+                Accurate flower shapes with proper petal arrangements. Five-petal roses,
+                hydrangea clusters, iris sword-leaves. Simple geometry but botanically correct.
+                Bold Kawase colors with refined natural forms.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasA"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('A', 0.15)">Sparse</button>
+                <button onclick="setGrowth('A', 0.45)">Growing</button>
+                <button onclick="setGrowth('A', 0.75)">Blooming</button>
+                <button onclick="setGrowth('A', 1.0)">Lush</button>
+            </div>
+        </div>
+
+        <!-- B: Bokashi Gradients -->
+        <div class="option">
+            <h2>B: Bokashi Gradients</h2>
+            <div class="option-desc">
+                The signature Kawase technique - smooth gradated washes within flat shapes.
+                Sky transitions, shadows on stone, tonal depth in foliage. Each element
+                has subtle internal gradation while keeping crisp edges.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasB"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('B', 0.15)">Sparse</button>
+                <button onclick="setGrowth('B', 0.45)">Growing</button>
+                <button onclick="setGrowth('B', 0.75)">Blooming</button>
+                <button onclick="setGrowth('B', 1.0)">Lush</button>
+            </div>
+        </div>
+
+        <!-- C: Layered Silhouettes -->
+        <div class="option">
+            <h2>C: Layered Silhouettes</h2>
+            <div class="option-desc">
+                Strong depth through overlapping silhouette layers. Dark foreground framing,
+                mid-tones in middle, atmospheric distance. Bold value contrast creates
+                dramatic depth like traditional prints.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasC"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('C', 0.15)">Sparse</button>
+                <button onclick="setGrowth('C', 0.45)">Growing</button>
+                <button onclick="setGrowth('C', 0.75)">Blooming</button>
+                <button onclick="setGrowth('C', 1.0)">Lush</button>
+            </div>
+        </div>
+
+        <!-- D: Elegant Line Work -->
+        <div class="option">
+            <h2>D: Elegant Line Work</h2>
+            <div class="option-desc">
+                Clean outlines and key lines define shapes, like woodblock print edges.
+                Flat color fills with deliberate black outlines on key elements.
+                Minimal but precise linework adds definition and clarity.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasD"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('D', 0.15)">Sparse</button>
+                <button onclick="setGrowth('D', 0.45)">Growing</button>
+                <button onclick="setGrowth('D', 0.75)">Blooming</button>
+                <button onclick="setGrowth('D', 1.0)">Lush</button>
+            </div>
+        </div>
+
+        <!-- E: Texture Overlay -->
+        <div class="option">
+            <h2>E: Paper Texture</h2>
+            <div class="option-desc">
+                Subtle washi paper texture composited over the final render. Creates
+                authentic woodblock print feel with minimal compute. Slight grain
+                and fiber patterns suggest traditional printing methods.
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasE"></canvas>
+            </div>
+            <div class="controls">
+                <button class="active" onclick="setGrowth('E', 0.15)">Sparse</button>
+                <button onclick="setGrowth('E', 0.45)">Growing</button>
+                <button onclick="setGrowth('E', 0.75)">Blooming</button>
+                <button onclick="setGrowth('E', 1.0)">Lush</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const growthStates = { A: 0.15, B: 0.15, C: 0.15, D: 0.15, E: 0.15 };
+        const canvases = {};
+        const contexts = {};
+
+        // Shared Kawase palette
+        const kawase = {
+            skyTop: '#2a3860',
+            skyMid: '#6050a0',
+            skyLow: '#d07090',
+            skyHorizon: '#f8a080',
+            stone: '#8a7868',
+            stoneDark: '#5a4838',
+            stoneLight: '#b8a888',
+            gardenDark: '#2a4830',
+            gardenMid: '#3a6840',
+            gardenLight: '#4a8850',
+            path: '#c8a878',
+            pathDark: '#a08058',
+            treeDark: '#1a2820',
+            treeMid: '#2a4830',
+            treeLight: '#3a5838',
+            flowerPink: '#ff5080',
+            flowerMagenta: '#d040a0',
+            flowerYellow: '#ffc830',
+            flowerWhite: '#f8f0e8',
+            flowerBlue: '#6080c0'
+        };
+
+        function initCanvas(id) {
+            const canvas = document.getElementById(`canvas${id}`);
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            canvases[id] = canvas;
+            contexts[id] = ctx;
+
+            return { canvas, ctx, w: rect.width, h: rect.height };
+        }
+
+        function setGrowth(style, value) {
+            growthStates[style] = value;
+            const options = document.querySelectorAll('.option');
+            const idx = ['A','B','C','D','E'].indexOf(style);
+            options[idx].querySelectorAll('.controls button').forEach((btn, i) => {
+                const vals = [0.15, 0.45, 0.75, 1.0];
+                btn.classList.toggle('active', Math.abs(vals[i] - value) < 0.05);
+            });
+            renderStyle(style);
+        }
+
+        function seededRandom(seed) {
+            const x = Math.sin(seed * 127.1 + seed * 311.7) * 43758.5453;
+            return x - Math.floor(x);
+        }
+
+        function lerpColor(c1, c2, t) {
+            const r1 = parseInt(c1.slice(1,3), 16), g1 = parseInt(c1.slice(3,5), 16), b1 = parseInt(c1.slice(5,7), 16);
+            const r2 = parseInt(c2.slice(1,3), 16), g2 = parseInt(c2.slice(3,5), 16), b2 = parseInt(c2.slice(5,7), 16);
+            const r = Math.round(r1 + (r2 - r1) * t);
+            const g = Math.round(g1 + (g2 - g1) * t);
+            const b = Math.round(b1 + (b2 - b1) * t);
+            return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SHARED: Draw basic gate structure
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawKawaseSky(ctx, w, h) {
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.45);
+            skyGrad.addColorStop(0, kawase.skyTop);
+            skyGrad.addColorStop(0.35, kawase.skyMid);
+            skyGrad.addColorStop(0.7, kawase.skyLow);
+            skyGrad.addColorStop(1, kawase.skyHorizon);
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, w, h);
+        }
+
+        function drawGateFrame(ctx, w, h) {
+            ctx.fillStyle = kawase.stoneDark;
+            ctx.fillRect(0, 0, w * 0.2, h);
+            ctx.fillRect(w * 0.8, 0, w * 0.2, h);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(w, 0);
+            ctx.lineTo(w, h * 0.25);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.08, 0, h * 0.25);
+            ctx.fill();
+        }
+
+        function drawGateInner(ctx, w, h) {
+            ctx.fillStyle = kawase.stone;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.2, h * 0.2);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.12, w * 0.8, h * 0.2);
+            ctx.lineTo(w * 0.8, h * 0.25);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.16, w * 0.2, h * 0.25);
+            ctx.fill();
+            ctx.fillRect(w * 0.17, h * 0.2, w * 0.05, h * 0.8);
+            ctx.fillRect(w * 0.78, h * 0.2, w * 0.05, h * 0.8);
+        }
+
+        function drawGardenGround(ctx, w, h) {
+            ctx.fillStyle = kawase.gardenDark;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.2, h * 0.4);
+            ctx.lineTo(w * 0.8, h * 0.4);
+            ctx.lineTo(w * 0.83, h);
+            ctx.lineTo(w * 0.17, h);
+            ctx.fill();
+        }
+
+        function drawPath(ctx, w, h) {
+            ctx.fillStyle = kawase.path;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.38, h);
+            ctx.quadraticCurveTo(w * 0.42, h * 0.7, w * 0.46, h * 0.42);
+            ctx.lineTo(w * 0.54, h * 0.42);
+            ctx.quadraticCurveTo(w * 0.58, h * 0.7, w * 0.62, h);
+            ctx.fill();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE A: PRECISE BOTANICALS
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleA() {
+            const { ctx, w, h } = initCanvas('A');
+            const growth = growthStates.A;
+
+            drawKawaseSky(ctx, w, h);
+            drawGateFrame(ctx, w, h);
+            drawGateInner(ctx, w, h);
+            drawGardenGround(ctx, w, h);
+            drawPath(ctx, w, h);
+
+            // Central tree with proper leaf shapes
+            drawBotanicalTree(ctx, w * 0.5, h * 0.5, growth, w, h);
+
+            // Garden beds with botanical flowers
+            drawBotanicalGarden(ctx, w, h, growth);
+
+            // Vines with proper leaf shapes
+            if (growth > 0.3) {
+                drawBotanicalVines(ctx, w * 0.18, h * 0.8, growth, 'left');
+                drawBotanicalVines(ctx, w * 0.82, h * 0.75, growth, 'right');
+            }
+
+            // Gardener
+            drawGardener(ctx, w * 0.5, h * 0.82, w, h);
+
+            // Foreground flowers
+            drawBotanicalForeground(ctx, w, h, growth);
+        }
+
+        // Proper 5-petal flower
+        function drawRoseFlower(ctx, x, y, color, size) {
+            ctx.fillStyle = color;
+            // 5 overlapping petals
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
+                const px = x + Math.cos(angle) * size * 0.4;
+                const py = y + Math.sin(angle) * size * 0.4;
+                ctx.beginPath();
+                ctx.ellipse(px, py, size * 0.55, size * 0.45, angle + Math.PI/2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            // Center
+            ctx.fillStyle = lerpColor(color, '#ffffff', 0.3);
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.25, 0, Math.PI * 2);
+            ctx.fill();
+            // Inner detail
+            ctx.fillStyle = lerpColor(color, '#000000', 0.2);
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.12, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Hydrangea cluster
+        function drawHydrangea(ctx, x, y, color, size) {
+            const baseColor = color;
+            for (let i = 0; i < 12; i++) {
+                const angle = (i / 12) * Math.PI * 2 + seededRandom(i * 7) * 0.5;
+                const dist = size * (0.3 + seededRandom(i * 11) * 0.4);
+                const fx = x + Math.cos(angle) * dist;
+                const fy = y + Math.sin(angle) * dist;
+                const fsize = size * (0.2 + seededRandom(i * 13) * 0.15);
+
+                // 4-petal tiny flower
+                ctx.fillStyle = lerpColor(baseColor, '#ffffff', seededRandom(i * 17) * 0.3);
+                for (let p = 0; p < 4; p++) {
+                    const pa = (p / 4) * Math.PI * 2;
+                    ctx.beginPath();
+                    ctx.ellipse(
+                        fx + Math.cos(pa) * fsize * 0.3,
+                        fy + Math.sin(pa) * fsize * 0.3,
+                        fsize * 0.4, fsize * 0.3, pa, 0, Math.PI * 2
+                    );
+                    ctx.fill();
+                }
+            }
+        }
+
+        // Iris/sword leaf
+        function drawIrisLeaf(ctx, x, y, height, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            ctx.fillStyle = kawase.gardenMid;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(-4, -height * 0.6, 0, -height);
+            ctx.quadraticCurveTo(4, -height * 0.6, 0, 0);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function drawBotanicalTree(ctx, x, y, growth, w, h) {
+            if (growth < 0.15) return;
+
+            const treeH = (0.1 + growth * 0.35) * h;
+            const canopyW = (0.05 + growth * 0.18) * w;
+
+            // Trunk
+            ctx.fillStyle = kawase.treeDark;
+            ctx.beginPath();
+            ctx.moveTo(x - 6, y);
+            ctx.quadraticCurveTo(x - 8, y - treeH * 0.4, x - 3, y - treeH * 0.5);
+            ctx.lineTo(x + 3, y - treeH * 0.5);
+            ctx.quadraticCurveTo(x + 8, y - treeH * 0.4, x + 6, y);
+            ctx.fill();
+
+            // Canopy with leaf-like edges
+            if (growth > 0.2) {
+                ctx.fillStyle = kawase.treeDark;
+                drawLeafyCanopy(ctx, x, y - treeH * 0.6, canopyW, treeH * 0.35);
+
+                ctx.fillStyle = kawase.treeMid;
+                drawLeafyCanopy(ctx, x, y - treeH * 0.7, canopyW * 0.75, treeH * 0.28);
+
+                if (growth > 0.5) {
+                    ctx.fillStyle = kawase.treeLight;
+                    drawLeafyCanopy(ctx, x, y - treeH * 0.75, canopyW * 0.5, treeH * 0.2);
+                }
+            }
+        }
+
+        function drawLeafyCanopy(ctx, x, y, w, h) {
+            ctx.beginPath();
+            ctx.moveTo(x - w, y);
+            // Create leaf-like bumps around the edge
+            const segments = 16;
+            for (let i = 0; i <= segments; i++) {
+                const t = i / segments;
+                const angle = Math.PI + t * Math.PI;
+                const baseX = x + Math.cos(angle) * w;
+                const baseY = y + Math.sin(angle) * h * 0.8;
+                // Add bump
+                const bumpSize = 0.08 + seededRandom(i * 7) * 0.06;
+                const bumpAngle = angle + Math.PI / 2;
+                const bx = baseX + Math.cos(bumpAngle) * w * bumpSize;
+                const by = baseY + Math.sin(bumpAngle) * h * bumpSize;
+                if (i === 0) {
+                    ctx.lineTo(bx, by);
+                } else {
+                    ctx.quadraticCurveTo(baseX, baseY, bx, by);
+                }
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawBotanicalGarden(ctx, w, h, growth) {
+            const flowerCount = Math.floor(6 + growth * 18);
+
+            for (let i = 0; i < flowerCount; i++) {
+                const side = i % 2;
+                const baseX = side === 0 ? w * 0.28 : w * 0.72;
+                const fx = baseX + (seededRandom(i * 7) - 0.5) * w * 0.12;
+                const fy = h * (0.48 + seededRandom(i * 11) * 0.4);
+                const fgrowth = Math.max(0, growth - seededRandom(i * 13) * 0.3);
+
+                if (fgrowth > 0.1) {
+                    const size = (4 + fgrowth * 8) * (0.7 + seededRandom(i * 17) * 0.5);
+                    const type = i % 4;
+
+                    // Draw iris leaves behind
+                    if (type === 0 || type === 2) {
+                        for (let l = 0; l < 3; l++) {
+                            drawIrisLeaf(ctx, fx + (l - 1) * 4, fy + 5, size * 1.5, (l - 1) * 0.15);
+                        }
+                    }
+
+                    // Draw flower
+                    if (type === 0) {
+                        drawRoseFlower(ctx, fx, fy, kawase.flowerPink, size);
+                    } else if (type === 1) {
+                        drawHydrangea(ctx, fx, fy, kawase.flowerBlue, size * 1.3);
+                    } else if (type === 2) {
+                        drawRoseFlower(ctx, fx, fy, kawase.flowerMagenta, size);
+                    } else {
+                        drawRoseFlower(ctx, fx, fy, kawase.flowerYellow, size * 0.8);
+                    }
+                }
+            }
+        }
+
+        function drawBotanicalVines(ctx, x, startY, growth, side) {
+            const vineGrowth = (growth - 0.3) / 0.7;
+            const dir = side === 'left' ? 1 : -1;
+
+            for (let i = 0; i < Math.floor(6 * vineGrowth); i++) {
+                const vy = startY - i * 35;
+                const vx = x + Math.sin(i * 0.8) * 8 * dir;
+
+                // Proper ivy leaf shape
+                ctx.fillStyle = kawase.gardenMid;
+                ctx.beginPath();
+                ctx.moveTo(vx, vy);
+                ctx.quadraticCurveTo(vx - 8 * dir, vy - 5, vx - 6 * dir, vy - 15);
+                ctx.quadraticCurveTo(vx, vy - 12, vx + 6 * dir, vy - 15);
+                ctx.quadraticCurveTo(vx + 8 * dir, vy - 5, vx, vy);
+                ctx.fill();
+
+                if (growth > 0.6 && i < Math.floor(6 * vineGrowth) - 1) {
+                    drawRoseFlower(ctx, vx, vy - 18, kawase.flowerPink, 6);
+                }
+            }
+        }
+
+        function drawBotanicalForeground(ctx, w, h, growth) {
+            // Left foreground
+            for (let i = 0; i < 5; i++) {
+                const fx = w * (0.2 + seededRandom(i * 31) * 0.12);
+                const fy = h * (0.9 + seededRandom(i * 37) * 0.08);
+                for (let l = 0; l < 3; l++) {
+                    drawIrisLeaf(ctx, fx + (l - 1) * 5, fy, 25 + growth * 20, (l - 1) * 0.12);
+                }
+                if (growth > 0.4) {
+                    drawRoseFlower(ctx, fx, fy - 20 - growth * 15,
+                        [kawase.flowerPink, kawase.flowerMagenta, kawase.flowerYellow][i % 3],
+                        6 + growth * 5);
+                }
+            }
+
+            // Right foreground
+            for (let i = 0; i < 5; i++) {
+                const fx = w * (0.7 + seededRandom(i * 41) * 0.12);
+                const fy = h * (0.88 + seededRandom(i * 43) * 0.1);
+                drawHydrangea(ctx, fx, fy - 10, kawase.flowerBlue, 12 + growth * 10);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE B: BOKASHI GRADIENTS
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleB() {
+            const { ctx, w, h } = initCanvas('B');
+            const growth = growthStates.B;
+
+            // Enhanced sky with bokashi
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.5);
+            skyGrad.addColorStop(0, kawase.skyTop);
+            skyGrad.addColorStop(0.25, '#4a4888');
+            skyGrad.addColorStop(0.5, kawase.skyMid);
+            skyGrad.addColorStop(0.75, kawase.skyLow);
+            skyGrad.addColorStop(1, kawase.skyHorizon);
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Gate with gradated stone
+            drawBokashiGate(ctx, w, h);
+
+            // Ground with bokashi
+            drawBokashiGround(ctx, w, h);
+
+            // Path with gradient
+            drawBokashiPath(ctx, w, h);
+
+            // Tree with tonal depth
+            drawBokashiTree(ctx, w * 0.5, h * 0.5, growth, w, h);
+
+            // Flowers with internal gradients
+            drawBokashiGarden(ctx, w, h, growth);
+
+            // Gardener
+            drawGardener(ctx, w * 0.5, h * 0.82, w, h);
+
+            // Foreground
+            drawBokashiForeground(ctx, w, h, growth);
+        }
+
+        function drawBokashiGate(ctx, w, h) {
+            // Gate pillars with vertical gradient
+            const pillarGrad = ctx.createLinearGradient(0, 0, w * 0.2, 0);
+            pillarGrad.addColorStop(0, kawase.stoneDark);
+            pillarGrad.addColorStop(0.3, kawase.stone);
+            pillarGrad.addColorStop(0.7, kawase.stoneDark);
+            pillarGrad.addColorStop(1, '#3a2828');
+
+            ctx.fillStyle = pillarGrad;
+            ctx.fillRect(0, 0, w * 0.2, h);
+
+            const pillarGrad2 = ctx.createLinearGradient(w * 0.8, 0, w, 0);
+            pillarGrad2.addColorStop(0, '#3a2828');
+            pillarGrad2.addColorStop(0.3, kawase.stoneDark);
+            pillarGrad2.addColorStop(0.7, kawase.stone);
+            pillarGrad2.addColorStop(1, kawase.stoneDark);
+            ctx.fillStyle = pillarGrad2;
+            ctx.fillRect(w * 0.8, 0, w * 0.2, h);
+
+            // Arch with gradient
+            const archGrad = ctx.createLinearGradient(0, 0, 0, h * 0.3);
+            archGrad.addColorStop(0, kawase.stoneDark);
+            archGrad.addColorStop(0.5, kawase.stone);
+            archGrad.addColorStop(1, kawase.stoneDark);
+            ctx.fillStyle = archGrad;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(w, 0);
+            ctx.lineTo(w, h * 0.25);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.08, 0, h * 0.25);
+            ctx.fill();
+
+            // Inner arch edge with highlight
+            const innerGrad = ctx.createLinearGradient(0, h * 0.1, 0, h * 0.25);
+            innerGrad.addColorStop(0, kawase.stoneLight);
+            innerGrad.addColorStop(1, kawase.stone);
+            ctx.fillStyle = innerGrad;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.2, h * 0.2);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.12, w * 0.8, h * 0.2);
+            ctx.lineTo(w * 0.8, h * 0.26);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.17, w * 0.2, h * 0.26);
+            ctx.fill();
+        }
+
+        function drawBokashiGround(ctx, w, h) {
+            const groundGrad = ctx.createLinearGradient(0, h * 0.4, 0, h);
+            groundGrad.addColorStop(0, kawase.gardenDark);
+            groundGrad.addColorStop(0.3, kawase.gardenMid);
+            groundGrad.addColorStop(0.7, kawase.gardenDark);
+            groundGrad.addColorStop(1, '#1a2818');
+            ctx.fillStyle = groundGrad;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.2, h * 0.4);
+            ctx.lineTo(w * 0.8, h * 0.4);
+            ctx.lineTo(w * 0.83, h);
+            ctx.lineTo(w * 0.17, h);
+            ctx.fill();
+        }
+
+        function drawBokashiPath(ctx, w, h) {
+            const pathGrad = ctx.createLinearGradient(0, h * 0.4, 0, h);
+            pathGrad.addColorStop(0, kawase.pathDark);
+            pathGrad.addColorStop(0.5, kawase.path);
+            pathGrad.addColorStop(1, kawase.pathDark);
+            ctx.fillStyle = pathGrad;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.38, h);
+            ctx.quadraticCurveTo(w * 0.42, h * 0.7, w * 0.46, h * 0.42);
+            ctx.lineTo(w * 0.54, h * 0.42);
+            ctx.quadraticCurveTo(w * 0.58, h * 0.7, w * 0.62, h);
+            ctx.fill();
+        }
+
+        function drawBokashiTree(ctx, x, y, growth, w, h) {
+            if (growth < 0.15) return;
+
+            const treeH = (0.1 + growth * 0.35) * h;
+            const canopyW = (0.06 + growth * 0.2) * w;
+
+            // Trunk with gradient
+            const trunkGrad = ctx.createLinearGradient(x - 10, y, x + 10, y);
+            trunkGrad.addColorStop(0, '#1a1810');
+            trunkGrad.addColorStop(0.3, kawase.treeDark);
+            trunkGrad.addColorStop(0.7, kawase.treeDark);
+            trunkGrad.addColorStop(1, '#1a1810');
+            ctx.fillStyle = trunkGrad;
+            ctx.fillRect(x - 6, y - treeH * 0.4, 12, treeH * 0.4);
+
+            // Canopy layers with internal gradients
+            if (growth > 0.2) {
+                // Back layer
+                const canopyGrad1 = ctx.createRadialGradient(x, y - treeH * 0.55, 0, x, y - treeH * 0.55, canopyW);
+                canopyGrad1.addColorStop(0, kawase.treeMid);
+                canopyGrad1.addColorStop(0.6, kawase.treeDark);
+                canopyGrad1.addColorStop(1, '#1a2018');
+                ctx.fillStyle = canopyGrad1;
+                ctx.beginPath();
+                ctx.ellipse(x, y - treeH * 0.55, canopyW, treeH * 0.35, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Mid layer
+                const canopyGrad2 = ctx.createRadialGradient(x, y - treeH * 0.65, 0, x, y - treeH * 0.65, canopyW * 0.75);
+                canopyGrad2.addColorStop(0, kawase.treeLight);
+                canopyGrad2.addColorStop(0.5, kawase.treeMid);
+                canopyGrad2.addColorStop(1, kawase.treeDark);
+                ctx.fillStyle = canopyGrad2;
+                ctx.beginPath();
+                ctx.ellipse(x, y - treeH * 0.65, canopyW * 0.75, treeH * 0.28, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Highlight blob
+                if (growth > 0.5) {
+                    ctx.fillStyle = kawase.treeLight;
+                    ctx.globalAlpha = 0.6;
+                    ctx.beginPath();
+                    ctx.ellipse(x - canopyW * 0.2, y - treeH * 0.7, canopyW * 0.35, treeH * 0.15, -0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+            }
+        }
+
+        function drawBokashiFlower(ctx, x, y, color, size) {
+            // Flower with radial gradient
+            const flowerGrad = ctx.createRadialGradient(x - size * 0.2, y - size * 0.2, 0, x, y, size);
+            flowerGrad.addColorStop(0, lerpColor(color, '#ffffff', 0.4));
+            flowerGrad.addColorStop(0.5, color);
+            flowerGrad.addColorStop(1, lerpColor(color, '#000000', 0.3));
+            ctx.fillStyle = flowerGrad;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Center
+            ctx.fillStyle = lerpColor(color, '#ffffff', 0.5);
+            ctx.beginPath();
+            ctx.arc(x - size * 0.15, y - size * 0.15, size * 0.25, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawBokashiGarden(ctx, w, h, growth) {
+            const flowerCount = Math.floor(8 + growth * 20);
+            const colors = [kawase.flowerPink, kawase.flowerMagenta, kawase.flowerYellow, kawase.flowerWhite];
+
+            for (let i = 0; i < flowerCount; i++) {
+                const side = i % 2;
+                const baseX = side === 0 ? w * 0.28 : w * 0.72;
+                const fx = baseX + (seededRandom(i * 7) - 0.5) * w * 0.12;
+                const fy = h * (0.5 + seededRandom(i * 11) * 0.38);
+                const fgrowth = Math.max(0, growth - seededRandom(i * 13) * 0.3);
+
+                if (fgrowth > 0.1) {
+                    const size = (3 + fgrowth * 7) * (0.7 + seededRandom(i * 17) * 0.5);
+                    drawBokashiFlower(ctx, fx, fy, colors[i % 4], size);
+                }
+            }
+        }
+
+        function drawBokashiForeground(ctx, w, h, growth) {
+            const colors = [kawase.flowerPink, kawase.flowerMagenta, kawase.flowerYellow];
+            for (let i = 0; i < 6; i++) {
+                const fx = w * (0.2 + seededRandom(i * 31) * 0.12);
+                const fy = h * (0.9 + seededRandom(i * 37) * 0.08);
+                drawBokashiFlower(ctx, fx, fy, colors[i % 3], 7 + growth * 6);
+            }
+            for (let i = 0; i < 6; i++) {
+                const fx = w * (0.7 + seededRandom(i * 41) * 0.12);
+                const fy = h * (0.88 + seededRandom(i * 43) * 0.1);
+                drawBokashiFlower(ctx, fx, fy, colors[(i + 1) % 3], 7 + growth * 6);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE C: LAYERED SILHOUETTES
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleC() {
+            const { ctx, w, h } = initCanvas('C');
+            const growth = growthStates.C;
+
+            drawKawaseSky(ctx, w, h);
+
+            // Layer 1: Gate frame (darkest)
+            ctx.fillStyle = '#1a1818';
+            ctx.fillRect(0, 0, w * 0.22, h);
+            ctx.fillRect(w * 0.78, 0, w * 0.22, h);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(w, 0);
+            ctx.lineTo(w, h * 0.28);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.06, 0, h * 0.28);
+            ctx.fill();
+
+            // Layer 2: Distant garden (lightest green)
+            ctx.fillStyle = '#5a8860';
+            ctx.beginPath();
+            ctx.moveTo(w * 0.22, h * 0.38);
+            ctx.lineTo(w * 0.78, h * 0.38);
+            ctx.lineTo(w * 0.78, h * 0.5);
+            // Wavy plant tops
+            for (let x = w * 0.78; x >= w * 0.22; x -= 12) {
+                const py = h * 0.45 + Math.sin(x * 0.04) * 8;
+                ctx.lineTo(x, py);
+            }
+            ctx.lineTo(w * 0.22, h * 0.5);
+            ctx.fill();
+
+            // Distant tree silhouette
+            if (growth > 0.2) {
+                ctx.fillStyle = '#4a7858';
+                ctx.beginPath();
+                ctx.arc(w * 0.5, h * 0.35, 25 + growth * 35, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Layer 3: Mid garden
+            ctx.fillStyle = '#3a5840';
+            ctx.beginPath();
+            ctx.moveTo(w * 0.22, h * 0.48);
+            for (let x = w * 0.22; x <= w * 0.78; x += 10) {
+                const py = h * 0.55 + Math.sin(x * 0.06 + 1) * 12 - growth * 10;
+                ctx.lineTo(x, py);
+            }
+            ctx.lineTo(w * 0.78, h * 0.7);
+            ctx.lineTo(w * 0.22, h * 0.7);
+            ctx.fill();
+
+            // Path
+            ctx.fillStyle = kawase.path;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.4, h);
+            ctx.lineTo(w * 0.46, h * 0.5);
+            ctx.lineTo(w * 0.54, h * 0.5);
+            ctx.lineTo(w * 0.6, h);
+            ctx.fill();
+
+            // Layer 4: Close garden
+            ctx.fillStyle = '#2a4030';
+            ctx.beginPath();
+            ctx.moveTo(w * 0.22, h * 0.65);
+            for (let x = w * 0.22; x <= w * 0.78; x += 8) {
+                if (x > w * 0.38 && x < w * 0.62) continue; // Skip path area
+                const py = h * 0.72 + Math.sin(x * 0.08) * 15 - growth * 12;
+                ctx.lineTo(x, py);
+            }
+            ctx.lineTo(w * 0.78, h);
+            ctx.lineTo(w * 0.22, h);
+            ctx.fill();
+
+            // Flowers on each layer
+            drawSilhouetteFlowers(ctx, w, h, growth);
+
+            // Gardener silhouette
+            drawSilhouetteGardener(ctx, w * 0.5, h * 0.82, w, h);
+
+            // Layer 5: Foreground frame (darkest)
+            ctx.fillStyle = '#1a2018';
+            ctx.beginPath();
+            ctx.ellipse(w * 0.05, h * 0.95, 60, 100, -0.2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(w * 0.95, h * 0.92, 55, 90, 0.2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Bright foreground flowers
+            drawSilhouetteForegroundFlowers(ctx, w, h, growth);
+        }
+
+        function drawSilhouetteFlowers(ctx, w, h, growth) {
+            const colors = [kawase.flowerPink, kawase.flowerMagenta, kawase.flowerYellow, kawase.flowerWhite];
+
+            // Distant flowers (smallest, brightest)
+            if (growth > 0.3) {
+                for (let i = 0; i < growth * 10; i++) {
+                    const fx = w * (0.25 + seededRandom(i * 7) * 0.5);
+                    const fy = h * (0.4 + seededRandom(i * 11) * 0.08);
+                    ctx.fillStyle = colors[i % 4];
+                    ctx.beginPath();
+                    ctx.arc(fx, fy, 3 + growth * 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Mid flowers
+            for (let i = 0; i < growth * 15; i++) {
+                const fx = w * (0.24 + seededRandom(i * 7 + 50) * 0.52);
+                const fy = h * (0.52 + seededRandom(i * 11 + 50) * 0.12);
+                if (Math.abs(fx - w * 0.5) > w * 0.08) {
+                    ctx.fillStyle = colors[i % 4];
+                    ctx.beginPath();
+                    ctx.arc(fx, fy, 4 + growth * 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Close flowers (largest)
+            for (let i = 0; i < growth * 12; i++) {
+                const fx = w * (0.24 + seededRandom(i * 7 + 100) * 0.52);
+                const fy = h * (0.68 + seededRandom(i * 11 + 100) * 0.15);
+                if (Math.abs(fx - w * 0.5) > w * 0.1) {
+                    ctx.fillStyle = colors[(i + 2) % 4];
+                    ctx.beginPath();
+                    ctx.arc(fx, fy, 5 + growth * 5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        function drawSilhouetteGardener(ctx, x, y, w, h) {
+            const scale = h * 0.14;
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Dark silhouette
+            ctx.fillStyle = '#1a2828';
+            // Body
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.22, 0);
+            ctx.lineTo(-scale * 0.25, -scale * 0.5);
+            ctx.lineTo(scale * 0.25, -scale * 0.5);
+            ctx.lineTo(scale * 0.22, 0);
+            ctx.fill();
+            // Head
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.6, scale * 0.14, 0, Math.PI * 2);
+            ctx.fill();
+            // Hat
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.68, scale * 0.32, scale * 0.08, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Rim light
+            ctx.strokeStyle = '#4a6858';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(scale * 0.22, 0);
+            ctx.lineTo(scale * 0.25, -scale * 0.5);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.6, scale * 0.14, -0.5, 1);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function drawSilhouetteForegroundFlowers(ctx, w, h, growth) {
+            const colors = [kawase.flowerPink, kawase.flowerMagenta, kawase.flowerYellow];
+            for (let i = 0; i < 6; i++) {
+                const fx = w * (0.12 + seededRandom(i * 31) * 0.15);
+                const fy = h * (0.88 + seededRandom(i * 37) * 0.1);
+                ctx.fillStyle = colors[i % 3];
+                ctx.beginPath();
+                ctx.arc(fx, fy, 8 + growth * 6, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            for (let i = 0; i < 5; i++) {
+                const fx = w * (0.75 + seededRandom(i * 41) * 0.12);
+                const fy = h * (0.86 + seededRandom(i * 43) * 0.12);
+                ctx.fillStyle = colors[(i + 1) % 3];
+                ctx.beginPath();
+                ctx.arc(fx, fy, 8 + growth * 6, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE D: ELEGANT LINE WORK
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleD() {
+            const { ctx, w, h } = initCanvas('D');
+            const growth = growthStates.D;
+
+            drawKawaseSky(ctx, w, h);
+
+            // Gate with outlines
+            drawLinedGate(ctx, w, h);
+            drawGardenGround(ctx, w, h);
+            drawPath(ctx, w, h);
+
+            // Tree with defined edges
+            drawLinedTree(ctx, w * 0.5, h * 0.5, growth, w, h);
+
+            // Flowers with outlines
+            drawLinedGarden(ctx, w, h, growth);
+
+            // Gardener with clean lines
+            drawLinedGardener(ctx, w * 0.5, h * 0.82, w, h);
+
+            // Foreground
+            drawLinedForeground(ctx, w, h, growth);
+        }
+
+        function drawLinedGate(ctx, w, h) {
+            // Fill
+            ctx.fillStyle = kawase.stoneDark;
+            ctx.fillRect(0, 0, w * 0.2, h);
+            ctx.fillRect(w * 0.8, 0, w * 0.2, h);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(w, 0);
+            ctx.lineTo(w, h * 0.25);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.08, 0, h * 0.25);
+            ctx.fill();
+
+            // Inner stone
+            ctx.fillStyle = kawase.stone;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.2, h * 0.2);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.12, w * 0.8, h * 0.2);
+            ctx.lineTo(w * 0.8, h * 0.25);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.16, w * 0.2, h * 0.25);
+            ctx.fill();
+            ctx.fillRect(w * 0.17, h * 0.2, w * 0.05, h * 0.8);
+            ctx.fillRect(w * 0.78, h * 0.2, w * 0.05, h * 0.8);
+
+            // Key lines - arch
+            ctx.strokeStyle = '#2a2020';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.2, h);
+            ctx.lineTo(w * 0.2, h * 0.22);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.1, w * 0.8, h * 0.22);
+            ctx.lineTo(w * 0.8, h);
+            ctx.stroke();
+
+            // Inner arch line
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.22, h * 0.35);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.18, w * 0.78, h * 0.35);
+            ctx.stroke();
+        }
+
+        function drawLinedTree(ctx, x, y, growth, w, h) {
+            if (growth < 0.15) return;
+
+            const treeH = (0.1 + growth * 0.35) * h;
+            const canopyW = (0.06 + growth * 0.18) * w;
+
+            // Trunk fill
+            ctx.fillStyle = kawase.treeDark;
+            ctx.fillRect(x - 6, y - treeH * 0.4, 12, treeH * 0.4);
+
+            // Trunk outline
+            ctx.strokeStyle = '#1a1810';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x - 6, y - treeH * 0.4, 12, treeH * 0.4);
+
+            // Canopy
+            if (growth > 0.2) {
+                ctx.fillStyle = kawase.treeDark;
+                ctx.beginPath();
+                ctx.ellipse(x, y - treeH * 0.55, canopyW, treeH * 0.35, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#1a1810';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = kawase.treeMid;
+                ctx.beginPath();
+                ctx.ellipse(x, y - treeH * 0.65, canopyW * 0.7, treeH * 0.25, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        }
+
+        function drawLinedFlower(ctx, x, y, color, size) {
+            // Petals
+            ctx.fillStyle = color;
+            ctx.strokeStyle = lerpColor(color, '#000000', 0.4);
+            ctx.lineWidth = 1;
+
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
+                const px = x + Math.cos(angle) * size * 0.35;
+                const py = y + Math.sin(angle) * size * 0.35;
+                ctx.beginPath();
+                ctx.ellipse(px, py, size * 0.45, size * 0.35, angle + Math.PI/2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Center
+            ctx.fillStyle = lerpColor(color, '#ffffff', 0.3);
+            ctx.beginPath();
+            ctx.arc(x, y, size * 0.22, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function drawLinedGarden(ctx, w, h, growth) {
+            const colors = [kawase.flowerPink, kawase.flowerMagenta, kawase.flowerYellow, kawase.flowerWhite];
+            const flowerCount = Math.floor(6 + growth * 16);
+
+            for (let i = 0; i < flowerCount; i++) {
+                const side = i % 2;
+                const baseX = side === 0 ? w * 0.28 : w * 0.72;
+                const fx = baseX + (seededRandom(i * 7) - 0.5) * w * 0.12;
+                const fy = h * (0.5 + seededRandom(i * 11) * 0.38);
+                const fgrowth = Math.max(0, growth - seededRandom(i * 13) * 0.3);
+
+                if (fgrowth > 0.1) {
+                    const size = (4 + fgrowth * 7) * (0.7 + seededRandom(i * 17) * 0.5);
+                    drawLinedFlower(ctx, fx, fy, colors[i % 4], size);
+                }
+            }
+        }
+
+        function drawLinedGardener(ctx, x, y, w, h) {
+            const scale = h * 0.14;
+            ctx.save();
+            ctx.translate(x, y);
+
+            ctx.strokeStyle = '#2a2820';
+            ctx.lineWidth = 2;
+
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, scale * 0.35, scale * 0.1, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Body
+            ctx.fillStyle = '#4a6848';
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.2, 0);
+            ctx.lineTo(-scale * 0.25, -scale * 0.48);
+            ctx.lineTo(scale * 0.25, -scale * 0.48);
+            ctx.lineTo(scale * 0.2, 0);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Head
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.58, scale * 0.14, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hat
+            ctx.fillStyle = '#d8c888';
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.68, scale * 0.32, scale * 0.08, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.74, scale * 0.18, scale * 0.1, 0, Math.PI, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hat band
+            ctx.fillStyle = '#8060a0';
+            ctx.fillRect(-scale * 0.18, -scale * 0.7, scale * 0.36, scale * 0.04);
+
+            // Watering can
+            ctx.fillStyle = '#506070';
+            ctx.fillRect(scale * 0.2, -scale * 0.35, scale * 0.18, scale * 0.2);
+            ctx.strokeRect(scale * 0.2, -scale * 0.35, scale * 0.18, scale * 0.2);
+
+            ctx.restore();
+        }
+
+        function drawLinedForeground(ctx, w, h, growth) {
+            const colors = [kawase.flowerPink, kawase.flowerMagenta, kawase.flowerYellow];
+            for (let i = 0; i < 5; i++) {
+                const fx = w * (0.2 + seededRandom(i * 31) * 0.12);
+                const fy = h * (0.9 + seededRandom(i * 37) * 0.08);
+                drawLinedFlower(ctx, fx, fy, colors[i % 3], 8 + growth * 5);
+            }
+            for (let i = 0; i < 5; i++) {
+                const fx = w * (0.7 + seededRandom(i * 41) * 0.12);
+                const fy = h * (0.88 + seededRandom(i * 43) * 0.1);
+                drawLinedFlower(ctx, fx, fy, colors[(i + 1) % 3], 8 + growth * 5);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STYLE E: PAPER TEXTURE
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyleE() {
+            const { ctx, w, h } = initCanvas('E');
+            const growth = growthStates.E;
+
+            drawKawaseSky(ctx, w, h);
+            drawGateFrame(ctx, w, h);
+            drawGateInner(ctx, w, h);
+            drawGardenGround(ctx, w, h);
+            drawPath(ctx, w, h);
+
+            // Standard tree
+            drawBasicTree(ctx, w * 0.5, h * 0.5, growth, w, h);
+
+            // Standard garden
+            drawBasicGarden(ctx, w, h, growth);
+
+            // Gardener
+            drawGardener(ctx, w * 0.5, h * 0.82, w, h);
+
+            // Foreground
+            drawBasicForeground(ctx, w, h, growth);
+
+            // Apply paper texture overlay
+            applyPaperTexture(ctx, w, h);
+        }
+
+        function drawBasicTree(ctx, x, y, growth, w, h) {
+            if (growth < 0.15) return;
+
+            const treeH = (0.1 + growth * 0.35) * h;
+            const canopyW = (0.06 + growth * 0.18) * w;
+
+            ctx.fillStyle = kawase.treeDark;
+            ctx.fillRect(x - 6, y - treeH * 0.4, 12, treeH * 0.4);
+
+            if (growth > 0.2) {
+                ctx.fillStyle = kawase.treeDark;
+                ctx.beginPath();
+                ctx.ellipse(x, y - treeH * 0.55, canopyW, treeH * 0.35, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = kawase.treeMid;
+                ctx.beginPath();
+                ctx.ellipse(x, y - treeH * 0.65, canopyW * 0.7, treeH * 0.25, 0, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawBasicFlower(ctx, x, y, color, size) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = lerpColor(color, '#ffffff', 0.4);
+            ctx.beginPath();
+            ctx.arc(x - size * 0.2, y - size * 0.2, size * 0.3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawBasicGarden(ctx, w, h, growth) {
+            const colors = [kawase.flowerPink, kawase.flowerMagenta, kawase.flowerYellow, kawase.flowerWhite];
+            const flowerCount = Math.floor(8 + growth * 20);
+
+            for (let i = 0; i < flowerCount; i++) {
+                const side = i % 2;
+                const baseX = side === 0 ? w * 0.28 : w * 0.72;
+                const fx = baseX + (seededRandom(i * 7) - 0.5) * w * 0.12;
+                const fy = h * (0.5 + seededRandom(i * 11) * 0.38);
+                const fgrowth = Math.max(0, growth - seededRandom(i * 13) * 0.3);
+
+                if (fgrowth > 0.1) {
+                    const size = (3 + fgrowth * 8) * (0.7 + seededRandom(i * 17) * 0.5);
+                    drawBasicFlower(ctx, fx, fy, colors[i % 4], size);
+                }
+            }
+        }
+
+        function drawBasicForeground(ctx, w, h, growth) {
+            const colors = [kawase.flowerPink, kawase.flowerMagenta, kawase.flowerYellow];
+            for (let i = 0; i < 6; i++) {
+                const fx = w * (0.2 + seededRandom(i * 31) * 0.12);
+                const fy = h * (0.9 + seededRandom(i * 37) * 0.08);
+                drawBasicFlower(ctx, fx, fy, colors[i % 3], 7 + growth * 6);
+            }
+            for (let i = 0; i < 6; i++) {
+                const fx = w * (0.7 + seededRandom(i * 41) * 0.12);
+                const fy = h * (0.88 + seededRandom(i * 43) * 0.1);
+                drawBasicFlower(ctx, fx, fy, colors[(i + 1) % 3], 7 + growth * 6);
+            }
+        }
+
+        function applyPaperTexture(ctx, w, h) {
+            // Create subtle paper grain effect
+            ctx.globalCompositeOperation = 'overlay';
+
+            // Random grain
+            for (let i = 0; i < 3000; i++) {
+                const x = seededRandom(i * 7) * w;
+                const y = seededRandom(i * 11) * h;
+                const brightness = seededRandom(i * 13);
+                ctx.fillStyle = brightness > 0.5 ?
+                    `rgba(255,250,240,${(brightness - 0.5) * 0.15})` :
+                    `rgba(60,50,40,${(0.5 - brightness) * 0.1})`;
+                ctx.fillRect(x, y, 1, 1);
+            }
+
+            // Subtle horizontal fiber lines
+            ctx.globalCompositeOperation = 'multiply';
+            for (let i = 0; i < 50; i++) {
+                const y = seededRandom(i * 17) * h;
+                ctx.strokeStyle = `rgba(200,190,170,${0.03 + seededRandom(i * 19) * 0.04})`;
+                ctx.lineWidth = 0.5 + seededRandom(i * 23) * 1;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y + (seededRandom(i * 29) - 0.5) * 3);
+                ctx.stroke();
+            }
+
+            // Edge vignette for aged paper look
+            ctx.globalCompositeOperation = 'multiply';
+            const vignetteGrad = ctx.createRadialGradient(w/2, h/2, Math.min(w, h) * 0.3, w/2, h/2, Math.max(w, h) * 0.7);
+            vignetteGrad.addColorStop(0, 'rgba(255,255,255,1)');
+            vignetteGrad.addColorStop(1, 'rgba(240,230,210,1)');
+            ctx.fillStyle = vignetteGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.globalCompositeOperation = 'source-over';
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SHARED GARDENER
+        // ═══════════════════════════════════════════════════════════════════
+
+        function drawGardener(ctx, x, y, w, h) {
+            const scale = h * 0.14;
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.25)';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, scale * 0.35, scale * 0.1, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Body
+            ctx.fillStyle = '#4a6848';
+            ctx.beginPath();
+            ctx.moveTo(-scale * 0.2, 0);
+            ctx.lineTo(-scale * 0.25, -scale * 0.48);
+            ctx.lineTo(scale * 0.25, -scale * 0.48);
+            ctx.lineTo(scale * 0.2, 0);
+            ctx.fill();
+
+            // Head
+            ctx.fillStyle = '#e8c8a8';
+            ctx.beginPath();
+            ctx.arc(0, -scale * 0.58, scale * 0.14, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Hat
+            ctx.fillStyle = '#d8c888';
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.68, scale * 0.32, scale * 0.08, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(0, -scale * 0.74, scale * 0.18, scale * 0.1, 0, Math.PI, Math.PI * 2);
+            ctx.fill();
+
+            // Hat band
+            ctx.fillStyle = '#8060a0';
+            ctx.fillRect(-scale * 0.18, -scale * 0.7, scale * 0.36, scale * 0.04);
+
+            // Watering can
+            ctx.fillStyle = '#506070';
+            ctx.fillRect(scale * 0.2, -scale * 0.35, scale * 0.18, scale * 0.2);
+            ctx.fillRect(scale * 0.32, -scale * 0.42, scale * 0.1, scale * 0.08);
+
+            ctx.restore();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // RENDER
+        // ═══════════════════════════════════════════════════════════════════
+
+        function renderStyle(id) {
+            switch(id) {
+                case 'A': renderStyleA(); break;
+                case 'B': renderStyleB(); break;
+                case 'C': renderStyleC(); break;
+                case 'D': renderStyleD(); break;
+                case 'E': renderStyleE(); break;
+            }
+        }
+
+        function renderAll() {
+            ['A', 'B', 'C', 'D', 'E'].forEach(renderStyle);
+        }
+
+        window.addEventListener('load', renderAll);
+        window.addEventListener('resize', renderAll);
+    </script>
+</body>
+</html>
