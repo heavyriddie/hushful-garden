@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Expansion - Western Focal Points</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
+            color: #e8e8e8;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #c4a574;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .variation-section {
+            margin-bottom: 50px;
+            background: #252540;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        .variation-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .variation-letter {
+            background: #c4a574;
+            color: #1a1a2e;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .variation-title {
+            font-size: 24px;
+            color: #fff;
+        }
+        .variation-desc {
+            color: #aaa;
+            margin-bottom: 20px;
+            padding-left: 55px;
+        }
+        .stages-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .stage-card {
+            background: #1a1a2e;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .stage-label {
+            background: #333355;
+            padding: 8px 12px;
+            font-size: 12px;
+            text-align: center;
+        }
+        .stage-name {
+            font-weight: bold;
+            color: #c4a574;
+        }
+        .stage-trigger {
+            color: #888;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        @media (max-width: 900px) {
+            .stages-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 500px) {
+            .stages-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Garden Expansion - Western Focal Points</h1>
+    <p class="subtitle">Ukiyo-e Style • Bold Outlines • Flat Color Fills</p>
+
+    <!-- Variation 1: Garden Arbor -->
+    <div class="variation-section">
+        <div class="variation-header">
+            <div class="variation-letter">1</div>
+            <div class="variation-title">Garden Arbor</div>
+        </div>
+        <p class="variation-desc">Classic wooden arbor/trellis as the welcoming entrance. Roses climb as garden grows.</p>
+        <div class="stages-row">
+            <div class="stage-card">
+                <canvas id="V1S1" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Window Box (10%)</div>
+                    <div class="stage-trigger">Account created</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V1S2" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Courtyard (40%)</div>
+                    <div class="stage-trigger">First week of data</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V1S3" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Walled Garden (70%)</div>
+                    <div class="stage-trigger">Ketones added</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V1S4" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Estate (100%)</div>
+                    <div class="stage-trigger">Dual-metric mastery</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Variation 2: Picket Gate -->
+    <div class="variation-section">
+        <div class="variation-header">
+            <div class="variation-letter">2</div>
+            <div class="variation-title">Picket Gate</div>
+        </div>
+        <p class="variation-desc">White picket fence gate - quintessential cottage garden entrance.</p>
+        <div class="stages-row">
+            <div class="stage-card">
+                <canvas id="V2S1" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Window Box (10%)</div>
+                    <div class="stage-trigger">Account created</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V2S2" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Courtyard (40%)</div>
+                    <div class="stage-trigger">First week of data</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V2S3" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Walled Garden (70%)</div>
+                    <div class="stage-trigger">Ketones added</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V2S4" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Estate (100%)</div>
+                    <div class="stage-trigger">Dual-metric mastery</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Variation 3: Stone Archway -->
+    <div class="variation-section">
+        <div class="variation-header">
+            <div class="variation-letter">3</div>
+            <div class="variation-title">Stone Archway</div>
+        </div>
+        <p class="variation-desc">Classic stone arch entrance - European walled garden style.</p>
+        <div class="stages-row">
+            <div class="stage-card">
+                <canvas id="V3S1" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Window Box (10%)</div>
+                    <div class="stage-trigger">Account created</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V3S2" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Courtyard (40%)</div>
+                    <div class="stage-trigger">First week of data</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V3S3" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Walled Garden (70%)</div>
+                    <div class="stage-trigger">Ketones added</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V3S4" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Estate (100%)</div>
+                    <div class="stage-trigger">Dual-metric mastery</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Variation 4: Wrought Iron Gate -->
+    <div class="variation-section">
+        <div class="variation-header">
+            <div class="variation-letter">4</div>
+            <div class="variation-title">Wrought Iron Gate</div>
+        </div>
+        <p class="variation-desc">Elegant iron gate with decorative scrollwork - Victorian garden style.</p>
+        <div class="stages-row">
+            <div class="stage-card">
+                <canvas id="V4S1" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Window Box (10%)</div>
+                    <div class="stage-trigger">Account created</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V4S2" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Courtyard (40%)</div>
+                    <div class="stage-trigger">First week of data</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V4S3" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Walled Garden (70%)</div>
+                    <div class="stage-trigger">Ketones added</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V4S4" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Estate (100%)</div>
+                    <div class="stage-trigger">Dual-metric mastery</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Variation 5: Greenhouse -->
+    <div class="variation-section">
+        <div class="variation-header">
+            <div class="variation-letter">5</div>
+            <div class="variation-title">Greenhouse</div>
+        </div>
+        <p class="variation-desc">Victorian greenhouse/conservatory as the garden's heart - grows from a cold frame.</p>
+        <div class="stages-row">
+            <div class="stage-card">
+                <canvas id="V5S1" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Window Box (10%)</div>
+                    <div class="stage-trigger">Account created</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V5S2" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Courtyard (40%)</div>
+                    <div class="stage-trigger">First week of data</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V5S3" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Walled Garden (70%)</div>
+                    <div class="stage-trigger">Ketones added</div>
+                </div>
+            </div>
+            <div class="stage-card">
+                <canvas id="V5S4" width="300" height="400"></canvas>
+                <div class="stage-label">
+                    <div class="stage-name">Estate (100%)</div>
+                    <div class="stage-trigger">Dual-metric mastery</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ukiyo-e color palette
+        const colors = {
+            sky: '#b8c8d8',
+            skyLight: '#d0dce8',
+            water: '#6090b0',
+            waterLight: '#80a8c0',
+            ground: '#a09078',
+            grass: '#7a9068',
+            grassDark: '#5a7050',
+            earth: '#6a5a48',
+            wood: '#5a4a3a',
+            woodLight: '#7a6a5a',
+            stone: '#8a8078',
+            stoneLight: '#a09890',
+            stoneDark: '#6a6058',
+            white: '#f8f4f0',
+            cream: '#f0e8d8',
+            iron: '#3a3a40',
+            ironLight: '#5a5a60',
+            flower1: '#c86070',
+            flower2: '#e8a050',
+            flower3: '#7868a0',
+            flower4: '#f0d080',
+            leaf: '#5a8048',
+            leafLight: '#7aa068',
+            trunk: '#4a3a2a',
+            skin: '#e8d4c0',
+            clothing: '#4a6080',
+            hat: '#c4a574',
+            outline: '#2a2a2a',
+            glass: '#c8d8e8'
+        };
+
+        function setupCanvas(id) {
+            const canvas = document.getElementById(id);
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = 300 * dpr;
+            canvas.height = 400 * dpr;
+            ctx.scale(dpr, dpr);
+            return { ctx, w: 300, h: 400 };
+        }
+
+        // Core outlined drawing functions
+        function outlinedRect(ctx, x, y, w, h, fill, stroke = 2) {
+            ctx.fillStyle = fill;
+            ctx.fillRect(x, y, w, h);
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = stroke;
+            ctx.strokeRect(x, y, w, h);
+        }
+
+        function outlinedEllipse(ctx, x, y, rx, ry, fill, stroke = 2, rot = 0) {
+            ctx.fillStyle = fill;
+            ctx.beginPath();
+            ctx.ellipse(x, y, rx, ry, rot, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = stroke;
+            ctx.stroke();
+        }
+
+        function outlinedPath(ctx, points, fill, stroke = 2, close = true) {
+            ctx.fillStyle = fill;
+            ctx.beginPath();
+            ctx.moveTo(points[0][0], points[0][1]);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i][0], points[i][1]);
+            }
+            if (close) ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = stroke;
+            ctx.stroke();
+        }
+
+        function outlinedArc(ctx, x, y, r, start, end, fill, stroke = 2) {
+            ctx.fillStyle = fill;
+            ctx.beginPath();
+            ctx.arc(x, y, r, start, end);
+            ctx.fill();
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = stroke;
+            ctx.stroke();
+        }
+
+        // Environment
+        function drawSky(ctx, w, h, horizonY) {
+            const grad = ctx.createLinearGradient(0, 0, 0, horizonY);
+            grad.addColorStop(0, colors.sky);
+            grad.addColorStop(1, colors.skyLight);
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, horizonY);
+        }
+
+        function drawGround(ctx, w, h, horizonY) {
+            ctx.fillStyle = colors.grass;
+            ctx.fillRect(0, horizonY, w, h - horizonY);
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, horizonY);
+            ctx.lineTo(w, horizonY);
+            ctx.stroke();
+        }
+
+        function drawMountain(ctx, x, y, w, h, color = '#8898a8') {
+            outlinedPath(ctx, [
+                [x - w/2, y],
+                [x - w * 0.1, y - h * 0.7],
+                [x, y - h],
+                [x + w * 0.15, y - h * 0.65],
+                [x + w/2, y]
+            ], color, 2);
+        }
+
+        function drawPath(ctx, w, h, startY = 0.5) {
+            outlinedPath(ctx, [
+                [w * 0.35, h],
+                [w * 0.4, h * startY],
+                [w * 0.6, h * startY],
+                [w * 0.65, h]
+            ], colors.ground, 2);
+        }
+
+        // Plants
+        function drawTree(ctx, x, y, size) {
+            const s = size;
+            // Trunk
+            outlinedRect(ctx, x - s * 0.06, y - s * 0.4, s * 0.12, s * 0.4, colors.trunk, 2);
+            // Branches
+            ctx.fillStyle = colors.trunk;
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x - s * 0.02, y - s * 0.35);
+            ctx.lineTo(x - s * 0.22, y - s * 0.5);
+            ctx.lineTo(x - s * 0.18, y - s * 0.54);
+            ctx.lineTo(x + s * 0.02, y - s * 0.38);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(x + s * 0.02, y - s * 0.32);
+            ctx.lineTo(x + s * 0.18, y - s * 0.45);
+            ctx.lineTo(x + s * 0.14, y - s * 0.49);
+            ctx.lineTo(x - s * 0.02, y - s * 0.35);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Canopy
+            const leafPos = [[0, -0.55], [-0.14, -0.48], [0.14, -0.48], [-0.08, -0.6], [0.08, -0.6]];
+            leafPos.forEach(([ox, oy]) => {
+                outlinedEllipse(ctx, x + ox * s, y + oy * s, s * 0.13, s * 0.1, colors.leaf, 1.5);
+            });
+        }
+
+        function drawFlower(ctx, x, y, size, color) {
+            const s = size;
+            // Stem
+            outlinedRect(ctx, x - 1.5, y + s * 0.3, 3, s * 0.7, colors.leaf, 1.5);
+            // Petals
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
+                const px = x + Math.cos(angle) * s * 0.28;
+                const py = y + Math.sin(angle) * s * 0.28;
+                outlinedEllipse(ctx, px, py, s * 0.22, s * 0.14, color, 1.5, angle);
+            }
+            // Center
+            outlinedEllipse(ctx, x, y, s * 0.12, s * 0.12, colors.flower4, 1.5);
+        }
+
+        function drawRose(ctx, x, y, size, color = colors.flower1) {
+            const s = size;
+            // Stem
+            outlinedRect(ctx, x - 1.5, y + s * 0.2, 3, s * 0.8, colors.leaf, 1.5);
+            // Rose layers
+            outlinedEllipse(ctx, x, y, s * 0.35, s * 0.3, color, 1.5);
+            outlinedEllipse(ctx, x, y - s * 0.05, s * 0.25, s * 0.2, color, 1);
+            outlinedEllipse(ctx, x, y - s * 0.08, s * 0.12, s * 0.1, color, 1);
+        }
+
+        // Gardener
+        function drawGardener(ctx, x, y, size, pose = 'standing') {
+            const s = size;
+            if (pose === 'standing') {
+                outlinedEllipse(ctx, x, y - s * 0.35, s * 0.18, s * 0.25, colors.clothing, 2);
+                outlinedEllipse(ctx, x, y - s * 0.65, s * 0.12, s * 0.12, colors.skin, 2);
+                outlinedEllipse(ctx, x, y - s * 0.73, s * 0.18, s * 0.05, colors.hat, 1.5);
+                ctx.fillStyle = colors.hat;
+                ctx.beginPath();
+                ctx.arc(x, y - s * 0.78, s * 0.1, Math.PI, 0);
+                ctx.fill();
+                ctx.strokeStyle = colors.outline;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                outlinedRect(ctx, x - s * 0.1, y - s * 0.15, s * 0.07, s * 0.15, colors.clothing, 1.5);
+                outlinedRect(ctx, x + s * 0.03, y - s * 0.15, s * 0.07, s * 0.15, colors.clothing, 1.5);
+            } else if (pose === 'kneeling') {
+                outlinedEllipse(ctx, x, y - s * 0.2, s * 0.2, s * 0.15, colors.clothing, 2, 0.3);
+                outlinedEllipse(ctx, x + s * 0.15, y - s * 0.38, s * 0.1, s * 0.1, colors.skin, 2);
+                outlinedEllipse(ctx, x + s * 0.15, y - s * 0.46, s * 0.14, s * 0.04, colors.hat, 1.5, 0.2);
+            } else if (pose === 'sitting') {
+                outlinedEllipse(ctx, x, y - s * 0.18, s * 0.18, s * 0.12, colors.clothing, 2);
+                outlinedEllipse(ctx, x, y - s * 0.38, s * 0.1, s * 0.1, colors.skin, 2);
+                outlinedEllipse(ctx, x, y - s * 0.46, s * 0.14, s * 0.04, colors.hat, 1.5);
+            }
+        }
+
+        // Window/indoor
+        function drawWindow(ctx, w, h, openAmt = 1) {
+            const frame = 12;
+            outlinedRect(ctx, 0, 0, w, h * 0.7, colors.wood, 3);
+            ctx.fillStyle = colors.skyLight;
+            ctx.fillRect(frame, frame, w - frame * 2, (h * 0.7 - frame * 2) * openAmt);
+            outlinedRect(ctx, w/2 - 3, frame, 6, (h * 0.7 - frame * 2) * openAmt, colors.wood, 2);
+            if (openAmt > 0.5) {
+                outlinedRect(ctx, frame, h * 0.28, w - frame * 2, 6, colors.wood, 2);
+            }
+        }
+
+        function drawWindowBox(ctx, x, y, bw, bh) {
+            outlinedRect(ctx, x, y, bw, bh, colors.woodLight, 2);
+            ctx.fillStyle = colors.earth;
+            ctx.fillRect(x + 4, y + bh * 0.3, bw - 8, bh * 0.6);
+        }
+
+        // Water features
+        function drawPond(ctx, x, y, w, h) {
+            outlinedEllipse(ctx, x, y, w, h, colors.water, 2);
+            ctx.strokeStyle = colors.waterLight;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x - w * 0.5, y);
+            ctx.quadraticCurveTo(x, y - h * 0.4, x + w * 0.5, y);
+            ctx.stroke();
+        }
+
+        function drawKoi(ctx, x, y, size, color = '#e06040') {
+            const s = size;
+            outlinedEllipse(ctx, x, y, s * 0.5, s * 0.2, color, 1.5);
+            outlinedPath(ctx, [
+                [x - s * 0.4, y],
+                [x - s * 0.65, y - s * 0.18],
+                [x - s * 0.65, y + s * 0.18]
+            ], color, 1.5);
+            ctx.fillStyle = colors.outline;
+            ctx.beginPath();
+            ctx.arc(x + s * 0.25, y - s * 0.04, s * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawBirdbath(ctx, x, y, size) {
+            const s = size;
+            outlinedRect(ctx, x - s * 0.08, y - s * 0.4, s * 0.16, s * 0.4, colors.stone, 2);
+            outlinedEllipse(ctx, x, y - s * 0.45, s * 0.3, s * 0.08, colors.stone, 2);
+            outlinedEllipse(ctx, x, y - s * 0.48, s * 0.22, s * 0.05, colors.water, 1.5);
+        }
+
+        // ==================== FOCAL POINTS ====================
+
+        // 1. Garden Arbor
+        function drawArbor(ctx, x, y, size, roses = 0) {
+            const s = size;
+            // Posts
+            outlinedRect(ctx, x - s * 0.4, y - s * 0.85, s * 0.1, s * 0.85, colors.wood, 2);
+            outlinedRect(ctx, x + s * 0.3, y - s * 0.85, s * 0.1, s * 0.85, colors.wood, 2);
+            // Top arch - curved lattice
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = 2;
+            ctx.fillStyle = colors.wood;
+            // Arch top
+            ctx.beginPath();
+            ctx.moveTo(x - s * 0.4, y - s * 0.85);
+            ctx.quadraticCurveTo(x, y - s * 1.1, x + s * 0.4, y - s * 0.85);
+            ctx.lineTo(x + s * 0.35, y - s * 0.85);
+            ctx.quadraticCurveTo(x, y - s * 1.0, x - s * 0.35, y - s * 0.85);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            // Lattice cross pieces
+            outlinedRect(ctx, x - s * 0.35, y - s * 0.7, s * 0.7, s * 0.04, colors.wood, 1.5);
+            outlinedRect(ctx, x - s * 0.32, y - s * 0.5, s * 0.64, s * 0.04, colors.wood, 1.5);
+            // Climbing roses based on growth
+            if (roses >= 1) {
+                drawRose(ctx, x - s * 0.35, y - s * 0.6, s * 0.15, colors.flower1);
+            }
+            if (roses >= 2) {
+                drawRose(ctx, x + s * 0.35, y - s * 0.55, s * 0.14, colors.flower1);
+            }
+            if (roses >= 3) {
+                drawRose(ctx, x - s * 0.2, y - s * 0.85, s * 0.13, colors.flower1);
+                drawRose(ctx, x + s * 0.2, y - s * 0.88, s * 0.12, colors.flower1);
+            }
+            if (roses >= 4) {
+                drawRose(ctx, x, y - s * 0.95, s * 0.15, colors.flower1);
+                drawRose(ctx, x - s * 0.35, y - s * 0.4, s * 0.12, colors.flower1);
+                drawRose(ctx, x + s * 0.35, y - s * 0.38, s * 0.11, colors.flower1);
+            }
+        }
+
+        // 2. Picket Gate
+        function drawPicketGate(ctx, x, y, size, open = false) {
+            const s = size;
+            // Fence sections
+            const picketW = s * 0.06;
+            const picketH = s * 0.5;
+            const gap = s * 0.04;
+            // Left fence
+            for (let i = 0; i < 4; i++) {
+                const px = x - s * 0.55 + i * (picketW + gap);
+                outlinedPath(ctx, [
+                    [px, y],
+                    [px, y - picketH + s * 0.05],
+                    [px + picketW/2, y - picketH],
+                    [px + picketW, y - picketH + s * 0.05],
+                    [px + picketW, y]
+                ], colors.white, 1.5);
+            }
+            // Right fence
+            for (let i = 0; i < 4; i++) {
+                const px = x + s * 0.25 + i * (picketW + gap);
+                outlinedPath(ctx, [
+                    [px, y],
+                    [px, y - picketH + s * 0.05],
+                    [px + picketW/2, y - picketH],
+                    [px + picketW, y - picketH + s * 0.05],
+                    [px + picketW, y]
+                ], colors.white, 1.5);
+            }
+            // Gate (center) - slightly open if specified
+            const gateOffset = open ? -s * 0.1 : 0;
+            const gateRotation = open ? -0.15 : 0;
+            ctx.save();
+            ctx.translate(x - s * 0.15 + gateOffset, y);
+            ctx.rotate(gateRotation);
+            for (let i = 0; i < 3; i++) {
+                const px = i * (picketW + gap);
+                outlinedPath(ctx, [
+                    [px, 0],
+                    [px, -picketH + s * 0.05],
+                    [px + picketW/2, -picketH],
+                    [px + picketW, -picketH + s * 0.05],
+                    [px + picketW, 0]
+                ], colors.white, 1.5);
+            }
+            // Gate rails
+            outlinedRect(ctx, 0, -picketH * 0.3, s * 0.28, s * 0.04, colors.white, 1.5);
+            outlinedRect(ctx, 0, -picketH * 0.7, s * 0.28, s * 0.04, colors.white, 1.5);
+            ctx.restore();
+            // Posts
+            outlinedRect(ctx, x - s * 0.18, y - s * 0.6, s * 0.06, s * 0.6, colors.white, 2);
+            outlinedRect(ctx, x + s * 0.22, y - s * 0.6, s * 0.06, s * 0.6, colors.white, 2);
+            // Post caps
+            outlinedEllipse(ctx, x - s * 0.15, y - s * 0.62, s * 0.05, s * 0.05, colors.white, 1.5);
+            outlinedEllipse(ctx, x + s * 0.25, y - s * 0.62, s * 0.05, s * 0.05, colors.white, 1.5);
+        }
+
+        // 3. Stone Archway
+        function drawStoneArch(ctx, x, y, size, hasGate = false) {
+            const s = size;
+            // Stone pillars (layered stones)
+            for (let i = 0; i < 5; i++) {
+                const stoneY = y - i * s * 0.15;
+                const stoneColor = i % 2 === 0 ? colors.stone : colors.stoneLight;
+                outlinedRect(ctx, x - s * 0.45, stoneY - s * 0.15, s * 0.15, s * 0.15, stoneColor, 1.5);
+                outlinedRect(ctx, x + s * 0.3, stoneY - s * 0.15, s * 0.15, s * 0.15, stoneColor, 1.5);
+            }
+            // Arch stones
+            const archStones = 7;
+            for (let i = 0; i < archStones; i++) {
+                const angle = Math.PI + (i / (archStones - 1)) * Math.PI;
+                const ax = x + Math.cos(angle) * s * 0.32;
+                const ay = y - s * 0.75 + Math.sin(angle) * s * 0.25;
+                const stoneColor = i % 2 === 0 ? colors.stone : colors.stoneLight;
+                ctx.save();
+                ctx.translate(ax, ay);
+                ctx.rotate(angle + Math.PI/2);
+                outlinedRect(ctx, -s * 0.08, -s * 0.06, s * 0.16, s * 0.12, stoneColor, 1.5);
+                ctx.restore();
+            }
+            // Keystone
+            outlinedPath(ctx, [
+                [x - s * 0.08, y - s * 0.95],
+                [x, y - s * 1.05],
+                [x + s * 0.08, y - s * 0.95],
+                [x + s * 0.06, y - s * 0.85],
+                [x - s * 0.06, y - s * 0.85]
+            ], colors.stoneDark, 2);
+            // Optional wooden gate
+            if (hasGate) {
+                outlinedRect(ctx, x - s * 0.28, y - s * 0.6, s * 0.56, s * 0.05, colors.wood, 1.5);
+                outlinedRect(ctx, x - s * 0.28, y - s * 0.3, s * 0.56, s * 0.05, colors.wood, 1.5);
+                // Vertical planks
+                for (let i = 0; i < 5; i++) {
+                    outlinedRect(ctx, x - s * 0.26 + i * s * 0.11, y - s * 0.6, s * 0.08, s * 0.6, colors.woodLight, 1);
+                }
+            }
+        }
+
+        // 4. Wrought Iron Gate
+        function drawIronGate(ctx, x, y, size, open = false) {
+            const s = size;
+            // Stone pillars
+            outlinedRect(ctx, x - s * 0.5, y - s * 0.8, s * 0.12, s * 0.8, colors.stone, 2);
+            outlinedRect(ctx, x + s * 0.38, y - s * 0.8, s * 0.12, s * 0.8, colors.stone, 2);
+            // Pillar caps
+            outlinedRect(ctx, x - s * 0.53, y - s * 0.85, s * 0.18, s * 0.06, colors.stoneDark, 2);
+            outlinedRect(ctx, x + s * 0.35, y - s * 0.85, s * 0.18, s * 0.06, colors.stoneDark, 2);
+            // Decorative balls on top
+            outlinedEllipse(ctx, x - s * 0.44, y - s * 0.92, s * 0.06, s * 0.06, colors.stone, 1.5);
+            outlinedEllipse(ctx, x + s * 0.44, y - s * 0.92, s * 0.06, s * 0.06, colors.stone, 1.5);
+
+            // Iron gate
+            const gateX = open ? x - s * 0.1 : x;
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = 2.5;
+            ctx.fillStyle = colors.iron;
+            // Main frame
+            ctx.beginPath();
+            ctx.moveTo(gateX - s * 0.35, y);
+            ctx.lineTo(gateX - s * 0.35, y - s * 0.7);
+            ctx.quadraticCurveTo(gateX, y - s * 0.85, gateX + s * 0.35, y - s * 0.7);
+            ctx.lineTo(gateX + s * 0.35, y);
+            ctx.stroke();
+            // Vertical bars
+            ctx.lineWidth = 2;
+            for (let i = -2; i <= 2; i++) {
+                const bx = gateX + i * s * 0.12;
+                const topY = y - s * 0.7 + Math.abs(i) * s * 0.05;
+                ctx.beginPath();
+                ctx.moveTo(bx, y);
+                ctx.lineTo(bx, topY);
+                ctx.stroke();
+                // Spear points
+                outlinedPath(ctx, [
+                    [bx - s * 0.02, topY],
+                    [bx, topY - s * 0.06],
+                    [bx + s * 0.02, topY]
+                ], colors.iron, 1.5);
+            }
+            // Decorative scrollwork
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(gateX - s * 0.25, y - s * 0.4);
+            ctx.quadraticCurveTo(gateX - s * 0.1, y - s * 0.5, gateX, y - s * 0.4);
+            ctx.quadraticCurveTo(gateX + s * 0.1, y - s * 0.3, gateX + s * 0.25, y - s * 0.4);
+            ctx.stroke();
+        }
+
+        // 5. Greenhouse
+        function drawGreenhouse(ctx, x, y, size, stage = 1) {
+            const s = size;
+            if (stage === 1) {
+                // Cold frame - small glass box
+                outlinedRect(ctx, x - s * 0.3, y - s * 0.15, s * 0.6, s * 0.15, colors.wood, 2);
+                outlinedPath(ctx, [
+                    [x - s * 0.3, y - s * 0.15],
+                    [x - s * 0.25, y - s * 0.35],
+                    [x + s * 0.25, y - s * 0.35],
+                    [x + s * 0.3, y - s * 0.15]
+                ], colors.glass, 2);
+                // Glass panes
+                ctx.strokeStyle = colors.outline;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.15);
+                ctx.lineTo(x, y - s * 0.35);
+                ctx.stroke();
+            } else if (stage === 2) {
+                // Small lean-to greenhouse
+                outlinedRect(ctx, x - s * 0.35, y - s * 0.5, s * 0.7, s * 0.5, colors.wood, 2);
+                // Glass front
+                ctx.fillStyle = colors.glass;
+                ctx.fillRect(x - s * 0.32, y - s * 0.45, s * 0.64, s * 0.4);
+                ctx.strokeStyle = colors.outline;
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(x - s * 0.32, y - s * 0.45, s * 0.64, s * 0.4);
+                // Glass panes
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.45);
+                ctx.lineTo(x, y - s * 0.05);
+                ctx.moveTo(x - s * 0.32, y - s * 0.25);
+                ctx.lineTo(x + s * 0.32, y - s * 0.25);
+                ctx.stroke();
+                // Sloped roof
+                outlinedPath(ctx, [
+                    [x - s * 0.38, y - s * 0.5],
+                    [x - s * 0.3, y - s * 0.65],
+                    [x + s * 0.3, y - s * 0.65],
+                    [x + s * 0.38, y - s * 0.5]
+                ], colors.glass, 2);
+            } else if (stage === 3) {
+                // Proper greenhouse
+                outlinedRect(ctx, x - s * 0.4, y - s * 0.6, s * 0.8, s * 0.6, colors.wood, 2);
+                // Glass panels
+                ctx.fillStyle = colors.glass;
+                ctx.fillRect(x - s * 0.36, y - s * 0.55, s * 0.72, s * 0.5);
+                ctx.strokeStyle = colors.outline;
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(x - s * 0.36, y - s * 0.55, s * 0.72, s * 0.5);
+                // Pane divisions
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.12, y - s * 0.55);
+                ctx.lineTo(x - s * 0.12, y - s * 0.05);
+                ctx.moveTo(x + s * 0.12, y - s * 0.55);
+                ctx.lineTo(x + s * 0.12, y - s * 0.05);
+                ctx.moveTo(x - s * 0.36, y - s * 0.3);
+                ctx.lineTo(x + s * 0.36, y - s * 0.3);
+                ctx.stroke();
+                // Peaked roof
+                outlinedPath(ctx, [
+                    [x - s * 0.45, y - s * 0.6],
+                    [x, y - s * 0.85],
+                    [x + s * 0.45, y - s * 0.6]
+                ], colors.glass, 2);
+                // Roof frame
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.6);
+                ctx.lineTo(x, y - s * 0.85);
+                ctx.stroke();
+                // Door
+                outlinedRect(ctx, x - s * 0.1, y - s * 0.45, s * 0.2, s * 0.45, colors.wood, 2);
+            } else {
+                // Grand conservatory
+                // Base
+                outlinedRect(ctx, x - s * 0.5, y - s * 0.55, s * 1.0, s * 0.55, colors.wood, 2);
+                // Main glass area
+                ctx.fillStyle = colors.glass;
+                ctx.fillRect(x - s * 0.46, y - s * 0.5, s * 0.92, s * 0.45);
+                ctx.strokeStyle = colors.outline;
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(x - s * 0.46, y - s * 0.5, s * 0.92, s * 0.45);
+                // Pane divisions
+                ctx.beginPath();
+                for (let i = -1; i <= 1; i++) {
+                    ctx.moveTo(x + i * s * 0.23, y - s * 0.5);
+                    ctx.lineTo(x + i * s * 0.23, y - s * 0.05);
+                }
+                ctx.moveTo(x - s * 0.46, y - s * 0.28);
+                ctx.lineTo(x + s * 0.46, y - s * 0.28);
+                ctx.stroke();
+                // Domed roof
+                ctx.fillStyle = colors.glass;
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.55, y - s * 0.55);
+                ctx.quadraticCurveTo(x - s * 0.3, y - s * 0.9, x, y - s * 0.95);
+                ctx.quadraticCurveTo(x + s * 0.3, y - s * 0.9, x + s * 0.55, y - s * 0.55);
+                ctx.fill();
+                ctx.strokeStyle = colors.outline;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                // Dome ribs
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.55);
+                ctx.lineTo(x, y - s * 0.95);
+                ctx.moveTo(x - s * 0.25, y - s * 0.55);
+                ctx.quadraticCurveTo(x - s * 0.15, y - s * 0.8, x, y - s * 0.95);
+                ctx.moveTo(x + s * 0.25, y - s * 0.55);
+                ctx.quadraticCurveTo(x + s * 0.15, y - s * 0.8, x, y - s * 0.95);
+                ctx.stroke();
+                // Door
+                outlinedRect(ctx, x - s * 0.12, y - s * 0.48, s * 0.24, s * 0.48, colors.wood, 2);
+            }
+        }
+
+        // ==================== VARIATION 1: ARBOR ====================
+        function renderV1S1() {
+            const { ctx, w, h } = setupCanvas('V1S1');
+            ctx.fillStyle = colors.cream;
+            ctx.fillRect(0, 0, w, h);
+            drawWindow(ctx, w, h * 0.7, 0.3);
+            drawWindowBox(ctx, w * 0.2, h * 0.58, w * 0.6, h * 0.1);
+            // Single plant
+            ctx.strokeStyle = colors.leaf;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.5, h * 0.58);
+            ctx.lineTo(w * 0.5, h * 0.48);
+            ctx.stroke();
+            outlinedEllipse(ctx, w * 0.5, h * 0.45, 10, 8, colors.leaf, 1.5);
+            // Hands
+            outlinedEllipse(ctx, w * 0.35, h * 0.75, 14, 20, colors.skin, 2, -0.2);
+            outlinedEllipse(ctx, w * 0.65, h * 0.75, 14, 20, colors.skin, 2, 0.2);
+        }
+
+        function renderV1S2() {
+            const { ctx, w, h } = setupCanvas('V1S2');
+            drawSky(ctx, w, h, h * 0.35);
+            // Courtyard walls
+            outlinedRect(ctx, 0, h * 0.35, w * 0.1, h * 0.4, colors.stone, 2);
+            outlinedRect(ctx, w * 0.9, h * 0.35, w * 0.1, h * 0.4, colors.stone, 2);
+            ctx.fillStyle = colors.grass;
+            ctx.fillRect(w * 0.1, h * 0.35, w * 0.8, h * 0.65);
+            outlinedRect(ctx, w * 0.1, h * 0.75, w * 0.8, h * 0.25, colors.earth, 2);
+            // Small arbor
+            drawArbor(ctx, w * 0.5, h * 0.6, 55, 1);
+            drawFlower(ctx, w * 0.25, h * 0.65, 12, colors.flower2);
+            drawFlower(ctx, w * 0.75, h * 0.68, 11, colors.flower3);
+            drawGardener(ctx, w * 0.35, h * 0.88, 45, 'kneeling');
+        }
+
+        function renderV1S3() {
+            const { ctx, w, h } = setupCanvas('V1S3');
+            drawSky(ctx, w, h, h * 0.4);
+            drawGround(ctx, w, h, h * 0.4);
+            // Walls
+            outlinedRect(ctx, 0, h * 0.35, w * 0.12, h * 0.18, colors.stone, 2);
+            outlinedRect(ctx, w * 0.88, h * 0.35, w * 0.12, h * 0.18, colors.stone, 2);
+            drawPath(ctx, w, h, 0.55);
+            drawArbor(ctx, w * 0.5, h * 0.52, 70, 3);
+            drawTree(ctx, w * 0.85, h * 0.5, 65);
+            for (let i = 0; i < 5; i++) {
+                const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+                drawFlower(ctx, w * 0.1 + i * w * 0.1, h * 0.58, 10, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.2, h * 0.78, 28, 14);
+            drawGardener(ctx, w * 0.5, h * 0.82, 48, 'standing');
+        }
+
+        function renderV1S4() {
+            const { ctx, w, h } = setupCanvas('V1S4');
+            drawSky(ctx, w, h, h * 0.38);
+            drawMountain(ctx, w * 0.7, h * 0.38, w * 0.7, h * 0.16, '#9aa8b8');
+            drawGround(ctx, w, h, h * 0.38);
+            drawPath(ctx, w, h, 0.5);
+            drawArbor(ctx, w * 0.5, h * 0.5, 80, 4);
+            drawTree(ctx, w * 0.12, h * 0.52, 55);
+            drawTree(ctx, w * 0.9, h * 0.48, 70);
+            const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+            for (let i = 0; i < 6; i++) {
+                drawFlower(ctx, w * 0.08 + (i % 3) * w * 0.08, h * 0.55 + Math.floor(i / 3) * 18, 9, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.75, h * 0.75, 32, 16);
+            drawKoi(ctx, w * 0.73, h * 0.74, 11, '#e06040');
+            drawKoi(ctx, w * 0.78, h * 0.77, 9, colors.white);
+            drawBirdbath(ctx, w * 0.15, h * 0.72, 28);
+            drawGardener(ctx, w * 0.5, h * 0.88, 45, 'sitting');
+        }
+
+        // ==================== VARIATION 2: PICKET GATE ====================
+        function renderV2S1() {
+            const { ctx, w, h } = setupCanvas('V2S1');
+            ctx.fillStyle = colors.cream;
+            ctx.fillRect(0, 0, w, h);
+            drawWindow(ctx, w, h * 0.7, 0.3);
+            drawWindowBox(ctx, w * 0.2, h * 0.58, w * 0.6, h * 0.1);
+            ctx.strokeStyle = colors.leaf;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.45, h * 0.58);
+            ctx.lineTo(w * 0.45, h * 0.5);
+            ctx.moveTo(w * 0.55, h * 0.58);
+            ctx.lineTo(w * 0.55, h * 0.52);
+            ctx.stroke();
+            outlinedEllipse(ctx, w * 0.45, h * 0.47, 8, 6, colors.leaf, 1.5);
+            outlinedEllipse(ctx, w * 0.55, h * 0.5, 7, 5, colors.leaf, 1.5);
+            outlinedEllipse(ctx, w * 0.35, h * 0.75, 14, 20, colors.skin, 2, -0.2);
+            outlinedEllipse(ctx, w * 0.65, h * 0.75, 14, 20, colors.skin, 2, 0.2);
+        }
+
+        function renderV2S2() {
+            const { ctx, w, h } = setupCanvas('V2S2');
+            drawSky(ctx, w, h, h * 0.38);
+            ctx.fillStyle = colors.grass;
+            ctx.fillRect(0, h * 0.38, w, h * 0.62);
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.38);
+            ctx.lineTo(w, h * 0.38);
+            ctx.stroke();
+            outlinedRect(ctx, 0, h * 0.78, w, h * 0.22, colors.earth, 2);
+            drawPicketGate(ctx, w * 0.5, h * 0.62, 70, false);
+            drawFlower(ctx, w * 0.15, h * 0.55, 12, colors.flower1);
+            drawFlower(ctx, w * 0.85, h * 0.58, 11, colors.flower2);
+            drawGardener(ctx, w * 0.5, h * 0.88, 45, 'kneeling');
+        }
+
+        function renderV2S3() {
+            const { ctx, w, h } = setupCanvas('V2S3');
+            drawSky(ctx, w, h, h * 0.4);
+            drawGround(ctx, w, h, h * 0.4);
+            drawPath(ctx, w, h, 0.55);
+            drawPicketGate(ctx, w * 0.5, h * 0.55, 80, true);
+            drawTree(ctx, w * 0.85, h * 0.5, 65);
+            const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+            for (let i = 0; i < 5; i++) {
+                drawFlower(ctx, w * 0.1 + i * w * 0.1, h * 0.58, 10, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.22, h * 0.78, 28, 14);
+            drawGardener(ctx, w * 0.55, h * 0.82, 48, 'standing');
+        }
+
+        function renderV2S4() {
+            const { ctx, w, h } = setupCanvas('V2S4');
+            drawSky(ctx, w, h, h * 0.38);
+            drawMountain(ctx, w * 0.65, h * 0.38, w * 0.6, h * 0.15, '#9aa8b8');
+            drawGround(ctx, w, h, h * 0.38);
+            drawPath(ctx, w, h, 0.5);
+            drawPicketGate(ctx, w * 0.5, h * 0.52, 85, true);
+            drawTree(ctx, w * 0.1, h * 0.52, 55);
+            drawTree(ctx, w * 0.9, h * 0.48, 68);
+            const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+            for (let i = 0; i < 7; i++) {
+                drawFlower(ctx, w * 0.08 + (i % 4) * w * 0.07, h * 0.55 + Math.floor(i / 4) * 16, 9, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.75, h * 0.75, 30, 15);
+            drawKoi(ctx, w * 0.73, h * 0.74, 10, '#e06040');
+            drawBirdbath(ctx, w * 0.18, h * 0.7, 25);
+            drawGardener(ctx, w * 0.5, h * 0.88, 45, 'sitting');
+        }
+
+        // ==================== VARIATION 3: STONE ARCH ====================
+        function renderV3S1() {
+            const { ctx, w, h } = setupCanvas('V3S1');
+            ctx.fillStyle = colors.cream;
+            ctx.fillRect(0, 0, w, h);
+            drawWindow(ctx, w, h * 0.7, 0.3);
+            drawWindowBox(ctx, w * 0.2, h * 0.58, w * 0.6, h * 0.1);
+            ctx.strokeStyle = colors.leaf;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.5, h * 0.58);
+            ctx.lineTo(w * 0.5, h * 0.48);
+            ctx.stroke();
+            outlinedEllipse(ctx, w * 0.48, h * 0.45, 9, 7, colors.leaf, 1.5, -0.2);
+            outlinedEllipse(ctx, w * 0.53, h * 0.46, 8, 6, colors.leaf, 1.5, 0.3);
+            outlinedEllipse(ctx, w * 0.35, h * 0.75, 14, 20, colors.skin, 2, -0.2);
+            outlinedEllipse(ctx, w * 0.65, h * 0.75, 14, 20, colors.skin, 2, 0.2);
+        }
+
+        function renderV3S2() {
+            const { ctx, w, h } = setupCanvas('V3S2');
+            drawSky(ctx, w, h, h * 0.35);
+            // Courtyard walls
+            outlinedRect(ctx, 0, h * 0.35, w * 0.12, h * 0.4, colors.stone, 2);
+            outlinedRect(ctx, w * 0.88, h * 0.35, w * 0.12, h * 0.4, colors.stone, 2);
+            ctx.fillStyle = colors.grass;
+            ctx.fillRect(w * 0.12, h * 0.35, w * 0.76, h * 0.65);
+            outlinedRect(ctx, w * 0.12, h * 0.78, w * 0.76, h * 0.22, colors.earth, 2);
+            // Small stone entrance
+            drawStoneArch(ctx, w * 0.5, h * 0.62, 50, false);
+            drawFlower(ctx, w * 0.2, h * 0.65, 11, colors.flower1);
+            drawFlower(ctx, w * 0.8, h * 0.68, 10, colors.flower2);
+            drawGardener(ctx, w * 0.35, h * 0.88, 45, 'kneeling');
+        }
+
+        function renderV3S3() {
+            const { ctx, w, h } = setupCanvas('V3S3');
+            drawSky(ctx, w, h, h * 0.4);
+            drawGround(ctx, w, h, h * 0.4);
+            // Walls extend from arch
+            outlinedRect(ctx, 0, h * 0.38, w * 0.18, h * 0.15, colors.stone, 2);
+            outlinedRect(ctx, w * 0.82, h * 0.38, w * 0.18, h * 0.15, colors.stone, 2);
+            drawPath(ctx, w, h, 0.55);
+            drawStoneArch(ctx, w * 0.5, h * 0.55, 65, true);
+            drawTree(ctx, w * 0.88, h * 0.5, 62);
+            const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+            for (let i = 0; i < 5; i++) {
+                drawFlower(ctx, w * 0.08 + i * w * 0.1, h * 0.58, 10, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.2, h * 0.78, 28, 14);
+            drawGardener(ctx, w * 0.5, h * 0.82, 48, 'standing');
+        }
+
+        function renderV3S4() {
+            const { ctx, w, h } = setupCanvas('V3S4');
+            drawSky(ctx, w, h, h * 0.38);
+            drawMountain(ctx, w * 0.7, h * 0.38, w * 0.65, h * 0.16, '#9aa8b8');
+            drawGround(ctx, w, h, h * 0.38);
+            // Grand walls
+            outlinedRect(ctx, 0, h * 0.35, w * 0.15, h * 0.18, colors.stone, 2);
+            outlinedRect(ctx, w * 0.85, h * 0.35, w * 0.15, h * 0.18, colors.stone, 2);
+            drawPath(ctx, w, h, 0.5);
+            drawStoneArch(ctx, w * 0.5, h * 0.52, 75, true);
+            drawTree(ctx, w * 0.1, h * 0.52, 55);
+            drawTree(ctx, w * 0.92, h * 0.48, 68);
+            const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+            for (let i = 0; i < 6; i++) {
+                drawFlower(ctx, w * 0.06 + (i % 3) * w * 0.08, h * 0.55 + Math.floor(i / 3) * 16, 9, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.78, h * 0.75, 30, 15);
+            drawKoi(ctx, w * 0.76, h * 0.74, 10, '#e06040');
+            drawKoi(ctx, w * 0.81, h * 0.76, 8, colors.white);
+            drawBirdbath(ctx, w * 0.12, h * 0.7, 25);
+            drawGardener(ctx, w * 0.5, h * 0.88, 45, 'sitting');
+        }
+
+        // ==================== VARIATION 4: IRON GATE ====================
+        function renderV4S1() {
+            const { ctx, w, h } = setupCanvas('V4S1');
+            ctx.fillStyle = colors.cream;
+            ctx.fillRect(0, 0, w, h);
+            drawWindow(ctx, w, h * 0.7, 0.3);
+            drawWindowBox(ctx, w * 0.2, h * 0.58, w * 0.6, h * 0.1);
+            ctx.strokeStyle = colors.leaf;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.5, h * 0.58);
+            ctx.lineTo(w * 0.5, h * 0.5);
+            ctx.stroke();
+            outlinedEllipse(ctx, w * 0.5, h * 0.47, 10, 8, colors.leaf, 1.5);
+            outlinedEllipse(ctx, w * 0.35, h * 0.75, 14, 20, colors.skin, 2, -0.2);
+            outlinedEllipse(ctx, w * 0.65, h * 0.75, 14, 20, colors.skin, 2, 0.2);
+        }
+
+        function renderV4S2() {
+            const { ctx, w, h } = setupCanvas('V4S2');
+            drawSky(ctx, w, h, h * 0.35);
+            // Walls
+            outlinedRect(ctx, 0, h * 0.35, w * 0.1, h * 0.4, colors.stone, 2);
+            outlinedRect(ctx, w * 0.9, h * 0.35, w * 0.1, h * 0.4, colors.stone, 2);
+            ctx.fillStyle = colors.grass;
+            ctx.fillRect(w * 0.1, h * 0.35, w * 0.8, h * 0.65);
+            outlinedRect(ctx, w * 0.1, h * 0.78, w * 0.8, h * 0.22, colors.earth, 2);
+            drawIronGate(ctx, w * 0.5, h * 0.62, 55, false);
+            drawFlower(ctx, w * 0.15, h * 0.55, 11, colors.flower1);
+            drawFlower(ctx, w * 0.85, h * 0.58, 10, colors.flower3);
+            drawGardener(ctx, w * 0.35, h * 0.88, 45, 'kneeling');
+        }
+
+        function renderV4S3() {
+            const { ctx, w, h } = setupCanvas('V4S3');
+            drawSky(ctx, w, h, h * 0.4);
+            drawGround(ctx, w, h, h * 0.4);
+            outlinedRect(ctx, 0, h * 0.35, w * 0.12, h * 0.18, colors.stone, 2);
+            outlinedRect(ctx, w * 0.88, h * 0.35, w * 0.12, h * 0.18, colors.stone, 2);
+            drawPath(ctx, w, h, 0.55);
+            drawIronGate(ctx, w * 0.5, h * 0.55, 70, true);
+            drawTree(ctx, w * 0.88, h * 0.5, 62);
+            const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+            for (let i = 0; i < 5; i++) {
+                drawFlower(ctx, w * 0.08 + i * w * 0.1, h * 0.58, 10, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.2, h * 0.78, 28, 14);
+            drawGardener(ctx, w * 0.55, h * 0.82, 48, 'standing');
+        }
+
+        function renderV4S4() {
+            const { ctx, w, h } = setupCanvas('V4S4');
+            drawSky(ctx, w, h, h * 0.38);
+            drawMountain(ctx, w * 0.68, h * 0.38, w * 0.6, h * 0.15, '#9aa8b8');
+            drawGround(ctx, w, h, h * 0.38);
+            outlinedRect(ctx, 0, h * 0.35, w * 0.14, h * 0.18, colors.stone, 2);
+            outlinedRect(ctx, w * 0.86, h * 0.35, w * 0.14, h * 0.18, colors.stone, 2);
+            drawPath(ctx, w, h, 0.5);
+            drawIronGate(ctx, w * 0.5, h * 0.52, 80, true);
+            drawTree(ctx, w * 0.08, h * 0.52, 55);
+            drawTree(ctx, w * 0.92, h * 0.48, 68);
+            const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+            for (let i = 0; i < 6; i++) {
+                drawFlower(ctx, w * 0.05 + (i % 3) * w * 0.08, h * 0.55 + Math.floor(i / 3) * 16, 9, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.78, h * 0.75, 30, 15);
+            drawKoi(ctx, w * 0.76, h * 0.74, 10, '#e06040');
+            drawBirdbath(ctx, w * 0.12, h * 0.7, 25);
+            drawGardener(ctx, w * 0.5, h * 0.88, 45, 'sitting');
+        }
+
+        // ==================== VARIATION 5: GREENHOUSE ====================
+        function renderV5S1() {
+            const { ctx, w, h } = setupCanvas('V5S1');
+            ctx.fillStyle = colors.cream;
+            ctx.fillRect(0, 0, w, h);
+            drawWindow(ctx, w, h * 0.65, 0.25);
+            // Small table with cold frame
+            outlinedRect(ctx, w * 0.25, h * 0.6, w * 0.5, h * 0.06, colors.wood, 2);
+            outlinedRect(ctx, w * 0.3, h * 0.66, w * 0.06, h * 0.12, colors.wood, 2);
+            outlinedRect(ctx, w * 0.64, h * 0.66, w * 0.06, h * 0.12, colors.wood, 2);
+            drawGreenhouse(ctx, w * 0.5, h * 0.6, 50, 1);
+            // Tiny seedlings visible inside
+            ctx.strokeStyle = colors.leaf;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.45, h * 0.52);
+            ctx.lineTo(w * 0.45, h * 0.48);
+            ctx.moveTo(w * 0.55, h * 0.52);
+            ctx.lineTo(w * 0.55, h * 0.49);
+            ctx.stroke();
+            outlinedEllipse(ctx, w * 0.35, h * 0.78, 14, 20, colors.skin, 2, -0.2);
+            outlinedEllipse(ctx, w * 0.65, h * 0.78, 14, 20, colors.skin, 2, 0.2);
+        }
+
+        function renderV5S2() {
+            const { ctx, w, h } = setupCanvas('V5S2');
+            drawSky(ctx, w, h, h * 0.35);
+            ctx.fillStyle = colors.grass;
+            ctx.fillRect(0, h * 0.35, w, h * 0.65);
+            ctx.strokeStyle = colors.outline;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.35);
+            ctx.lineTo(w, h * 0.35);
+            ctx.stroke();
+            outlinedRect(ctx, 0, h * 0.78, w, h * 0.22, colors.earth, 2);
+            // Small lean-to greenhouse
+            drawGreenhouse(ctx, w * 0.5, h * 0.65, 70, 2);
+            drawFlower(ctx, w * 0.15, h * 0.6, 11, colors.flower1);
+            drawFlower(ctx, w * 0.85, h * 0.62, 10, colors.flower2);
+            drawGardener(ctx, w * 0.3, h * 0.88, 45, 'kneeling');
+        }
+
+        function renderV5S3() {
+            const { ctx, w, h } = setupCanvas('V5S3');
+            drawSky(ctx, w, h, h * 0.4);
+            drawGround(ctx, w, h, h * 0.4);
+            drawPath(ctx, w, h, 0.58);
+            // Proper greenhouse
+            drawGreenhouse(ctx, w * 0.5, h * 0.58, 80, 3);
+            drawTree(ctx, w * 0.88, h * 0.5, 60);
+            const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+            for (let i = 0; i < 4; i++) {
+                drawFlower(ctx, w * 0.08 + i * w * 0.1, h * 0.6, 10, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.18, h * 0.78, 26, 13);
+            drawGardener(ctx, w * 0.5, h * 0.85, 48, 'standing');
+        }
+
+        function renderV5S4() {
+            const { ctx, w, h } = setupCanvas('V5S4');
+            drawSky(ctx, w, h, h * 0.35);
+            drawMountain(ctx, w * 0.7, h * 0.35, w * 0.6, h * 0.14, '#9aa8b8');
+            drawGround(ctx, w, h, h * 0.35);
+            drawPath(ctx, w, h, 0.52);
+            // Grand conservatory
+            drawGreenhouse(ctx, w * 0.5, h * 0.52, 85, 4);
+            drawTree(ctx, w * 0.08, h * 0.5, 52);
+            drawTree(ctx, w * 0.92, h * 0.48, 65);
+            const fc = [colors.flower1, colors.flower2, colors.flower3, colors.flower4];
+            for (let i = 0; i < 6; i++) {
+                drawFlower(ctx, w * 0.05 + (i % 3) * w * 0.08, h * 0.55 + Math.floor(i / 3) * 15, 9, fc[i % 4]);
+            }
+            for (let i = 0; i < 4; i++) {
+                drawFlower(ctx, w * 0.72 + (i % 2) * w * 0.1, h * 0.55 + Math.floor(i / 2) * 15, 8, fc[i % 4]);
+            }
+            drawPond(ctx, w * 0.78, h * 0.78, 28, 14);
+            drawKoi(ctx, w * 0.76, h * 0.77, 9, '#e06040');
+            drawBirdbath(ctx, w * 0.12, h * 0.72, 24);
+            drawGardener(ctx, w * 0.5, h * 0.9, 45, 'sitting');
+        }
+
+        // Render all
+        document.addEventListener('DOMContentLoaded', () => {
+            renderV1S1(); renderV1S2(); renderV1S3(); renderV1S4();
+            renderV2S1(); renderV2S2(); renderV2S3(); renderV2S4();
+            renderV3S1(); renderV3S2(); renderV3S3(); renderV3S4();
+            renderV4S1(); renderV4S2(); renderV4S3(); renderV4S4();
+            renderV5S1(); renderV5S2(); renderV5S3(); renderV5S4();
+        });
+    </script>
+</body>
+</html>
