@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenhouse Variations - Part 2</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #1a1a2e; color: #e8e8e8; padding: 20px; }
+        h1 { text-align: center; margin-bottom: 10px; color: #c4a574; }
+        .subtitle { text-align: center; color: #888; margin-bottom: 30px; }
+        .variation-section { margin-bottom: 50px; background: #252540; border-radius: 16px; padding: 20px; }
+        .variation-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .variation-letter { background: #c4a574; color: #1a1a2e; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; }
+        .variation-title { font-size: 24px; color: #fff; }
+        .variation-desc { color: #aaa; margin-bottom: 20px; padding-left: 55px; }
+        .stages-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .stage-card { background: #1a1a2e; border-radius: 12px; overflow: hidden; }
+        .stage-label { background: #333355; padding: 8px 12px; font-size: 12px; text-align: center; }
+        .stage-name { font-weight: bold; color: #c4a574; }
+        .stage-trigger { color: #888; font-size: 10px; margin-top: 4px; }
+        canvas { display: block; width: 100%; height: auto; }
+        @media (max-width: 900px) { .stages-row { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <h1>Greenhouse Wow Factor - Part 2</h1>
+    <p class="subtitle">Variations 3-4 • Bold Design Directions</p>
+
+    <div class="variation-section">
+        <div class="variation-header">
+            <div class="variation-letter">3</div>
+            <div class="variation-title">Bold Silhouette</div>
+        </div>
+        <p class="variation-desc">High contrast, dramatic shapes. Strong black outlines with bold color blocks. Poster art style.</p>
+        <div class="stages-row">
+            <div class="stage-card"><canvas id="V3S1" width="300" height="400"></canvas><div class="stage-label"><div class="stage-name">Seedling Tray (10%)</div><div class="stage-trigger">Account created</div></div></div>
+            <div class="stage-card"><canvas id="V3S2" width="300" height="400"></canvas><div class="stage-label"><div class="stage-name">Potting Shed (40%)</div><div class="stage-trigger">First week</div></div></div>
+            <div class="stage-card"><canvas id="V3S3" width="300" height="400"></canvas><div class="stage-label"><div class="stage-name">Glasshouse (70%)</div><div class="stage-trigger">Ketones added</div></div></div>
+            <div class="stage-card"><canvas id="V3S4" width="300" height="400"></canvas><div class="stage-label"><div class="stage-name">Grand Orangery (100%)</div><div class="stage-trigger">Mastery</div></div></div>
+        </div>
+    </div>
+
+    <div class="variation-section">
+        <div class="variation-header">
+            <div class="variation-letter">4</div>
+            <div class="variation-title">Delicate Botanical</div>
+        </div>
+        <p class="variation-desc">Fine detailed linework, intricate flower forms, elegant Victorian greenhouse. Refined and graceful.</p>
+        <div class="stages-row">
+            <div class="stage-card"><canvas id="V4S1" width="300" height="400"></canvas><div class="stage-label"><div class="stage-name">Specimen Jar (10%)</div><div class="stage-trigger">Account created</div></div></div>
+            <div class="stage-card"><canvas id="V4S2" width="300" height="400"></canvas><div class="stage-label"><div class="stage-name">Wardian Case (40%)</div><div class="stage-trigger">First week</div></div></div>
+            <div class="stage-card"><canvas id="V4S3" width="300" height="400"></canvas><div class="stage-label"><div class="stage-name">Palm House (70%)</div><div class="stage-trigger">Ketones added</div></div></div>
+            <div class="stage-card"><canvas id="V4S4" width="300" height="400"></canvas><div class="stage-label"><div class="stage-name">Crystal Palace (100%)</div><div class="stage-trigger">Mastery</div></div></div>
+        </div>
+    </div>
+
+    <script>
+        const C = {
+            sky: '#a8c0d8', skyLight: '#c8dae8', water: '#4878a0', waterDark: '#385878',
+            grass: '#588048', grassDark: '#406030', earth: '#6a5848', wood: '#4a3828',
+            stone: '#787068', glass: '#b8d0e0', white: '#f8f4f0', cream: '#f0e8d8',
+            flower1: '#d85868', flower2: '#e89848', flower3: '#6858a0', flower4: '#e8c848',
+            leaf: '#3a6828', leafDark: '#2a4818', skin: '#e8d0b8', clothing: '#385878',
+            hat: '#b89858', outline: '#1a1a1a'
+        };
+
+        function setup(id) {
+            const canvas = document.getElementById(id);
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = 300 * dpr;
+            canvas.height = 400 * dpr;
+            ctx.scale(dpr, dpr);
+            return { ctx, w: 300, h: 400 };
+        }
+
+        // ===== VARIATION 3: BOLD SILHOUETTE =====
+        function bold_sky(ctx, w, h) {
+            ctx.fillStyle = C.sky;
+            ctx.fillRect(0, 0, w, h * 0.42);
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.42);
+            ctx.lineTo(w, h * 0.42);
+            ctx.stroke();
+        }
+
+        function bold_ground(ctx, w, h) {
+            ctx.fillStyle = C.grass;
+            ctx.fillRect(0, h * 0.42, w, h * 0.58);
+            ctx.fillStyle = C.grassDark;
+            ctx.fillRect(0, h * 0.75, w, h * 0.25);
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.75);
+            ctx.lineTo(w, h * 0.75);
+            ctx.stroke();
+        }
+
+        function bold_flower(ctx, x, y, s, color) {
+            ctx.fillStyle = color;
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 2.5;
+            // Bold stem
+            ctx.fillStyle = C.leaf;
+            ctx.fillRect(x - 3, y + s * 0.2, 6, s * 0.8);
+            ctx.strokeRect(x - 3, y + s * 0.2, 6, s * 0.8);
+            // Bold leaf
+            ctx.beginPath();
+            ctx.ellipse(x - s * 0.25, y + s * 0.5, s * 0.18, s * 0.08, -0.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            // Strong petal shape
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, s * 0.35, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            // Center dot
+            ctx.fillStyle = C.flower4;
+            ctx.beginPath();
+            ctx.arc(x, y, s * 0.12, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function bold_tree(ctx, x, y, s) {
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 3;
+            // Strong trunk
+            ctx.fillStyle = C.wood;
+            ctx.fillRect(x - s * 0.1, y - s * 0.45, s * 0.2, s * 0.45);
+            ctx.strokeRect(x - s * 0.1, y - s * 0.45, s * 0.2, s * 0.45);
+            // Bold crown - single strong shape
+            ctx.fillStyle = C.leaf;
+            ctx.beginPath();
+            ctx.arc(x, y - s * 0.6, s * 0.32, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function bold_gardener(ctx, x, y, s, pose) {
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 2.5;
+            if (pose === 'standing') {
+                // Strong body block
+                ctx.fillStyle = C.clothing;
+                ctx.fillRect(x - s * 0.15, y - s * 0.5, s * 0.3, s * 0.35);
+                ctx.strokeRect(x - s * 0.15, y - s * 0.5, s * 0.3, s * 0.35);
+                // Bold head
+                ctx.fillStyle = C.skin;
+                ctx.beginPath();
+                ctx.arc(x, y - s * 0.62, s * 0.12, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                // Strong hat
+                ctx.fillStyle = C.hat;
+                ctx.fillRect(x - s * 0.18, y - s * 0.72, s * 0.36, s * 0.06);
+                ctx.strokeRect(x - s * 0.18, y - s * 0.72, s * 0.36, s * 0.06);
+                ctx.fillRect(x - s * 0.1, y - s * 0.82, s * 0.2, s * 0.1);
+                ctx.strokeRect(x - s * 0.1, y - s * 0.82, s * 0.2, s * 0.1);
+                // Legs
+                ctx.fillStyle = C.clothing;
+                ctx.fillRect(x - s * 0.12, y - s * 0.15, s * 0.1, s * 0.15);
+                ctx.strokeRect(x - s * 0.12, y - s * 0.15, s * 0.1, s * 0.15);
+                ctx.fillRect(x + s * 0.02, y - s * 0.15, s * 0.1, s * 0.15);
+                ctx.strokeRect(x + s * 0.02, y - s * 0.15, s * 0.1, s * 0.15);
+            } else if (pose === 'kneeling') {
+                ctx.fillStyle = C.clothing;
+                ctx.fillRect(x - s * 0.2, y - s * 0.25, s * 0.35, s * 0.2);
+                ctx.strokeRect(x - s * 0.2, y - s * 0.25, s * 0.35, s * 0.2);
+                ctx.fillStyle = C.skin;
+                ctx.beginPath();
+                ctx.arc(x + s * 0.12, y - s * 0.38, s * 0.1, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            } else {
+                ctx.fillStyle = C.clothing;
+                ctx.fillRect(x - s * 0.18, y - s * 0.25, s * 0.36, s * 0.2);
+                ctx.strokeRect(x - s * 0.18, y - s * 0.25, s * 0.36, s * 0.2);
+                ctx.fillStyle = C.skin;
+                ctx.beginPath();
+                ctx.arc(x, y - s * 0.38, s * 0.1, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.fillStyle = C.hat;
+                ctx.fillRect(x - s * 0.14, y - s * 0.46, s * 0.28, s * 0.05);
+                ctx.strokeRect(x - s * 0.14, y - s * 0.46, s * 0.28, s * 0.05);
+            }
+        }
+
+        function bold_greenhouse(ctx, x, y, s, stage) {
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 3;
+            if (stage === 1) {
+                // Bold tray
+                ctx.fillStyle = C.wood;
+                ctx.fillRect(x - s * 0.35, y - s * 0.12, s * 0.7, s * 0.12);
+                ctx.strokeRect(x - s * 0.35, y - s * 0.12, s * 0.7, s * 0.12);
+                // Glass lid
+                ctx.fillStyle = C.glass;
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.32, y - s * 0.12);
+                ctx.lineTo(x - s * 0.2, y - s * 0.35);
+                ctx.lineTo(x + s * 0.2, y - s * 0.35);
+                ctx.lineTo(x + s * 0.32, y - s * 0.12);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            } else if (stage === 2) {
+                // Bold shed
+                ctx.fillStyle = C.wood;
+                ctx.fillRect(x - s * 0.38, y - s * 0.55, s * 0.76, s * 0.55);
+                ctx.strokeRect(x - s * 0.38, y - s * 0.55, s * 0.76, s * 0.55);
+                ctx.fillStyle = C.glass;
+                ctx.fillRect(x - s * 0.32, y - s * 0.48, s * 0.64, s * 0.35);
+                ctx.strokeRect(x - s * 0.32, y - s * 0.48, s * 0.64, s * 0.35);
+                // Bold roof
+                ctx.fillStyle = C.glass;
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.42, y - s * 0.55);
+                ctx.lineTo(x, y - s * 0.78);
+                ctx.lineTo(x + s * 0.42, y - s * 0.55);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            } else if (stage === 3) {
+                // Strong glasshouse
+                ctx.fillStyle = C.wood;
+                ctx.fillRect(x - s * 0.42, y - s * 0.55, s * 0.84, s * 0.55);
+                ctx.strokeRect(x - s * 0.42, y - s * 0.55, s * 0.84, s * 0.55);
+                ctx.fillStyle = C.glass;
+                ctx.fillRect(x - s * 0.36, y - s * 0.48, s * 0.72, s * 0.4);
+                ctx.strokeRect(x - s * 0.36, y - s * 0.48, s * 0.72, s * 0.4);
+                // Bold panes
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.48);
+                ctx.lineTo(x, y - s * 0.08);
+                ctx.moveTo(x - s * 0.36, y - s * 0.28);
+                ctx.lineTo(x + s * 0.36, y - s * 0.28);
+                ctx.stroke();
+                // Strong peaked roof
+                ctx.lineWidth = 3;
+                ctx.fillStyle = C.glass;
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.48, y - s * 0.55);
+                ctx.lineTo(x, y - s * 0.88);
+                ctx.lineTo(x + s * 0.48, y - s * 0.55);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            } else {
+                // Grand orangery
+                ctx.fillStyle = C.wood;
+                ctx.fillRect(x - s * 0.52, y - s * 0.5, s * 1.04, s * 0.5);
+                ctx.strokeRect(x - s * 0.52, y - s * 0.5, s * 1.04, s * 0.5);
+                ctx.fillStyle = C.glass;
+                ctx.fillRect(x - s * 0.46, y - s * 0.44, s * 0.92, s * 0.36);
+                ctx.strokeRect(x - s * 0.46, y - s * 0.44, s * 0.92, s * 0.36);
+                // Bold grid
+                ctx.lineWidth = 2;
+                for (let i = -1; i <= 1; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(x + i * s * 0.23, y - s * 0.44);
+                    ctx.lineTo(x + i * s * 0.23, y - s * 0.08);
+                    ctx.stroke();
+                }
+                // Strong dome
+                ctx.lineWidth = 3;
+                ctx.fillStyle = C.glass;
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.55, y - s * 0.5);
+                ctx.quadraticCurveTo(x, y - s * 1.0, x + s * 0.55, y - s * 0.5);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                // Dome ribs
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.5);
+                ctx.lineTo(x, y - s * 0.92);
+                ctx.stroke();
+            }
+        }
+
+        function bold_pond(ctx, x, y, w, h) {
+            ctx.fillStyle = C.water;
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.ellipse(x, y, w, h, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function bold_koi(ctx, x, y, s, color) {
+            ctx.fillStyle = color;
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.ellipse(x, y, s * 0.45, s * 0.18, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x - s * 0.35, y);
+            ctx.lineTo(x - s * 0.55, y - s * 0.15);
+            ctx.lineTo(x - s * 0.55, y + s * 0.15);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function bold_path(ctx, w, h) {
+            ctx.fillStyle = C.earth;
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.32, h);
+            ctx.lineTo(w * 0.38, h * 0.55);
+            ctx.lineTo(w * 0.62, h * 0.55);
+            ctx.lineTo(w * 0.68, h);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // V3 Renders
+        function renderV3S1() {
+            const { ctx, w, h } = setup('V3S1');
+            ctx.fillStyle = C.cream;
+            ctx.fillRect(0, 0, w, h);
+            // Bold window
+            ctx.fillStyle = C.wood;
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 4;
+            ctx.fillRect(0, 0, w, h * 0.68);
+            ctx.strokeRect(0, 0, w, h * 0.68);
+            ctx.fillStyle = C.skyLight;
+            ctx.fillRect(18, 18, w - 36, h * 0.4);
+            ctx.strokeRect(18, 18, w - 36, h * 0.4);
+            // Bold cross bar
+            ctx.fillRect(w/2 - 4, 18, 8, h * 0.4);
+            ctx.strokeRect(w/2 - 4, 18, 8, h * 0.4);
+            bold_greenhouse(ctx, w * 0.5, h * 0.62, 60, 1);
+            // Bold hands
+            ctx.fillStyle = C.skin;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(w * 0.32, h * 0.78, 18, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(w * 0.68, h * 0.78, 18, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function renderV3S2() {
+            const { ctx, w, h } = setup('V3S2');
+            bold_sky(ctx, w, h);
+            bold_ground(ctx, w, h);
+            bold_greenhouse(ctx, w * 0.5, h * 0.6, 75, 2);
+            bold_flower(ctx, w * 0.15, h * 0.58, 16, C.flower1);
+            bold_flower(ctx, w * 0.85, h * 0.62, 14, C.flower2);
+            bold_gardener(ctx, w * 0.35, h * 0.92, 55, 'kneeling');
+        }
+
+        function renderV3S3() {
+            const { ctx, w, h } = setup('V3S3');
+            bold_sky(ctx, w, h);
+            bold_ground(ctx, w, h);
+            bold_path(ctx, w, h);
+            bold_greenhouse(ctx, w * 0.5, h * 0.55, 85, 3);
+            bold_tree(ctx, w * 0.88, h * 0.54, 60);
+            const fc = [C.flower1, C.flower2, C.flower3, C.flower4];
+            for (let i = 0; i < 4; i++) {
+                bold_flower(ctx, w * 0.1 + i * w * 0.12, h * 0.6, 12, fc[i % 4]);
+            }
+            bold_pond(ctx, w * 0.2, h * 0.82, 28, 15);
+            bold_gardener(ctx, w * 0.5, h * 0.88, 50, 'standing');
+        }
+
+        function renderV3S4() {
+            const { ctx, w, h } = setup('V3S4');
+            bold_sky(ctx, w, h);
+            // Bold mountain silhouette
+            ctx.fillStyle = '#7888a0';
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.3, h * 0.42);
+            ctx.lineTo(w * 0.5, h * 0.22);
+            ctx.lineTo(w * 0.65, h * 0.3);
+            ctx.lineTo(w * 0.85, h * 0.18);
+            ctx.lineTo(w, h * 0.35);
+            ctx.lineTo(w, h * 0.42);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            bold_ground(ctx, w, h);
+            bold_path(ctx, w, h);
+            bold_greenhouse(ctx, w * 0.5, h * 0.52, 95, 4);
+            bold_tree(ctx, w * 0.08, h * 0.56, 52);
+            bold_tree(ctx, w * 0.92, h * 0.52, 62);
+            const fc = [C.flower1, C.flower2, C.flower3, C.flower4];
+            for (let i = 0; i < 5; i++) {
+                bold_flower(ctx, w * 0.06 + (i % 3) * w * 0.09, h * 0.58 + Math.floor(i / 3) * 18, 11, fc[i % 4]);
+            }
+            bold_pond(ctx, w * 0.78, h * 0.8, 30, 16);
+            bold_koi(ctx, w * 0.76, h * 0.79, 14, '#e85848');
+            bold_koi(ctx, w * 0.82, h * 0.82, 12, C.white);
+            bold_gardener(ctx, w * 0.5, h * 0.92, 50, 'sitting');
+        }
+
+        // ===== VARIATION 4: DELICATE BOTANICAL =====
+        function delicate_sky(ctx, w, h) {
+            const grad = ctx.createLinearGradient(0, 0, 0, h * 0.42);
+            grad.addColorStop(0, '#c0d0e0');
+            grad.addColorStop(1, '#d8e4f0');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h * 0.42);
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.42);
+            ctx.lineTo(w, h * 0.42);
+            ctx.stroke();
+        }
+
+        function delicate_ground(ctx, w, h) {
+            ctx.fillStyle = '#88a070';
+            ctx.fillRect(0, h * 0.42, w, h * 0.58);
+        }
+
+        function delicate_flower(ctx, x, y, s, color) {
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 1;
+            // Delicate curved stem
+            ctx.fillStyle = '#5a8848';
+            ctx.beginPath();
+            ctx.moveTo(x, y + s);
+            ctx.quadraticCurveTo(x - 3, y + s * 0.6, x, y + s * 0.25);
+            ctx.quadraticCurveTo(x + 3, y + s * 0.6, x, y + s);
+            ctx.fill();
+            ctx.stroke();
+            // Fine leaves
+            ctx.beginPath();
+            ctx.moveTo(x, y + s * 0.6);
+            ctx.quadraticCurveTo(x - s * 0.25, y + s * 0.55, x - s * 0.2, y + s * 0.7);
+            ctx.quadraticCurveTo(x - s * 0.1, y + s * 0.6, x, y + s * 0.6);
+            ctx.fill();
+            ctx.stroke();
+            // Intricate petals - layered
+            ctx.fillStyle = color;
+            for (let layer = 0; layer < 2; layer++) {
+                const layerS = s * (1 - layer * 0.25);
+                const petals = 6 - layer;
+                for (let i = 0; i < petals; i++) {
+                    const a = (i / petals) * Math.PI * 2 - Math.PI / 2 + layer * 0.3;
+                    const px = x + Math.cos(a) * layerS * 0.2;
+                    const py = y + Math.sin(a) * layerS * 0.2;
+                    ctx.beginPath();
+                    ctx.ellipse(px, py, layerS * 0.18, layerS * 0.1, a, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            }
+            // Detailed center with stamens
+            ctx.fillStyle = '#e8d080';
+            ctx.beginPath();
+            ctx.arc(x, y, s * 0.08, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            // Tiny stamens
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < 5; i++) {
+                const a = (i / 5) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + Math.cos(a) * s * 0.12, y + Math.sin(a) * s * 0.12);
+                ctx.stroke();
+                ctx.fillStyle = '#d8a030';
+                ctx.beginPath();
+                ctx.arc(x + Math.cos(a) * s * 0.12, y + Math.sin(a) * s * 0.12, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function delicate_tree(ctx, x, y, s) {
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 1.5;
+            // Graceful trunk with texture
+            ctx.fillStyle = '#5a4838';
+            ctx.beginPath();
+            ctx.moveTo(x - s * 0.05, y);
+            ctx.quadraticCurveTo(x - s * 0.08, y - s * 0.2, x - s * 0.04, y - s * 0.38);
+            ctx.lineTo(x + s * 0.04, y - s * 0.38);
+            ctx.quadraticCurveTo(x + s * 0.08, y - s * 0.2, x + s * 0.05, y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            // Fine branches
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x, y - s * 0.35);
+            ctx.quadraticCurveTo(x - s * 0.15, y - s * 0.45, x - s * 0.2, y - s * 0.5);
+            ctx.moveTo(x, y - s * 0.32);
+            ctx.quadraticCurveTo(x + s * 0.12, y - s * 0.42, x + s * 0.18, y - s * 0.48);
+            ctx.stroke();
+            // Delicate layered foliage
+            ctx.fillStyle = '#5a8848';
+            const foliage = [
+                [0, -0.58, 0.14, 0.1], [-0.12, -0.52, 0.1, 0.08], [0.12, -0.52, 0.1, 0.08],
+                [-0.18, -0.48, 0.08, 0.06], [0.18, -0.48, 0.08, 0.06],
+                [-0.06, -0.64, 0.08, 0.06], [0.06, -0.64, 0.08, 0.06], [0, -0.7, 0.06, 0.05]
+            ];
+            foliage.forEach(([ox, oy, rx, ry]) => {
+                ctx.beginPath();
+                ctx.ellipse(x + ox * s, y + oy * s, rx * s, ry * s, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            });
+        }
+
+        function delicate_gardener(ctx, x, y, s, pose) {
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 1.5;
+            if (pose === 'standing') {
+                // Elegant body
+                ctx.fillStyle = C.clothing;
+                ctx.beginPath();
+                ctx.ellipse(x, y - s * 0.35, s * 0.14, s * 0.22, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                // Refined head
+                ctx.fillStyle = C.skin;
+                ctx.beginPath();
+                ctx.ellipse(x, y - s * 0.62, s * 0.09, s * 0.1, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                // Elegant hat with detail
+                ctx.fillStyle = C.hat;
+                ctx.beginPath();
+                ctx.ellipse(x, y - s * 0.7, s * 0.15, s * 0.04, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.ellipse(x, y - s * 0.76, s * 0.08, s * 0.06, 0, Math.PI, 0);
+                ctx.fill();
+                ctx.stroke();
+                // Slender legs
+                ctx.fillStyle = C.clothing;
+                ctx.lineWidth = 1;
+                ctx.fillRect(x - s * 0.08, y - s * 0.15, s * 0.05, s * 0.15);
+                ctx.strokeRect(x - s * 0.08, y - s * 0.15, s * 0.05, s * 0.15);
+                ctx.fillRect(x + s * 0.03, y - s * 0.15, s * 0.05, s * 0.15);
+                ctx.strokeRect(x + s * 0.03, y - s * 0.15, s * 0.05, s * 0.15);
+            } else if (pose === 'kneeling') {
+                ctx.fillStyle = C.clothing;
+                ctx.beginPath();
+                ctx.ellipse(x, y - s * 0.18, s * 0.18, s * 0.12, 0.15, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.fillStyle = C.skin;
+                ctx.beginPath();
+                ctx.ellipse(x + s * 0.15, y - s * 0.32, s * 0.08, s * 0.08, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            } else {
+                ctx.fillStyle = C.clothing;
+                ctx.beginPath();
+                ctx.ellipse(x, y - s * 0.15, s * 0.16, s * 0.1, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.fillStyle = C.skin;
+                ctx.beginPath();
+                ctx.ellipse(x, y - s * 0.32, s * 0.08, s * 0.08, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.fillStyle = C.hat;
+                ctx.beginPath();
+                ctx.ellipse(x, y - s * 0.38, s * 0.12, s * 0.03, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+
+        function delicate_greenhouse(ctx, x, y, s, stage) {
+            ctx.strokeStyle = C.outline;
+            if (stage === 1) {
+                // Elegant specimen jar
+                ctx.lineWidth = 1.5;
+                ctx.fillStyle = C.glass;
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.15, y);
+                ctx.lineTo(x - s * 0.15, y - s * 0.4);
+                ctx.quadraticCurveTo(x - s * 0.15, y - s * 0.5, x - s * 0.08, y - s * 0.5);
+                ctx.lineTo(x + s * 0.08, y - s * 0.5);
+                ctx.quadraticCurveTo(x + s * 0.15, y - s * 0.5, x + s * 0.15, y - s * 0.4);
+                ctx.lineTo(x + s * 0.15, y);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                // Cork/lid
+                ctx.fillStyle = '#a08060';
+                ctx.fillRect(x - s * 0.1, y - s * 0.55, s * 0.2, s * 0.06);
+                ctx.strokeRect(x - s * 0.1, y - s * 0.55, s * 0.2, s * 0.06);
+                // Tiny plant inside
+                ctx.fillStyle = '#5a8848';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.05);
+                ctx.lineTo(x, y - s * 0.25);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.ellipse(x - s * 0.06, y - s * 0.28, s * 0.06, s * 0.04, -0.3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.ellipse(x + s * 0.06, y - s * 0.3, s * 0.05, s * 0.035, 0.3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            } else if (stage === 2) {
+                // Wardian case - ornate mini greenhouse
+                ctx.lineWidth = 1.5;
+                ctx.fillStyle = '#5a4838';
+                ctx.fillRect(x - s * 0.32, y - s * 0.12, s * 0.64, s * 0.12);
+                ctx.strokeRect(x - s * 0.32, y - s * 0.12, s * 0.64, s * 0.12);
+                // Glass panels
+                ctx.fillStyle = C.glass;
+                ctx.fillRect(x - s * 0.28, y - s * 0.52, s * 0.56, s * 0.4);
+                ctx.strokeRect(x - s * 0.28, y - s * 0.52, s * 0.56, s * 0.4);
+                // Fine frame details
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.52);
+                ctx.lineTo(x, y - s * 0.12);
+                ctx.moveTo(x - s * 0.28, y - s * 0.32);
+                ctx.lineTo(x + s * 0.28, y - s * 0.32);
+                ctx.stroke();
+                // Peaked glass roof with finial
+                ctx.lineWidth = 1.5;
+                ctx.fillStyle = C.glass;
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.32, y - s * 0.52);
+                ctx.lineTo(x, y - s * 0.72);
+                ctx.lineTo(x + s * 0.32, y - s * 0.52);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                // Decorative finial
+                ctx.fillStyle = '#5a4838';
+                ctx.beginPath();
+                ctx.arc(x, y - s * 0.75, s * 0.03, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            } else if (stage === 3) {
+                // Palm house - curved elegant structure
+                ctx.lineWidth = 1.5;
+                ctx.fillStyle = '#f0f0f0';
+                ctx.fillRect(x - s * 0.42, y - s * 0.08, s * 0.84, s * 0.08);
+                ctx.strokeRect(x - s * 0.42, y - s * 0.08, s * 0.84, s * 0.08);
+                // Elegant arched structure
+                ctx.fillStyle = C.glass;
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.4, y - s * 0.08);
+                ctx.lineTo(x - s * 0.4, y - s * 0.45);
+                ctx.quadraticCurveTo(x, y - s * 0.9, x + s * 0.4, y - s * 0.45);
+                ctx.lineTo(x + s * 0.4, y - s * 0.08);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                // Fine iron frame lines
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.08);
+                ctx.quadraticCurveTo(x, y - s * 0.5, x, y - s * 0.85);
+                ctx.moveTo(x - s * 0.2, y - s * 0.08);
+                ctx.quadraticCurveTo(x - s * 0.15, y - s * 0.55, x - s * 0.05, y - s * 0.78);
+                ctx.moveTo(x + s * 0.2, y - s * 0.08);
+                ctx.quadraticCurveTo(x + s * 0.15, y - s * 0.55, x + s * 0.05, y - s * 0.78);
+                ctx.stroke();
+                // Horizontal bands
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.38, y - s * 0.3);
+                ctx.quadraticCurveTo(x, y - s * 0.35, x + s * 0.38, y - s * 0.3);
+                ctx.moveTo(x - s * 0.32, y - s * 0.52);
+                ctx.quadraticCurveTo(x, y - s * 0.6, x + s * 0.32, y - s * 0.52);
+                ctx.stroke();
+                // Elegant door
+                ctx.lineWidth = 1.5;
+                ctx.fillStyle = '#e8e0d8';
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.1, y - s * 0.08);
+                ctx.lineTo(x - s * 0.1, y - s * 0.35);
+                ctx.arc(x, y - s * 0.35, s * 0.1, Math.PI, 0);
+                ctx.lineTo(x + s * 0.1, y - s * 0.08);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            } else {
+                // Crystal Palace - grand Victorian conservatory
+                ctx.lineWidth = 1.5;
+                // Base plinth
+                ctx.fillStyle = '#e8e0d8';
+                ctx.fillRect(x - s * 0.52, y - s * 0.08, s * 1.04, s * 0.08);
+                ctx.strokeRect(x - s * 0.52, y - s * 0.08, s * 1.04, s * 0.08);
+                // Main glass walls
+                ctx.fillStyle = C.glass;
+                ctx.fillRect(x - s * 0.48, y - s * 0.45, s * 0.96, s * 0.37);
+                ctx.strokeRect(x - s * 0.48, y - s * 0.45, s * 0.96, s * 0.37);
+                // Ornate dome
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.52, y - s * 0.45);
+                ctx.quadraticCurveTo(x - s * 0.4, y - s * 0.75, x - s * 0.2, y - s * 0.82);
+                ctx.quadraticCurveTo(x, y - s * 0.95, x + s * 0.2, y - s * 0.82);
+                ctx.quadraticCurveTo(x + s * 0.4, y - s * 0.75, x + s * 0.52, y - s * 0.45);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                // Delicate frame grid
+                ctx.lineWidth = 1;
+                for (let i = -2; i <= 2; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(x + i * s * 0.16, y - s * 0.45);
+                    ctx.lineTo(x + i * s * 0.16, y - s * 0.08);
+                    ctx.stroke();
+                }
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.48, y - s * 0.27);
+                ctx.lineTo(x + s * 0.48, y - s * 0.27);
+                ctx.stroke();
+                // Dome ribs
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.45);
+                ctx.quadraticCurveTo(x, y - s * 0.7, x, y - s * 0.9);
+                ctx.moveTo(x - s * 0.25, y - s * 0.45);
+                ctx.quadraticCurveTo(x - s * 0.18, y - s * 0.7, x - s * 0.08, y - s * 0.85);
+                ctx.moveTo(x + s * 0.25, y - s * 0.45);
+                ctx.quadraticCurveTo(x + s * 0.18, y - s * 0.7, x + s * 0.08, y - s * 0.85);
+                ctx.stroke();
+                // Decorative finial
+                ctx.lineWidth = 1.5;
+                ctx.fillStyle = '#c0b0a0';
+                ctx.beginPath();
+                ctx.moveTo(x, y - s * 0.9);
+                ctx.lineTo(x, y - s * 0.98);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(x, y - s * 1.0, s * 0.025, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                // Grand entrance
+                ctx.fillStyle = '#d8d0c8';
+                ctx.beginPath();
+                ctx.moveTo(x - s * 0.12, y - s * 0.08);
+                ctx.lineTo(x - s * 0.12, y - s * 0.38);
+                ctx.arc(x, y - s * 0.38, s * 0.12, Math.PI, 0);
+                ctx.lineTo(x + s * 0.12, y - s * 0.08);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+
+        function delicate_pond(ctx, x, y, w, h) {
+            ctx.fillStyle = '#5888a8';
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.ellipse(x, y, w, h, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            // Water lilies
+            ctx.fillStyle = '#4a7838';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.ellipse(x - w * 0.4, y - h * 0.2, w * 0.2, h * 0.35, 0, 0.3, Math.PI * 1.8);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(x + w * 0.3, y + h * 0.1, w * 0.15, h * 0.25, 0.2, 0.2, Math.PI * 1.9);
+            ctx.fill();
+            ctx.stroke();
+            // Lily flower
+            ctx.fillStyle = '#f0e0e8';
+            ctx.beginPath();
+            ctx.ellipse(x - w * 0.4, y - h * 0.2, w * 0.1, h * 0.15, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function delicate_koi(ctx, x, y, s, color) {
+            ctx.fillStyle = color;
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 1;
+            // Graceful body
+            ctx.beginPath();
+            ctx.ellipse(x, y, s * 0.4, s * 0.12, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            // Flowing tail
+            ctx.beginPath();
+            ctx.moveTo(x - s * 0.32, y);
+            ctx.quadraticCurveTo(x - s * 0.45, y - s * 0.08, x - s * 0.5, y - s * 0.15);
+            ctx.quadraticCurveTo(x - s * 0.42, y, x - s * 0.5, y + s * 0.15);
+            ctx.quadraticCurveTo(x - s * 0.45, y + s * 0.08, x - s * 0.32, y);
+            ctx.fill();
+            ctx.stroke();
+            // Delicate fins
+            ctx.beginPath();
+            ctx.ellipse(x + s * 0.1, y - s * 0.1, s * 0.08, s * 0.04, -0.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function delicate_path(ctx, w, h) {
+            ctx.fillStyle = '#a09080';
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.35, h);
+            ctx.quadraticCurveTo(w * 0.38, h * 0.75, w * 0.42, h * 0.58);
+            ctx.lineTo(w * 0.58, h * 0.58);
+            ctx.quadraticCurveTo(w * 0.62, h * 0.75, w * 0.65, h);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // V4 Renders
+        function renderV4S1() {
+            const { ctx, w, h } = setup('V4S1');
+            ctx.fillStyle = '#f8f4f0';
+            ctx.fillRect(0, 0, w, h);
+            // Elegant window with curtains
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 2;
+            ctx.fillStyle = '#5a4838';
+            ctx.fillRect(15, 15, w - 30, h * 0.55);
+            ctx.strokeRect(15, 15, w - 30, h * 0.55);
+            ctx.fillStyle = '#d0e0f0';
+            ctx.fillRect(25, 25, w - 50, h * 0.45);
+            ctx.strokeRect(25, 25, w - 50, h * 0.45);
+            // Delicate curtain suggestion
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#c0b0a0';
+            ctx.beginPath();
+            ctx.moveTo(30, 25);
+            ctx.quadraticCurveTo(50, h * 0.35, 30, h * 0.48);
+            ctx.moveTo(w - 30, 25);
+            ctx.quadraticCurveTo(w - 50, h * 0.35, w - 30, h * 0.48);
+            ctx.stroke();
+            // Elegant shelf
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 1.5;
+            ctx.fillStyle = '#5a4838';
+            ctx.fillRect(w * 0.2, h * 0.58, w * 0.6, h * 0.04);
+            ctx.strokeRect(w * 0.2, h * 0.58, w * 0.6, h * 0.04);
+            delicate_greenhouse(ctx, w * 0.5, h * 0.58, 65, 1);
+            // Elegant hands
+            ctx.fillStyle = C.skin;
+            ctx.beginPath();
+            ctx.ellipse(w * 0.32, h * 0.76, 12, 16, -0.2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(w * 0.68, h * 0.76, 12, 16, 0.2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function renderV4S2() {
+            const { ctx, w, h } = setup('V4S2');
+            delicate_sky(ctx, w, h);
+            delicate_ground(ctx, w, h);
+            delicate_greenhouse(ctx, w * 0.5, h * 0.6, 80, 2);
+            delicate_flower(ctx, w * 0.15, h * 0.58, 15, C.flower1);
+            delicate_flower(ctx, w * 0.85, h * 0.6, 13, C.flower3);
+            delicate_gardener(ctx, w * 0.32, h * 0.88, 52, 'kneeling');
+        }
+
+        function renderV4S3() {
+            const { ctx, w, h } = setup('V4S3');
+            delicate_sky(ctx, w, h);
+            delicate_ground(ctx, w, h);
+            delicate_path(ctx, w, h);
+            delicate_greenhouse(ctx, w * 0.5, h * 0.55, 88, 3);
+            delicate_tree(ctx, w * 0.88, h * 0.52, 62);
+            const fc = [C.flower1, C.flower2, C.flower3, C.flower4];
+            for (let i = 0; i < 5; i++) {
+                delicate_flower(ctx, w * 0.08 + i * w * 0.1, h * 0.6, 11, fc[i % 4]);
+            }
+            delicate_pond(ctx, w * 0.2, h * 0.78, 28, 14);
+            delicate_gardener(ctx, w * 0.5, h * 0.85, 48, 'standing');
+        }
+
+        function renderV4S4() {
+            const { ctx, w, h } = setup('V4S4');
+            delicate_sky(ctx, w, h);
+            // Soft distant hills
+            ctx.fillStyle = '#a8b8c8';
+            ctx.strokeStyle = C.outline;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.42);
+            ctx.quadraticCurveTo(w * 0.15, h * 0.32, w * 0.3, h * 0.36);
+            ctx.quadraticCurveTo(w * 0.5, h * 0.28, w * 0.7, h * 0.32);
+            ctx.quadraticCurveTo(w * 0.85, h * 0.26, w, h * 0.34);
+            ctx.lineTo(w, h * 0.42);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            delicate_ground(ctx, w, h);
+            delicate_path(ctx, w, h);
+            delicate_greenhouse(ctx, w * 0.5, h * 0.52, 95, 4);
+            delicate_tree(ctx, w * 0.08, h * 0.54, 55);
+            delicate_tree(ctx, w * 0.92, h * 0.5, 60);
+            const fc = [C.flower1, C.flower2, C.flower3, C.flower4];
+            for (let i = 0; i < 6; i++) {
+                delicate_flower(ctx, w * 0.05 + (i % 3) * w * 0.08, h * 0.58 + Math.floor(i / 3) * 16, 10, fc[i % 4]);
+            }
+            delicate_pond(ctx, w * 0.78, h * 0.76, 30, 15);
+            delicate_koi(ctx, w * 0.76, h * 0.75, 12, '#e86050');
+            delicate_koi(ctx, w * 0.82, h * 0.78, 10, C.white);
+            delicate_gardener(ctx, w * 0.5, h * 0.9, 48, 'sitting');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderV3S1(); renderV3S2(); renderV3S3(); renderV3S4();
+            renderV4S1(); renderV4S2(); renderV4S3(); renderV4S4();
+        });
+    </script>
+</body>
+</html>
